@@ -1,0 +1,494 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		00AE1FBB1785DFD200443620 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00AE1FBA1785DFD200443620 /* UIKit.framework */; };
+		00AE1FBD1785DFD200443620 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00AE1FBC1785DFD200443620 /* Foundation.framework */; };
+		00AE1FBF1785DFD200443620 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00AE1FBE1785DFD200443620 /* CoreGraphics.framework */; };
+		00AE1FC51785DFD200443620 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 00AE1FC31785DFD200443620 /* InfoPlist.strings */; };
+		00AE1FC71785DFD200443620 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 00AE1FC61785DFD200443620 /* main.m */; };
+		00AE1FCB1785DFD200443620 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 00AE1FCA1785DFD200443620 /* AppDelegate.m */; };
+		00AE1FCD1785DFD200443620 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 00AE1FCC1785DFD200443620 /* Default.png */; };
+		00AE1FCF1785DFD200443620 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 00AE1FCE1785DFD200443620 /* Default@2x.png */; };
+		00AE1FD11785DFD200443620 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 00AE1FD01785DFD200443620 /* Default-568h@2x.png */; };
+		00AE1FD41785DFD200443620 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 00AE1FD31785DFD200443620 /* RootViewController.m */; };
+		00AE1FD71785DFD200443620 /* DataViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 00AE1FD61785DFD200443620 /* DataViewController.m */; };
+		00AE1FDA1785DFD200443620 /* ModelController.m in Sources */ = {isa = PBXBuildFile; fileRef = 00AE1FD91785DFD200443620 /* ModelController.m */; };
+		00AE1FDD1785DFD200443620 /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 00AE1FDB1785DFD200443620 /* MainStoryboard_iPhone.storyboard */; };
+		00AE1FE01785DFD200443620 /* MainStoryboard_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 00AE1FDE1785DFD200443620 /* MainStoryboard_iPad.storyboard */; };
+		00AE1FE81785DFD300443620 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00AE1FE71785DFD300443620 /* SenTestingKit.framework */; };
+		00AE1FE91785DFD300443620 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00AE1FBA1785DFD200443620 /* UIKit.framework */; };
+		00AE1FEA1785DFD300443620 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00AE1FBC1785DFD200443620 /* Foundation.framework */; };
+		00AE1FF21785DFD300443620 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 00AE1FF01785DFD300443620 /* InfoPlist.strings */; };
+		00AE1FF51785DFD300443620 /* DeTrafficatorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00AE1FF41785DFD300443620 /* DeTrafficatorTests.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		00AE1FEB1785DFD300443620 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 00AE1FAF1785DFD200443620 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 00AE1FB61785DFD200443620;
+			remoteInfo = DeTrafficator;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		00AE1FB71785DFD200443620 /* DeTrafficator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DeTrafficator.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		00AE1FBA1785DFD200443620 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		00AE1FBC1785DFD200443620 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		00AE1FBE1785DFD200443620 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		00AE1FC21785DFD200443620 /* DeTrafficator-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "DeTrafficator-Info.plist"; sourceTree = "<group>"; };
+		00AE1FC41785DFD200443620 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		00AE1FC61785DFD200443620 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		00AE1FC81785DFD200443620 /* DeTrafficator-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DeTrafficator-Prefix.pch"; sourceTree = "<group>"; };
+		00AE1FC91785DFD200443620 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		00AE1FCA1785DFD200443620 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		00AE1FCC1785DFD200443620 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
+		00AE1FCE1785DFD200443620 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		00AE1FD01785DFD200443620 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		00AE1FD21785DFD200443620 /* RootViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
+		00AE1FD31785DFD200443620 /* RootViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
+		00AE1FD51785DFD200443620 /* DataViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DataViewController.h; sourceTree = "<group>"; };
+		00AE1FD61785DFD200443620 /* DataViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DataViewController.m; sourceTree = "<group>"; };
+		00AE1FD81785DFD200443620 /* ModelController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ModelController.h; sourceTree = "<group>"; };
+		00AE1FD91785DFD200443620 /* ModelController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ModelController.m; sourceTree = "<group>"; };
+		00AE1FDC1785DFD200443620 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPhone.storyboard; sourceTree = "<group>"; };
+		00AE1FDF1785DFD200443620 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPad.storyboard; sourceTree = "<group>"; };
+		00AE1FE61785DFD300443620 /* DeTrafficatorTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DeTrafficatorTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		00AE1FE71785DFD300443620 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		00AE1FEF1785DFD300443620 /* DeTrafficatorTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "DeTrafficatorTests-Info.plist"; sourceTree = "<group>"; };
+		00AE1FF11785DFD300443620 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		00AE1FF31785DFD300443620 /* DeTrafficatorTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DeTrafficatorTests.h; sourceTree = "<group>"; };
+		00AE1FF41785DFD300443620 /* DeTrafficatorTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DeTrafficatorTests.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		00AE1FB41785DFD200443620 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				00AE1FBB1785DFD200443620 /* UIKit.framework in Frameworks */,
+				00AE1FBD1785DFD200443620 /* Foundation.framework in Frameworks */,
+				00AE1FBF1785DFD200443620 /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		00AE1FE21785DFD300443620 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				00AE1FE81785DFD300443620 /* SenTestingKit.framework in Frameworks */,
+				00AE1FE91785DFD300443620 /* UIKit.framework in Frameworks */,
+				00AE1FEA1785DFD300443620 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		00AE1FAE1785DFD200443620 = {
+			isa = PBXGroup;
+			children = (
+				00AE1FC01785DFD200443620 /* DeTrafficator */,
+				00AE1FED1785DFD300443620 /* DeTrafficatorTests */,
+				00AE1FB91785DFD200443620 /* Frameworks */,
+				00AE1FB81785DFD200443620 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		00AE1FB81785DFD200443620 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				00AE1FB71785DFD200443620 /* DeTrafficator.app */,
+				00AE1FE61785DFD300443620 /* DeTrafficatorTests.octest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		00AE1FB91785DFD200443620 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				00AE1FBA1785DFD200443620 /* UIKit.framework */,
+				00AE1FBC1785DFD200443620 /* Foundation.framework */,
+				00AE1FBE1785DFD200443620 /* CoreGraphics.framework */,
+				00AE1FE71785DFD300443620 /* SenTestingKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		00AE1FC01785DFD200443620 /* DeTrafficator */ = {
+			isa = PBXGroup;
+			children = (
+				00AE1FC91785DFD200443620 /* AppDelegate.h */,
+				00AE1FCA1785DFD200443620 /* AppDelegate.m */,
+				00AE1FD21785DFD200443620 /* RootViewController.h */,
+				00AE1FD31785DFD200443620 /* RootViewController.m */,
+				00AE1FD51785DFD200443620 /* DataViewController.h */,
+				00AE1FD61785DFD200443620 /* DataViewController.m */,
+				00AE1FD81785DFD200443620 /* ModelController.h */,
+				00AE1FD91785DFD200443620 /* ModelController.m */,
+				00AE1FDB1785DFD200443620 /* MainStoryboard_iPhone.storyboard */,
+				00AE1FDE1785DFD200443620 /* MainStoryboard_iPad.storyboard */,
+				00AE1FC11785DFD200443620 /* Supporting Files */,
+			);
+			path = DeTrafficator;
+			sourceTree = "<group>";
+		};
+		00AE1FC11785DFD200443620 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				00AE1FC21785DFD200443620 /* DeTrafficator-Info.plist */,
+				00AE1FC31785DFD200443620 /* InfoPlist.strings */,
+				00AE1FC61785DFD200443620 /* main.m */,
+				00AE1FC81785DFD200443620 /* DeTrafficator-Prefix.pch */,
+				00AE1FCC1785DFD200443620 /* Default.png */,
+				00AE1FCE1785DFD200443620 /* Default@2x.png */,
+				00AE1FD01785DFD200443620 /* Default-568h@2x.png */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		00AE1FED1785DFD300443620 /* DeTrafficatorTests */ = {
+			isa = PBXGroup;
+			children = (
+				00AE1FF31785DFD300443620 /* DeTrafficatorTests.h */,
+				00AE1FF41785DFD300443620 /* DeTrafficatorTests.m */,
+				00AE1FEE1785DFD300443620 /* Supporting Files */,
+			);
+			path = DeTrafficatorTests;
+			sourceTree = "<group>";
+		};
+		00AE1FEE1785DFD300443620 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				00AE1FEF1785DFD300443620 /* DeTrafficatorTests-Info.plist */,
+				00AE1FF01785DFD300443620 /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		00AE1FB61785DFD200443620 /* DeTrafficator */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 00AE1FF81785DFD300443620 /* Build configuration list for PBXNativeTarget "DeTrafficator" */;
+			buildPhases = (
+				00AE1FB31785DFD200443620 /* Sources */,
+				00AE1FB41785DFD200443620 /* Frameworks */,
+				00AE1FB51785DFD200443620 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = DeTrafficator;
+			productName = DeTrafficator;
+			productReference = 00AE1FB71785DFD200443620 /* DeTrafficator.app */;
+			productType = "com.apple.product-type.application";
+		};
+		00AE1FE51785DFD300443620 /* DeTrafficatorTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 00AE1FFB1785DFD300443620 /* Build configuration list for PBXNativeTarget "DeTrafficatorTests" */;
+			buildPhases = (
+				00AE1FE11785DFD300443620 /* Sources */,
+				00AE1FE21785DFD300443620 /* Frameworks */,
+				00AE1FE31785DFD300443620 /* Resources */,
+				00AE1FE41785DFD300443620 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				00AE1FEC1785DFD300443620 /* PBXTargetDependency */,
+			);
+			name = DeTrafficatorTests;
+			productName = DeTrafficatorTests;
+			productReference = 00AE1FE61785DFD300443620 /* DeTrafficatorTests.octest */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		00AE1FAF1785DFD200443620 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0460;
+				ORGANIZATIONNAME = "Subalpine Technologies";
+			};
+			buildConfigurationList = 00AE1FB21785DFD200443620 /* Build configuration list for PBXProject "DeTrafficator" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 00AE1FAE1785DFD200443620;
+			productRefGroup = 00AE1FB81785DFD200443620 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				00AE1FB61785DFD200443620 /* DeTrafficator */,
+				00AE1FE51785DFD300443620 /* DeTrafficatorTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		00AE1FB51785DFD200443620 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				00AE1FC51785DFD200443620 /* InfoPlist.strings in Resources */,
+				00AE1FCD1785DFD200443620 /* Default.png in Resources */,
+				00AE1FCF1785DFD200443620 /* Default@2x.png in Resources */,
+				00AE1FD11785DFD200443620 /* Default-568h@2x.png in Resources */,
+				00AE1FDD1785DFD200443620 /* MainStoryboard_iPhone.storyboard in Resources */,
+				00AE1FE01785DFD200443620 /* MainStoryboard_iPad.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		00AE1FE31785DFD300443620 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				00AE1FF21785DFD300443620 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		00AE1FE41785DFD300443620 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		00AE1FB31785DFD200443620 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				00AE1FC71785DFD200443620 /* main.m in Sources */,
+				00AE1FCB1785DFD200443620 /* AppDelegate.m in Sources */,
+				00AE1FD41785DFD200443620 /* RootViewController.m in Sources */,
+				00AE1FD71785DFD200443620 /* DataViewController.m in Sources */,
+				00AE1FDA1785DFD200443620 /* ModelController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		00AE1FE11785DFD300443620 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				00AE1FF51785DFD300443620 /* DeTrafficatorTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		00AE1FEC1785DFD300443620 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 00AE1FB61785DFD200443620 /* DeTrafficator */;
+			targetProxy = 00AE1FEB1785DFD300443620 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		00AE1FC31785DFD200443620 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				00AE1FC41785DFD200443620 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		00AE1FDB1785DFD200443620 /* MainStoryboard_iPhone.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				00AE1FDC1785DFD200443620 /* en */,
+			);
+			name = MainStoryboard_iPhone.storyboard;
+			sourceTree = "<group>";
+		};
+		00AE1FDE1785DFD200443620 /* MainStoryboard_iPad.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				00AE1FDF1785DFD200443620 /* en */,
+			);
+			name = MainStoryboard_iPad.storyboard;
+			sourceTree = "<group>";
+		};
+		00AE1FF01785DFD300443620 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				00AE1FF11785DFD300443620 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		00AE1FF61785DFD300443620 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		00AE1FF71785DFD300443620 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		00AE1FF91785DFD300443620 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "DeTrafficator/DeTrafficator-Prefix.pch";
+				INFOPLIST_FILE = "DeTrafficator/DeTrafficator-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		00AE1FFA1785DFD300443620 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "DeTrafficator/DeTrafficator-Prefix.pch";
+				INFOPLIST_FILE = "DeTrafficator/DeTrafficator-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		00AE1FFC1785DFD300443620 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/DeTrafficator.app/DeTrafficator";
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
+					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "DeTrafficator/DeTrafficator-Prefix.pch";
+				INFOPLIST_FILE = "DeTrafficatorTests/DeTrafficatorTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Debug;
+		};
+		00AE1FFD1785DFD300443620 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/DeTrafficator.app/DeTrafficator";
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
+					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "DeTrafficator/DeTrafficator-Prefix.pch";
+				INFOPLIST_FILE = "DeTrafficatorTests/DeTrafficatorTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		00AE1FB21785DFD200443620 /* Build configuration list for PBXProject "DeTrafficator" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				00AE1FF61785DFD300443620 /* Debug */,
+				00AE1FF71785DFD300443620 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		00AE1FF81785DFD300443620 /* Build configuration list for PBXNativeTarget "DeTrafficator" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				00AE1FF91785DFD300443620 /* Debug */,
+				00AE1FFA1785DFD300443620 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		00AE1FFB1785DFD300443620 /* Build configuration list for PBXNativeTarget "DeTrafficatorTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				00AE1FFC1785DFD300443620 /* Debug */,
+				00AE1FFD1785DFD300443620 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 00AE1FAF1785DFD200443620 /* Project object */;
+}
