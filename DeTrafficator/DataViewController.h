@@ -14,11 +14,6 @@
 
 @class SpeedometerView;
 
-/*
-@interface SpeedometerLayer : CALayer
-- (id)initWithParentView:(UIView*)parent;
-@end*/
-
 @interface DataViewController : UIViewController <CoreLocationControllerDelegate> {
     CoreLocationController *CLController;
 }
