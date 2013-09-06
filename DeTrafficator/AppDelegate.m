@@ -7,11 +7,14 @@
 //
 
 #import "AppDelegate.h"
+#import "SpeedometerView.h"
 
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    [SpeedometerView class];
+    
     // Override point for customization after application launch.
     return YES;
 }

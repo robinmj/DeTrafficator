@@ -7,6 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "SpeedometerView.h"
+
+@class SpeedometerView;
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 

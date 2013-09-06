@@ -6,11 +6,27 @@
 //  Copyright (c) 2013 Subalpine Technologies. All rights reserved.
 //
 
+#import "DeTrafficator.h"
 #import <UIKit/UIKit.h>
+#import "CoreLocationController.h"
+#import <QuartzCore/QuartzCore.h>
+#import "SpeedometerView.h"
 
-@interface DataViewController : UIViewController
+@class SpeedometerView;
 
-@property (strong, nonatomic) IBOutlet UILabel *dataLabel;
+/*
+@interface SpeedometerLayer : CALayer
+- (id)initWithParentView:(UIView*)parent;
+@end*/
+
+@interface DataViewController : UIViewController <CoreLocationControllerDelegate> {
+    CoreLocationController *CLController;
+}
+
+@property (nonatomic, retain) CoreLocationController *CLController;
+@property (strong, nonatomic) IBOutlet UILabel *currentSpeedLabel;
+@property (strong, nonatomic) IBOutlet UILabel *avgSpeedLabel;
+@property (strong, nonatomic) IBOutlet SpeedometerView *speedometer;
 @property (strong, nonatomic) id dataObject;
 
 @end
