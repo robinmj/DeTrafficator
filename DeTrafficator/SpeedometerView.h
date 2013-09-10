@@ -18,7 +18,11 @@
 @end
 
 @interface SpeedometerView : UIView
+
+@property (assign, nonatomic) double currentSpeed;
+
 - (id)initWithFrame:(CGRect)frame;
+
 @end
 
 #endif

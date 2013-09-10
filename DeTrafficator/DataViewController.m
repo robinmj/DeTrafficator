@@ -44,6 +44,7 @@
 }
 
 - (void)locationUpdate:(CLLocation *)location withAvgSpeed:(CLLocationSpeed)avgSpeed {
+    self.speedometer.currentSpeed = [location speed];
 	self.currentSpeedLabel.text = [NSString stringWithFormat:@"%f", [location speed]];
 	self.avgSpeedLabel.text = [NSString stringWithFormat:@"%f", avgSpeed];
 }

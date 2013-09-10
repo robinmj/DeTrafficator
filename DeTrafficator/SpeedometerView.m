@@ -8,7 +8,16 @@
 
 #import "SpeedometerView.h"
 
+@interface SpeedometerView ()
+
+@property (strong, nonatomic) CAShapeLayer *currentSpeedIndicator;
+
+@end
+
 @implementation SpeedometerView
+
+@synthesize currentSpeed = _currentSpeed;
+@synthesize currentSpeedIndicator = _currentSpeedIndicator;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -20,11 +29,29 @@
         debug_NSLog(@"initWithFrame()");
         
         self.frame = frame;
-        self.bounds = frame;
         
-        [[SpeedometerLayer alloc] initWithParentView:self];
+        SpeedometerLayer *speedometerLayer = [[SpeedometerLayer alloc] initWithParentView:self];
+        
+        self.currentSpeedIndicator = [[CAShapeLayer alloc] init];
+        self.currentSpeedIndicator.bounds = CGRectMake(0,0,100,10);
+        self.currentSpeedIndicator.position = CGPointMake(CGRectGetMidX(self.bounds),
+                                                          CGRectGetMidY(self.bounds));
+        self.currentSpeedIndicator.anchorPoint = CGPointMake(1,0.5);
+        self.currentSpeedIndicator.fillColor = [[UIColor colorWithRed:1.0 green:0.2 blue:0.0 alpha:0.9] CGColor];
+        self.currentSpeedIndicator.strokeColor = [[UIColor colorWithRed:1.0 green:0.0 blue:0.0 alpha:0.9] CGColor];
+        CGMutablePathRef p = CGPathCreateMutable();
+        
+        CGPathAddRect(p, NULL, CGRectMake(0, 0, 100, 10));
+        self.currentSpeedIndicator.path = p;
+        
+        [self.layer addSublayer:self.currentSpeedIndicator];
     }
     return self;
+}
+
+- (void)setCurrentSpeed:(double)currentSpeed {
+    _currentSpeed = currentSpeed;
+    self.currentSpeedIndicator.transform = CATransform3DMakeAffineTransform(CGAffineTransformMakeRotation(currentSpeed * M_PI / 40));
 }
 
 /*
