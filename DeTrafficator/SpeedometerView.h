@@ -13,10 +13,6 @@
 #import <QuartzCore/QuartzCore.h>
 #import <UIKit/UIKit.h>
 
-@interface SpeedometerLayer : CALayer
-- (id)initWithParentView:(UIView*)parent;
-@end
-
 @interface SpeedometerView : UIView
 
 @property (assign, nonatomic) double currentSpeed;

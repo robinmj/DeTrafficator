@@ -27,7 +27,7 @@
 	CLController.delegate = self;
 	[CLController.locMgr startUpdatingLocation];
     
-    [self.speedometer initWithFrame:CGRectMake(0, 0, 300, 300)];
+    [self.speedometer initWithFrame:CGRectMake(0, 0, 150, 506)];
 }
 
 - (void)didReceiveMemoryWarning
