@@ -47,29 +47,64 @@
         self.pixelsPerTick = (double)self.speedometerLayer.bounds.size.height / (double)MARKING_DENSITY;
         self.speedometerSublayerHeight = self.pixelsPerTick * (double)MAX_SPEED_MPH + VERTICAL_PADDING;
         
+        struct CGColor *tickColor = [[UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:1.0] CGColor];
+        
         for (int i = 0; i < MAX_SPEED_MPH; i++) {
-            if(i % LABEL_INTERVAL == 0) {            
-                CATextLayer* t = [[CATextLayer alloc] init];
-                t.string = [NSString stringWithFormat:@"%i", i];
-                t.bounds = CGRectMake(0,0,40,60);
-                t.position = CGPointMake(CGRectGetMidX(self.speedometerLayer.bounds), [self getYCoordForSpeed:i]);
-                t.foregroundColor = [[UIColor blackColor] CGColor];
-                [self.speedometerLayer addSublayer:t];
+            
+            CAShapeLayer* tick = [[CAShapeLayer alloc] init];
+            tick.position = CGPointMake(70, [self getYCoordForSpeed:i]);
+            tick.anchorPoint = CGPointMake(0,0.5);
+            tick.fillColor = tickColor;
+            tick.strokeColor = tickColor;
+            tick.lineWidth = 4;
+            tick.lineJoin = kCALineJoinRound;
+            
+            if(i % MAJOR_TICK_INTERVAL == 0) {
+                tick.bounds = CGRectMake(0,0,16,1);
+            } else if(i % MINOR_TICK_INTERVAL == 0) {
+                tick.bounds = CGRectMake(0,0,6,1);
+            } else {
+                tick.bounds = CGRectMake(0,0,1,1);
+            }
+            
+            CGMutablePathRef tickRect = CGPathCreateMutable();
+            CGPathAddRect(tickRect, NULL, tick.bounds);
+            tick.path = tickRect;
+            
+            [self.speedometerLayer addSublayer:tick];
+            
+            if(i % LABEL_INTERVAL == 0) {
+                CATextLayer* label = [[CATextLayer alloc] init];
+                label.string = [NSString stringWithFormat:@"%i", i];
+                label.bounds = CGRectMake(0,0,65,43);
+                label.position = CGPointMake(0, [self getYCoordForSpeed:i]);
+                label.anchorPoint = CGPointMake(0,0.5);
+                label.foregroundColor = [[UIColor blackColor] CGColor];
+                label.alignmentMode = kCAAlignmentRight;
+                [self.speedometerLayer addSublayer:label];
             }
         }
         
         [self.layer addSublayer:self.speedometerLayer];
         
         self.currentSpeedIndicator = [[CAShapeLayer alloc] init];
-        self.currentSpeedIndicator.bounds = CGRectMake(0, 0, self.bounds.size.width, 5);
-        self.currentSpeedIndicator.position = CGPointMake(0,
+        self.currentSpeedIndicator.bounds = CGRectMake(0, 0, CGRectGetMidX(self.bounds), 40);
+        self.currentSpeedIndicator.position = CGPointMake(CGRectGetMidX(self.bounds),
                                                           CGRectGetMidY(self.bounds));
-        //self.currentSpeedIndicator.anchorPoint = CGPointMake(1,0.5);
-        self.currentSpeedIndicator.fillColor = [[UIColor colorWithRed:1.0 green:0.2 blue:0.0 alpha:0.9] CGColor];
-        self.currentSpeedIndicator.strokeColor = [[UIColor colorWithRed:1.0 green:0.0 blue:0.0 alpha:0.9] CGColor];
-        CGMutablePathRef p = CGPathCreateMutable();
+        self.currentSpeedIndicator.anchorPoint = CGPointMake(0,0.5);
+        self.currentSpeedIndicator.fillColor = [[UIColor colorWithRed:0.9 green:0.9 blue:0.9 alpha:0.5] CGColor];
+        self.currentSpeedIndicator.lineWidth = 2;
+        self.currentSpeedIndicator.strokeColor = [[UIColor colorWithRed:0.2 green:0.2 blue:0.2 alpha:0.9] CGColor];
+        self.currentSpeedIndicator.lineJoin = kCALineJoinBevel;
         
-        CGPathAddRect(p, NULL, CGRectMake(0, 0, self.bounds.size.width, 5));
+        CGMutablePathRef p = CGPathCreateMutable();
+        CGPathMoveToPoint(p, NULL, self.currentSpeedIndicator.bounds.size.width - 10, 0);
+        CGPathAddLineToPoint(p, NULL, 30, 0);
+        CGPathAddLineToPoint(p, NULL, 0, CGRectGetMidY(self.currentSpeedIndicator.bounds));
+        CGPathAddLineToPoint(p, NULL, 30, self.currentSpeedIndicator.bounds.size.height);
+        CGPathAddLineToPoint(p, NULL, self.currentSpeedIndicator.bounds.size.width - 10, self.currentSpeedIndicator.bounds.size.height);
+        CGPathAddLineToPoint(p, NULL, self.currentSpeedIndicator.bounds.size.width - 10, 0);
+        
         self.currentSpeedIndicator.path = p;
         
         [self.layer addSublayer:self.currentSpeedIndicator];
