@@ -55,7 +55,7 @@ struct CGColor *avgColor;
         
         avgColor = [[UIColor colorWithRed:0.365 green:0.318 blue:0.58 alpha:1.0] CGColor];
         
-        for (int i = 0; i < MAX_SPEED_MPH; i++) {
+        for (int i = 0; i <= MAX_SPEED_MPH; i++) {
             
             CAShapeLayer* tick = [[CAShapeLayer alloc] init];
             tick.position = CGPointMake(70, [self getYCoordForSpeed:i]);
@@ -109,6 +109,7 @@ struct CGColor *avgColor;
         CGPathAddLineToPoint(diamond, NULL, CGRectGetMidX(self.avgSpeedIndicator.bounds), 0);
         
         self.avgSpeedIndicator.path = diamond;
+        [self.avgSpeedIndicator setHidden:TRUE];
         
         [self.speedometerLayer addSublayer:self.avgSpeedIndicator];
         
@@ -138,13 +139,24 @@ struct CGColor *avgColor;
 }
 
 - (void)setCurrentSpeed:(double)currentSpeed {
+    if(currentSpeed > MAX_SPEED_MPH) {
+        currentSpeed = MAX_SPEED_MPH;
+    }
     _currentSpeed = currentSpeed;
+    self.speedometerLayer.backgroundColor = [[UIColor whiteColor] CGColor];
     [self.speedometerLayer scrollToPoint:CGPointMake(0, [self getYCoordForSpeed:currentSpeed] - CGRectGetMidY(self.bounds))];
 }
 
 - (void)setAvgSpeed:(double)avgSpeed {
     _avgSpeed = avgSpeed;
+    [self.avgSpeedIndicator setHidden:FALSE];
     self.avgSpeedIndicator.position = CGPointMake(self.speedometerLayer.bounds.size.width - 13, [self getYCoordForSpeed:avgSpeed]);
+}
+
+- (void)disable {
+    [self.avgSpeedIndicator setHidden:TRUE];
+    [self setCurrentSpeed:0];
+    self.speedometerLayer.backgroundColor = [[UIColor colorWithRed:0.7 green:0.7 blue:0.7 alpha:1.0] CGColor];
 }
 
 - (CGFloat)getYCoordForSpeed:(double)speed {

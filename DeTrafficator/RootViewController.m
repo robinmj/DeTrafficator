@@ -44,7 +44,9 @@
 }
 
 - (void)locationError:(NSError *)error {
-	self.currentSpeedLabel.text = [error description];
+    [self.speedometer disable];
+	self.currentSpeedLabel.text = @"--";
+	self.avgSpeedLabel.text = @"--";
 }
 
 - (NSString *)abbreviate:(double) number {

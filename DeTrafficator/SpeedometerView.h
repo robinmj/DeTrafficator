@@ -20,6 +20,8 @@
 
 - (id)initWithFrame:(CGRect)frame;
 
+- (void)disable;
+
 @end
 
 #endif
