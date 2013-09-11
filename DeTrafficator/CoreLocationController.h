@@ -16,6 +16,8 @@
 @property (nonatomic, retain) CLLocationManager *locMgr;
 @property (nonatomic, assign) id delegate;
 
+- (void)resetAvg;
+
 @end
 
 @protocol CoreLocationControllerDelegate

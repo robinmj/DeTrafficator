@@ -38,12 +38,27 @@
 
 - (void)locationUpdate:(CLLocation *)location withAvgSpeed:(CLLocationSpeed)avgSpeed {
     self.speedometer.currentSpeed = [location speed];
-	self.currentSpeedLabel.text = [NSString stringWithFormat:@"%f", [location speed]];
-	self.avgSpeedLabel.text = [NSString stringWithFormat:@"%f", avgSpeed];
+	self.currentSpeedLabel.text = [self abbreviate:[location speed]];
+	self.avgSpeedLabel.text = [self abbreviate:avgSpeed];
 }
 
 - (void)locationError:(NSError *)error {
 	self.currentSpeedLabel.text = [error description];
+}
+
+- (NSString *)abbreviate:(double) number {
+    NSInteger wholePart = (NSInteger)number;
+    NSInteger decimalPart = (NSInteger)round((number - wholePart) * 10);
+    //decimal part rounded up to 10
+    if(decimalPart > 9) {
+        wholePart++;
+        decimalPart = 0;
+    }
+    return [NSString stringWithFormat:@"%d.%d", wholePart, decimalPart];
+}
+
+- (IBAction)resetAverage:(id)sender {
+    [CLController resetAvg];
 }
 
 @end

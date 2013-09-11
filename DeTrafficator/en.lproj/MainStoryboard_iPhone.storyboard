@@ -81,6 +81,9 @@
                                         <state key="highlighted">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <connections>
+                                            <action selector="resetAverage:" destination="12" eventType="touchUpInside" id="yrU-wn-biE"/>
+                                        </connections>
                                     </button>
                                     <view autoresizesSubviews="NO" clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="speedometer" translatesAutoresizingMaskIntoConstraints="NO" id="dYk-5e-kWa" customClass="SpeedometerView">
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -146,6 +149,7 @@
         <class className="RootViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/RootViewController.h"/>
             <relationships>
+                <relationship kind="action" name="resetAverage:"/>
                 <relationship kind="outlet" name="avgSpeedLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="currentSpeedLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="speedometer" candidateClass="SpeedometerView"/>

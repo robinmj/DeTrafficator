@@ -95,4 +95,12 @@
 	[self.delegate locationError:error];
 }
 
+- (void)resetAvg {
+    self.avgSpeed = -1;
+    NSInteger dataPointCount = [self.speedData count];
+    if(dataPointCount > 1) {
+        [self.speedData removeObjectsInRange:NSMakeRange(1, dataPointCount - 1)];
+    }
+}
+
 @end
