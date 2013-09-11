@@ -38,6 +38,7 @@
 
 - (void)locationUpdate:(CLLocation *)location withAvgSpeed:(CLLocationSpeed)avgSpeed {
     self.speedometer.currentSpeed = [location speed];
+    self.speedometer.avgSpeed = avgSpeed;
 	self.currentSpeedLabel.text = [self abbreviate:[location speed]];
 	self.avgSpeedLabel.text = [self abbreviate:avgSpeed];
 }

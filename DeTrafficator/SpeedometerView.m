@@ -19,6 +19,7 @@
 
 @property (strong, nonatomic) CAScrollLayer *speedometerLayer;
 @property (strong, nonatomic) CAShapeLayer *currentSpeedIndicator;
+@property (strong, nonatomic) CAShapeLayer *avgSpeedIndicator;
 @property (assign, nonatomic) double pixelsPerTick;
 @property (assign, nonatomic) NSInteger speedometerSublayerHeight;
 
@@ -26,7 +27,10 @@
 
 @implementation SpeedometerView
 
+struct CGColor *avgColor;
+
 @synthesize currentSpeed = _currentSpeed;
+@synthesize avgSpeed = _avgSpeed;
 @synthesize speedometerLayer = _speedometerLayer;
 @synthesize pixelsPerTick = _pixelsPerTick;
 
@@ -48,6 +52,8 @@
         self.speedometerSublayerHeight = self.pixelsPerTick * (double)MAX_SPEED_MPH + VERTICAL_PADDING;
         
         struct CGColor *tickColor = [[UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:1.0] CGColor];
+        
+        avgColor = [[UIColor colorWithRed:0.365 green:0.318 blue:0.58 alpha:1.0] CGColor];
         
         for (int i = 0; i < MAX_SPEED_MPH; i++) {
             
@@ -87,6 +93,25 @@
         
         [self.layer addSublayer:self.speedometerLayer];
         
+        self.avgSpeedIndicator = [[CAShapeLayer alloc] init];
+        self.avgSpeedIndicator.bounds = CGRectMake(0, 0, 30, 30);
+        self.avgSpeedIndicator.anchorPoint = CGPointMake(1,0.5);
+        self.avgSpeedIndicator.fillColor = avgColor;
+        self.avgSpeedIndicator.lineWidth = 2;
+        self.avgSpeedIndicator.strokeColor = avgColor;
+        self.avgSpeedIndicator.lineJoin = kCALineJoinBevel;
+        
+        CGMutablePathRef diamond = CGPathCreateMutable();
+        CGPathMoveToPoint(diamond, NULL, CGRectGetMidX(self.avgSpeedIndicator.bounds), 0);
+        CGPathAddLineToPoint(diamond, NULL, 0, CGRectGetMidY(self.avgSpeedIndicator.bounds));
+        CGPathAddLineToPoint(diamond, NULL, CGRectGetMidX(self.avgSpeedIndicator.bounds), self.avgSpeedIndicator.bounds.size.height);
+        CGPathAddLineToPoint(diamond, NULL, self.avgSpeedIndicator.bounds.size.width, CGRectGetMidY(self.avgSpeedIndicator.bounds));
+        CGPathAddLineToPoint(diamond, NULL, CGRectGetMidX(self.avgSpeedIndicator.bounds), 0);
+        
+        self.avgSpeedIndicator.path = diamond;
+        
+        [self.speedometerLayer addSublayer:self.avgSpeedIndicator];
+        
         self.currentSpeedIndicator = [[CAShapeLayer alloc] init];
         self.currentSpeedIndicator.bounds = CGRectMake(0, 0, CGRectGetMidX(self.bounds), 40);
         self.currentSpeedIndicator.position = CGPointMake(CGRectGetMidX(self.bounds),
@@ -115,6 +140,11 @@
 - (void)setCurrentSpeed:(double)currentSpeed {
     _currentSpeed = currentSpeed;
     [self.speedometerLayer scrollToPoint:CGPointMake(0, [self getYCoordForSpeed:currentSpeed] - CGRectGetMidY(self.bounds))];
+}
+
+- (void)setAvgSpeed:(double)avgSpeed {
+    _avgSpeed = avgSpeed;
+    self.avgSpeedIndicator.position = CGPointMake(self.speedometerLayer.bounds.size.width - 13, [self getYCoordForSpeed:avgSpeed]);
 }
 
 - (CGFloat)getYCoordForSpeed:(double)speed {
