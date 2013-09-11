@@ -15,7 +15,12 @@
 #define LABEL_INTERVAL 5
 #define VERTICAL_PADDING 20
 
-@interface SpeedometerView ()
+@interface SpeedometerView () {
+    
+    UIColor *avgColor;
+    UIColor *indicatorWindowColor;
+    UIColor *indicatorWindowHighlightColor;
+}
 
 @property (strong, nonatomic) CAScrollLayer *speedometerLayer;
 @property (strong, nonatomic) CAShapeLayer *currentSpeedIndicator;
@@ -26,8 +31,6 @@
 @end
 
 @implementation SpeedometerView
-
-struct CGColor *avgColor;
 
 @synthesize currentSpeed = _currentSpeed;
 @synthesize avgSpeed = _avgSpeed;
@@ -51,9 +54,9 @@ struct CGColor *avgColor;
         self.pixelsPerTick = (double)self.speedometerLayer.bounds.size.height / (double)MARKING_DENSITY;
         self.speedometerSublayerHeight = self.pixelsPerTick * (double)MAX_SPEED_MPH + VERTICAL_PADDING;
         
-        struct CGColor *tickColor = [[UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:1.0] CGColor];
+        CGColorRef tickColor = [[UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:1.0] CGColor];
         
-        avgColor = [[UIColor colorWithRed:0.365 green:0.318 blue:0.58 alpha:1.0] CGColor];
+        self->avgColor = [UIColor colorWithRed:0.365 green:0.318 blue:0.58 alpha:1.0];
         
         for (int i = 0; i <= MAX_SPEED_MPH; i++) {
             
@@ -96,9 +99,9 @@ struct CGColor *avgColor;
         self.avgSpeedIndicator = [[CAShapeLayer alloc] init];
         self.avgSpeedIndicator.bounds = CGRectMake(0, 0, 30, 30);
         self.avgSpeedIndicator.anchorPoint = CGPointMake(1,0.5);
-        self.avgSpeedIndicator.fillColor = avgColor;
+        self.avgSpeedIndicator.fillColor = [avgColor CGColor];
         self.avgSpeedIndicator.lineWidth = 2;
-        self.avgSpeedIndicator.strokeColor = avgColor;
+        self.avgSpeedIndicator.strokeColor = [avgColor CGColor];
         self.avgSpeedIndicator.lineJoin = kCALineJoinBevel;
         
         CGMutablePathRef diamond = CGPathCreateMutable();
@@ -113,12 +116,15 @@ struct CGColor *avgColor;
         
         [self.speedometerLayer addSublayer:self.avgSpeedIndicator];
         
+        self->indicatorWindowColor = [[UIColor alloc] initWithRed:0.9 green:0.9 blue:0.9 alpha:0.5];
+        self->indicatorWindowHighlightColor = [[UIColor alloc] initWithRed:0.0 green:0.6 blue:0.9 alpha:0.5];
+        
         self.currentSpeedIndicator = [[CAShapeLayer alloc] init];
         self.currentSpeedIndicator.bounds = CGRectMake(0, 0, CGRectGetMidX(self.bounds), 40);
         self.currentSpeedIndicator.position = CGPointMake(CGRectGetMidX(self.bounds),
                                                           CGRectGetMidY(self.bounds));
         self.currentSpeedIndicator.anchorPoint = CGPointMake(0,0.5);
-        self.currentSpeedIndicator.fillColor = [[UIColor colorWithRed:0.9 green:0.9 blue:0.9 alpha:0.5] CGColor];
+        self.currentSpeedIndicator.fillColor = [self->indicatorWindowColor CGColor];
         self.currentSpeedIndicator.lineWidth = 2;
         self.currentSpeedIndicator.strokeColor = [[UIColor colorWithRed:0.2 green:0.2 blue:0.2 alpha:0.9] CGColor];
         self.currentSpeedIndicator.lineJoin = kCALineJoinBevel;
@@ -145,6 +151,20 @@ struct CGColor *avgColor;
     _currentSpeed = currentSpeed;
     self.speedometerLayer.backgroundColor = [[UIColor whiteColor] CGColor];
     [self.speedometerLayer scrollToPoint:CGPointMake(0, [self getYCoordForSpeed:currentSpeed] - CGRectGetMidY(self.bounds))];
+    
+    if(currentSpeed > 0) {
+        double ds = ABS(currentSpeed - _avgSpeed);
+        double accuracy = ds / (double)currentSpeed;
+        
+        //highlight indicator if speed is within 10% or 0.3 mph of the average speed
+        if(accuracy < 0.1 || ds < 0.3) {
+            self.currentSpeedIndicator.fillColor = [self->indicatorWindowHighlightColor CGColor];
+        } else {
+            self.currentSpeedIndicator.fillColor = [self->indicatorWindowColor CGColor];
+        }
+    } else {
+        self.currentSpeedIndicator.fillColor = [self->indicatorWindowColor CGColor];
+    }
 }
 
 - (void)setAvgSpeed:(double)avgSpeed {
