@@ -19,8 +19,6 @@
 		00AE1FCF1785DFD200443620 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 00AE1FCE1785DFD200443620 /* Default@2x.png */; };
 		00AE1FD11785DFD200443620 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 00AE1FD01785DFD200443620 /* Default-568h@2x.png */; };
 		00AE1FD41785DFD200443620 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 00AE1FD31785DFD200443620 /* RootViewController.m */; };
-		00AE1FD71785DFD200443620 /* DataViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 00AE1FD61785DFD200443620 /* DataViewController.m */; };
-		00AE1FDA1785DFD200443620 /* ModelController.m in Sources */ = {isa = PBXBuildFile; fileRef = 00AE1FD91785DFD200443620 /* ModelController.m */; };
 		00AE1FDD1785DFD200443620 /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 00AE1FDB1785DFD200443620 /* MainStoryboard_iPhone.storyboard */; };
 		00AE1FE01785DFD200443620 /* MainStoryboard_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 00AE1FDE1785DFD200443620 /* MainStoryboard_iPad.storyboard */; };
 		00AE1FE81785DFD300443620 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00AE1FE71785DFD300443620 /* SenTestingKit.framework */; };
@@ -62,10 +60,6 @@
 		00AE1FD01785DFD200443620 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		00AE1FD21785DFD200443620 /* RootViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
 		00AE1FD31785DFD200443620 /* RootViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
-		00AE1FD51785DFD200443620 /* DataViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DataViewController.h; sourceTree = "<group>"; };
-		00AE1FD61785DFD200443620 /* DataViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DataViewController.m; sourceTree = "<group>"; };
-		00AE1FD81785DFD200443620 /* ModelController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ModelController.h; sourceTree = "<group>"; };
-		00AE1FD91785DFD200443620 /* ModelController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ModelController.m; sourceTree = "<group>"; };
 		00AE1FDC1785DFD200443620 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPhone.storyboard; sourceTree = "<group>"; };
 		00AE1FDF1785DFD200443620 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPad.storyboard; sourceTree = "<group>"; };
 		00AE1FE61785DFD300443620 /* DeTrafficatorTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DeTrafficatorTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -75,7 +69,7 @@
 		00AE1FF31785DFD300443620 /* DeTrafficatorTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DeTrafficatorTests.h; sourceTree = "<group>"; };
 		00AE1FF41785DFD300443620 /* DeTrafficatorTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DeTrafficatorTests.m; sourceTree = "<group>"; };
 		00C3AD3C17D932B00018AE5D /* SpeedometerView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SpeedometerView.h; sourceTree = "<group>"; };
-		00C3AD3F17D933B10018AE5D /* SpeedometerView.m */ = {isa = PBXFileReference; lastKnownFileType = file; path = SpeedometerView.m; sourceTree = "<group>"; };
+		00C3AD3F17D933B10018AE5D /* SpeedometerView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SpeedometerView.m; sourceTree = "<group>"; };
 		00C56D0617985F29000B7D51 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -144,10 +138,6 @@
 				00AE1FCA1785DFD200443620 /* AppDelegate.m */,
 				00AE1FD21785DFD200443620 /* RootViewController.h */,
 				00AE1FD31785DFD200443620 /* RootViewController.m */,
-				00AE1FD51785DFD200443620 /* DataViewController.h */,
-				00AE1FD61785DFD200443620 /* DataViewController.m */,
-				00AE1FD81785DFD200443620 /* ModelController.h */,
-				00AE1FD91785DFD200443620 /* ModelController.m */,
 				00AE1FDB1785DFD200443620 /* MainStoryboard_iPhone.storyboard */,
 				00AE1FDE1785DFD200443620 /* MainStoryboard_iPad.storyboard */,
 				00AE1FC11785DFD200443620 /* Supporting Files */,
@@ -307,8 +297,6 @@
 				00AE1FC71785DFD200443620 /* main.m in Sources */,
 				00AE1FCB1785DFD200443620 /* AppDelegate.m in Sources */,
 				00AE1FD41785DFD200443620 /* RootViewController.m in Sources */,
-				00AE1FD71785DFD200443620 /* DataViewController.m in Sources */,
-				00AE1FDA1785DFD200443620 /* ModelController.m in Sources */,
 				00641C96179061CB00E6406F /* CoreLocationController.m in Sources */,
 				00C3AD4717DA69460018AE5D /* SpeedometerView.m in Sources */,
 			);

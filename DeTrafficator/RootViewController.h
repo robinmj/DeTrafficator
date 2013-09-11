@@ -7,9 +7,18 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CoreLocationController.h"
+#import <QuartzCore/QuartzCore.h>
+#import "SpeedometerView.h"
 
-@interface RootViewController : UIViewController <UIPageViewControllerDelegate>
+@interface RootViewController : UIViewController <CoreLocationControllerDelegate> {
+    CoreLocationController *CLController;
+}
 
-@property (strong, nonatomic) UIPageViewController *pageViewController;
+@property (nonatomic, retain) CoreLocationController *CLController;
+@property (strong, nonatomic) IBOutlet UILabel *currentSpeedLabel;
+@property (strong, nonatomic) IBOutlet UILabel *avgSpeedLabel;
+@property (strong, nonatomic) IBOutlet SpeedometerView *speedometer;
+@property (strong, nonatomic) id dataObject;
 
 @end
