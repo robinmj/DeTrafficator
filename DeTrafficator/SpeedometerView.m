@@ -11,7 +11,9 @@
 #define MAX_SPEED_MPH 120
 #define MAJOR_TICK_INTERVAL 10
 #define MINOR_TICK_INTERVAL 5
+#define TICK_SPACING 10
 #define LABEL_INTERVAL 5
+#define LABEL_SPACING 30
 #define VERTICAL_PADDING 20
 
 @interface SpeedometerView () {
@@ -54,19 +56,28 @@
         
         self->avgColor = [UIColor colorWithRed:0.365 green:0.318 blue:0.58 alpha:1.0];
         
-        CGFloat lastTickY = 1000000.0;
-        CGFloat lastLabelY = 1000000.0;
+        CGFloat lastTickY = [self getYCoordForSpeed:MAX_SPEED_MPH];
+        CGFloat lastLabelY = [self getYCoordForSpeed:MAX_SPEED_MPH];
         
-        for (int i = 0; i <= MAX_SPEED_MPH; i++) {
+        BOOL tinyTicksEnabled = FALSE;
+        
+        for (int i = MAX_SPEED_MPH; i >= 0; i--) {
             
             CGFloat speedYPos = [self getYCoordForSpeed:i];
+            
+            CGFloat scaleDensity = speedYPos - lastTickY;
             
             BOOL majorTick = i % MAJOR_TICK_INTERVAL == 0;
             BOOL minorTick = i % MINOR_TICK_INTERVAL == 0;
             
-            if((lastTickY - speedYPos) > 9 ||
-               ((lastTickY - speedYPos) > 2 && minorTick) ||
-               ((lastTickY - speedYPos) > 1 && majorTick)) {
+            //switch on smallest tick marks once the scale is sparse enough
+            if(minorTick && !tinyTicksEnabled) {
+                tinyTicksEnabled = scaleDensity > TICK_SPACING;
+            }
+            
+            if(majorTick ||
+               (minorTick && scaleDensity > (TICK_SPACING / MINOR_TICK_INTERVAL)) ||
+               tinyTicksEnabled) {
                 
                 CAShapeLayer* tick = [[CAShapeLayer alloc] init];
                 tick.position = CGPointMake(70, speedYPos);
@@ -92,7 +103,7 @@
             }
             lastTickY = speedYPos;
             
-            if((i % LABEL_INTERVAL == 0) && ((lastLabelY - speedYPos) >= 30 || majorTick)) {
+            if((i % LABEL_INTERVAL == 0) && (majorTick || (speedYPos - lastLabelY) >= LABEL_SPACING)) {
                 CATextLayer* label = [[CATextLayer alloc] init];
                 label.string = [NSString stringWithFormat:@"%i", i];
                 label.bounds = CGRectMake(0,0,65,43);
