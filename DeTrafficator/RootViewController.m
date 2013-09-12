@@ -15,6 +15,19 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    self->prevSpeed = 0.0;
+    
+    // Load sounds
+    
+    CFBundleRef mainBundle = CFBundleGetMainBundle ();
+    
+    CFURLRef speedUpFileURLRef  = CFBundleCopyResourceURL(mainBundle, CFSTR ("speed_up"), CFSTR ("aif"), NULL);
+    CFURLRef slowDownFileURLRef  = CFBundleCopyResourceURL(mainBundle, CFSTR ("slow_down"), CFSTR ("aif"), NULL);
+    
+    AudioServicesCreateSystemSoundID(speedUpFileURLRef, &speedUpSound);
+    AudioServicesCreateSystemSoundID(slowDownFileURLRef, &slowDownSound);
+    
 
     // Set the page view controller's bounds using an inset rect so that self's view is visible around the edges of the pages.
     CGRect pageViewRect = self.view.bounds;
@@ -37,10 +50,20 @@
 }
 
 - (void)locationUpdate:(CLLocation *)location withAvgSpeed:(CLLocationSpeed)avgSpeed {
-    self.speedometer.currentSpeed = [location speed];
+    double currentSpeed = [location speed];
+    self.speedometer.currentSpeed = currentSpeed;
     self.speedometer.avgSpeed = avgSpeed;
-	self.currentSpeedLabel.text = [self abbreviate:[location speed]];
+	self.currentSpeedLabel.text = [self abbreviate:currentSpeed];
 	self.avgSpeedLabel.text = [self abbreviate:avgSpeed];
+    
+    double dsRatio = (currentSpeed - avgSpeed) / currentSpeed;
+    
+    if(dsRatio > 0.1 && prevSpeed <= currentSpeed) {
+        AudioServicesPlaySystemSound (self->slowDownSound);
+    } else if(dsRatio < -0.1 && prevSpeed >= currentSpeed) {
+        AudioServicesPlaySystemSound (self->speedUpSound);
+    }
+    self->prevSpeed = currentSpeed;
 }
 
 - (void)locationError:(NSError *)error {

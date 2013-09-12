@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		00579FD61794DC1200C56CB9 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00579FD51794DC1200C56CB9 /* CoreLocation.framework */; };
 		00641C96179061CB00E6406F /* CoreLocationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 00641C95179061CB00E6406F /* CoreLocationController.m */; };
+		007156C717E226E90056E0B6 /* speed_up.aif in Resources */ = {isa = PBXBuildFile; fileRef = 007156C617E226E90056E0B6 /* speed_up.aif */; };
+		007156C917E228040056E0B6 /* slow_down.aif in Resources */ = {isa = PBXBuildFile; fileRef = 007156C817E228040056E0B6 /* slow_down.aif */; };
+		007156CB17E22CA20056E0B6 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 007156CA17E22CA20056E0B6 /* AudioToolbox.framework */; };
 		00AE1FBB1785DFD200443620 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00AE1FBA1785DFD200443620 /* UIKit.framework */; };
 		00AE1FBD1785DFD200443620 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00AE1FBC1785DFD200443620 /* Foundation.framework */; };
 		00AE1FBF1785DFD200443620 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00AE1FBE1785DFD200443620 /* CoreGraphics.framework */; };
@@ -45,6 +48,9 @@
 		00579FD51794DC1200C56CB9 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		00641C94179061CB00E6406F /* CoreLocationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreLocationController.h; sourceTree = "<group>"; };
 		00641C95179061CB00E6406F /* CoreLocationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoreLocationController.m; sourceTree = "<group>"; };
+		007156C617E226E90056E0B6 /* speed_up.aif */ = {isa = PBXFileReference; lastKnownFileType = file; path = speed_up.aif; sourceTree = "<group>"; };
+		007156C817E228040056E0B6 /* slow_down.aif */ = {isa = PBXFileReference; lastKnownFileType = file; path = slow_down.aif; sourceTree = "<group>"; };
+		007156CA17E22CA20056E0B6 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		00AE1FB71785DFD200443620 /* DeTrafficator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DeTrafficator.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		00AE1FBA1785DFD200443620 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		00AE1FBC1785DFD200443620 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -78,6 +84,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				007156CB17E22CA20056E0B6 /* AudioToolbox.framework in Frameworks */,
 				00C56D0717985F29000B7D51 /* QuartzCore.framework in Frameworks */,
 				00579FD61794DC1200C56CB9 /* CoreLocation.framework in Frameworks */,
 				00AE1FBB1785DFD200443620 /* UIKit.framework in Frameworks */,
@@ -102,6 +109,7 @@
 		00AE1FAE1785DFD200443620 = {
 			isa = PBXGroup;
 			children = (
+				007156CA17E22CA20056E0B6 /* AudioToolbox.framework */,
 				00C56D0617985F29000B7D51 /* QuartzCore.framework */,
 				00579FD51794DC1200C56CB9 /* CoreLocation.framework */,
 				00AE1FC01785DFD200443620 /* DeTrafficator */,
@@ -153,6 +161,8 @@
 		00AE1FC11785DFD200443620 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				007156C817E228040056E0B6 /* slow_down.aif */,
+				007156C617E226E90056E0B6 /* speed_up.aif */,
 				00AE1FC21785DFD200443620 /* DeTrafficator-Info.plist */,
 				00AE1FC31785DFD200443620 /* InfoPlist.strings */,
 				00AE1FC61785DFD200443620 /* main.m */,
@@ -260,6 +270,8 @@
 				00AE1FD11785DFD200443620 /* Default-568h@2x.png in Resources */,
 				00AE1FDD1785DFD200443620 /* MainStoryboard_iPhone.storyboard in Resources */,
 				00AE1FE01785DFD200443620 /* MainStoryboard_iPad.storyboard in Resources */,
+				007156C717E226E90056E0B6 /* speed_up.aif in Resources */,
+				007156C917E228040056E0B6 /* slow_down.aif in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -421,6 +433,7 @@
 				GCC_PREFIX_HEADER = "DeTrafficator/DeTrafficator-Prefix.pch";
 				INFOPLIST_FILE = "DeTrafficator/DeTrafficator-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -432,6 +445,7 @@
 				GCC_PREFIX_HEADER = "DeTrafficator/DeTrafficator-Prefix.pch";
 				INFOPLIST_FILE = "DeTrafficator/DeTrafficator-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
