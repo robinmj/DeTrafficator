@@ -40,7 +40,7 @@
 	CLController.delegate = self;
 	[CLController.locMgr startUpdatingLocation];
     
-    [self.speedometer initWithFrame:CGRectMake(0, 0, 150, 506)];
+    [self.speedometer initWithFrame:CGRectMake(0, 0, 304, 400)];
 }
 
 - (void)didReceiveMemoryWarning
@@ -53,8 +53,6 @@
     double currentSpeed = [location speed];
     self.speedometer.currentSpeed = currentSpeed;
     self.speedometer.avgSpeed = avgSpeed;
-	self.currentSpeedLabel.text = [self abbreviate:currentSpeed];
-	self.avgSpeedLabel.text = [self abbreviate:avgSpeed];
     
     double dsRatio = (currentSpeed - avgSpeed) / currentSpeed;
     
@@ -68,19 +66,6 @@
 
 - (void)locationError:(NSError *)error {
     [self.speedometer disable];
-	self.currentSpeedLabel.text = @"--";
-	self.avgSpeedLabel.text = @"--";
-}
-
-- (NSString *)abbreviate:(double) number {
-    NSInteger wholePart = (NSInteger)number;
-    NSInteger decimalPart = (NSInteger)round((number - wholePart) * 10);
-    //decimal part rounded up to 10
-    if(decimalPart > 9) {
-        wholePart++;
-        decimalPart = 0;
-    }
-    return [NSString stringWithFormat:@"%d.%d", wholePart, decimalPart];
 }
 
 - (IBAction)resetAverage:(id)sender {

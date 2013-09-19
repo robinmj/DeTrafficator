@@ -20,8 +20,6 @@
 }
 
 @property (nonatomic, retain) CoreLocationController *CLController;
-@property (strong, nonatomic) IBOutlet UILabel *currentSpeedLabel;
-@property (strong, nonatomic) IBOutlet UILabel *avgSpeedLabel;
 @property (strong, nonatomic) IBOutlet SpeedometerView *speedometer;
 
 @end

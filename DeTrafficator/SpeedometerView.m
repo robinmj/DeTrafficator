@@ -13,7 +13,8 @@
 #define MINOR_TICK_INTERVAL 5
 #define TICK_SPACING 10
 #define LABEL_INTERVAL 5
-#define LABEL_SPACING 30
+#define LABEL_HEIGHT 43
+#define LABEL_COLUMN_WIDTH 65
 #define VERTICAL_PADDING 20
 
 @interface SpeedometerView () {
@@ -25,7 +26,11 @@
 
 @property (strong, nonatomic) CAScrollLayer *speedometerLayer;
 @property (strong, nonatomic) CAShapeLayer *currentSpeedIndicator;
+@property (strong, nonatomic) CATextLayer *currentSpeedText;
+@property (strong, nonatomic) CATextLayer *currentSpeedUnit;
 @property (strong, nonatomic) CAShapeLayer *avgSpeedIndicator;
+@property (strong, nonatomic) CATextLayer *avgSpeedText;
+@property (strong, nonatomic) CATextLayer *avgSpeedUnit;
 @property (assign, nonatomic) NSInteger speedometerSublayerHeight;
 
 @end
@@ -80,7 +85,7 @@
                tinyTicksEnabled) {
                 
                 CAShapeLayer* tick = [[CAShapeLayer alloc] init];
-                tick.position = CGPointMake(70, speedYPos);
+                tick.position = CGPointMake(LABEL_COLUMN_WIDTH + 5, speedYPos);
                 tick.anchorPoint = CGPointMake(0,0.5);
                 tick.fillColor = tickColor;
                 tick.strokeColor = tickColor;
@@ -103,10 +108,10 @@
             }
             lastTickY = speedYPos;
             
-            if((i % LABEL_INTERVAL == 0) && (majorTick || (speedYPos - lastLabelY) >= LABEL_SPACING)) {
+            if((i % LABEL_INTERVAL == 0) && (majorTick || (speedYPos - lastLabelY) >= LABEL_HEIGHT)) {
                 CATextLayer* label = [[CATextLayer alloc] init];
                 label.string = [NSString stringWithFormat:@"%i", i];
-                label.bounds = CGRectMake(0,0,65,43);
+                label.bounds = CGRectMake(0,0,LABEL_COLUMN_WIDTH,LABEL_HEIGHT);
                 label.position = CGPointMake(0, speedYPos);
                 label.anchorPoint = CGPointMake(0,0.5);
                 label.foregroundColor = [[UIColor blackColor] CGColor];
@@ -142,9 +147,11 @@
         self->indicatorWindowColor = [[UIColor alloc] initWithRed:0.9 green:0.9 blue:0.9 alpha:0.5];
         self->indicatorWindowHighlightColor = [[UIColor alloc] initWithRed:0.0 green:0.6 blue:0.9 alpha:0.5];
         
+        NSInteger currentSpeedIndicatorLeftMargin = LABEL_COLUMN_WIDTH + 10;
+        
         self.currentSpeedIndicator = [[CAShapeLayer alloc] init];
-        self.currentSpeedIndicator.bounds = CGRectMake(0, 0, CGRectGetMidX(self.bounds), 40);
-        self.currentSpeedIndicator.position = CGPointMake(CGRectGetMidX(self.bounds),
+        self.currentSpeedIndicator.bounds = CGRectMake(0, 0, self.bounds.size.width - currentSpeedIndicatorLeftMargin, 40);
+        self.currentSpeedIndicator.position = CGPointMake(currentSpeedIndicatorLeftMargin,
                                                           CGRectGetMidY(self.bounds));
         self.currentSpeedIndicator.anchorPoint = CGPointMake(0,0.5);
         self.currentSpeedIndicator.fillColor = [self->indicatorWindowColor CGColor];
@@ -162,6 +169,27 @@
         
         self.currentSpeedIndicator.path = p;
         
+        self.currentSpeedUnit = [[CATextLayer alloc] init];
+        self.currentSpeedUnit.bounds = CGRectMake(0,0, 50, self.currentSpeedIndicator.bounds.size.height / 2);
+        self.currentSpeedUnit.position = CGPointMake(self.currentSpeedIndicator.bounds.size.width - (self.currentSpeedUnit.bounds.size.width + 10), self.currentSpeedIndicator.bounds.size.height);
+        self.currentSpeedUnit.anchorPoint = CGPointMake(0.0, 1.0);
+        self.currentSpeedUnit.foregroundColor = [[UIColor blackColor] CGColor];
+        self.currentSpeedUnit.alignmentMode = kCAAlignmentLeft;
+        self.currentSpeedUnit.fontSize = 18.0;
+        self.currentSpeedUnit.string = @"mi/h";
+        
+        [self.currentSpeedIndicator addSublayer:self.currentSpeedUnit];
+        
+        self.currentSpeedText = [[CATextLayer alloc] init];
+        self.currentSpeedText.bounds = CGRectMake(0,0, 80, self.currentSpeedIndicator.bounds.size.height);
+        self.currentSpeedText.position = CGPointMake(self.currentSpeedUnit.position.x - 5, self.currentSpeedIndicator.bounds.size.height);
+        self.currentSpeedText.anchorPoint = CGPointMake(1.0, 1.0);
+        self.currentSpeedText.foregroundColor = [[UIColor blackColor] CGColor];
+        self.currentSpeedText.alignmentMode = kCAAlignmentRight;
+        self.currentSpeedText.string = @"0.0";
+        
+        [self.currentSpeedIndicator addSublayer:self.currentSpeedText];
+        
         [self.layer addSublayer:self.currentSpeedIndicator];
     }
     return self;
@@ -172,6 +200,7 @@
         currentSpeed = MAX_SPEED_MPH;
     }
     _currentSpeed = currentSpeed;
+    self.currentSpeedText.string = [self abbreviate:currentSpeed];
     self.speedometerLayer.backgroundColor = [[UIColor whiteColor] CGColor];
     [self.speedometerLayer scrollToPoint:CGPointMake(0, [self getYCoordForSpeed:currentSpeed] - CGRectGetMidY(self.bounds))];
     
@@ -193,7 +222,7 @@
 - (void)setAvgSpeed:(double)avgSpeed {
     _avgSpeed = avgSpeed;
     [self.avgSpeedIndicator setHidden:FALSE];
-    self.avgSpeedIndicator.position = CGPointMake(self.speedometerLayer.bounds.size.width - 13, [self getYCoordForSpeed:avgSpeed]);
+    self.avgSpeedIndicator.position = CGPointMake(LABEL_COLUMN_WIDTH + 70, [self getYCoordForSpeed:avgSpeed]);
 }
 
 - (void)disable {
@@ -207,6 +236,17 @@
         return (CGFloat)self.speedometerSublayerHeight;
     }
     return (CGFloat)self.speedometerSublayerHeight - self.speedometerLayer.bounds.size.height * log10(speed);
+}
+
+- (NSString *)abbreviate:(double) number {
+    NSInteger wholePart = (NSInteger)number;
+    NSInteger decimalPart = (NSInteger)round((number - wholePart) * 10);
+    //decimal part rounded up to 10
+    if(decimalPart > 9) {
+        wholePart++;
+        decimalPart = 0;
+    }
+    return [NSString stringWithFormat:@"%d.%d", wholePart, decimalPart];
 }
 
 @end
