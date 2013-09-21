@@ -40,18 +40,17 @@
 	CLController.delegate = self;
 	[CLController.locMgr startUpdatingLocation];
     
-    [self.speedometer initWithFrame:CGRectMake(0, 0, 304, 400)];
+    [self.speedometer init];
     
     //assemble constraints needed to be added in order to adjust layout for landscape orientation
     
     self->landSpeedometerTrailingConstraint = [NSLayoutConstraint constraintWithItem:self.speedometer attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0.0];
-    self->landSpeedometerResetButtonConstraint = [NSLayoutConstraint constraintWithItem:self.speedometer attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.resetButton attribute:NSLayoutAttributeLeft multiplier:1.0 constant:8.0];
+    self->landSpeedometerResetButtonConstraint = [NSLayoutConstraint constraintWithItem:self.speedometer attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.resetButton attribute:NSLayoutAttributeLeft multiplier:1.0 constant:-8.0];
     
     
     //retreive constraints needed to be removed in order to adjust layout for landscape orientation
     
     for(NSLayoutConstraint* c in self.contentView.constraints) {
-        debug_NSLog(@"constraint: %@",c);
         
         if(c.firstItem == self.speedometer && c.firstAttribute == NSLayoutAttributeTrailing && c.secondItem == self.contentView && c.secondAttribute == NSLayoutAttributeTrailing) {
             self->portSpeedometerTrailingConstraint = c;

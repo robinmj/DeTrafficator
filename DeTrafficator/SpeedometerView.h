@@ -18,8 +18,6 @@
 @property (assign, nonatomic) double currentSpeed;
 @property (assign, nonatomic) double avgSpeed;
 
-- (id)initWithFrame:(CGRect)frame;
-
 - (void)disable;
 
 @end
