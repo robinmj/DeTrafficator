@@ -175,7 +175,7 @@
 - (void)layoutSubviews
 {
     
-    self.speedometerLayer.frame = self.frame;
+    self.speedometerLayer.frame = self.bounds;
     
     NSInteger currentSpeedIndicatorLeftMargin = LABEL_COLUMN_WIDTH + 10;
     
