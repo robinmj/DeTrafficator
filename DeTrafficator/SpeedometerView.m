@@ -238,10 +238,7 @@
 }
 
 - (CGFloat)getYCoordForSpeed:(double)speed {
-    if(speed == 0.0) {
-        return (CGFloat)self.speedometerSublayerHeight;
-    }
-    return (CGFloat)self.speedometerSublayerHeight - GAUGE_HEIGHT * log10(speed) / log10(MAX_SPEED_MPH);
+    return (CGFloat)self.speedometerSublayerHeight - GAUGE_HEIGHT * log10(speed + 1.0) / log10(MAX_SPEED_MPH + 1.0);
 }
 
 - (NSString *)abbreviate:(double) number {
