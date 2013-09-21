@@ -63,6 +63,8 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="contentView" destination="9" id="BLP-oT-Zyw"/>
+                        <outlet property="resetButton" destination="3fC-2s-Ba7" id="MIE-7B-oQF"/>
                         <outlet property="speedometer" destination="dYk-5e-kWa" id="jCd-cy-dht"/>
                     </connections>
                 </viewController>
@@ -79,8 +81,8 @@
             <source key="sourceIdentifier" type="project" relativePath="./Classes/RootViewController.h"/>
             <relationships>
                 <relationship kind="action" name="resetAverage:"/>
-                <relationship kind="outlet" name="avgSpeedLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="currentSpeedLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="contentView" candidateClass="UIView"/>
+                <relationship kind="outlet" name="resetButton" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="speedometer" candidateClass="SpeedometerView"/>
             </relationships>
         </class>

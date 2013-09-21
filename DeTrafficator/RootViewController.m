@@ -41,6 +41,49 @@
 	[CLController.locMgr startUpdatingLocation];
     
     [self.speedometer initWithFrame:CGRectMake(0, 0, 304, 400)];
+    
+    //assemble constraints needed to be added in order to adjust layout for landscape orientation
+    
+    self->landSpeedometerTrailingConstraint = [NSLayoutConstraint constraintWithItem:self.speedometer attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0.0];
+    self->landSpeedometerResetButtonConstraint = [NSLayoutConstraint constraintWithItem:self.speedometer attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.resetButton attribute:NSLayoutAttributeLeft multiplier:1.0 constant:8.0];
+    
+    
+    //retreive constraints needed to be removed in order to adjust layout for landscape orientation
+    
+    for(NSLayoutConstraint* c in self.contentView.constraints) {
+        debug_NSLog(@"constraint: %@",c);
+        
+        if(c.firstItem == self.speedometer && c.firstAttribute == NSLayoutAttributeTrailing && c.secondItem == self.contentView && c.secondAttribute == NSLayoutAttributeTrailing) {
+            self->portSpeedometerTrailingConstraint = c;
+        }
+        
+        if(c.firstItem == self.resetButton
+           && c.firstAttribute == NSLayoutAttributeTop
+           && c.secondItem == self.speedometer
+           && c.secondAttribute == NSLayoutAttributeBottom) {
+            self->portSpeedometerResetButtonConstraint = c;
+        }
+    }
+    
+    assert(self->portSpeedometerResetButtonConstraint);
+    assert(self->portSpeedometerTrailingConstraint);
+}
+
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)orientation duration:(NSTimeInterval)duration
+{
+    //reposition views
+    
+    if (orientation == UIInterfaceOrientationLandscapeLeft || orientation == UIInterfaceOrientationLandscapeRight) {
+        [self.contentView removeConstraint:self->portSpeedometerResetButtonConstraint];
+        [self.contentView removeConstraint:self->portSpeedometerTrailingConstraint];
+        [self.contentView addConstraint:self->landSpeedometerResetButtonConstraint];
+        [self.contentView addConstraint:self->landSpeedometerTrailingConstraint];
+    } else {
+        [self.contentView removeConstraint:self->landSpeedometerResetButtonConstraint];
+        [self.contentView removeConstraint:self->landSpeedometerTrailingConstraint];
+        [self.contentView addConstraint:self->portSpeedometerResetButtonConstraint];
+        [self.contentView addConstraint:self->portSpeedometerTrailingConstraint];
+    }
 }
 
 - (void)didReceiveMemoryWarning
