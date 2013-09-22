@@ -40,49 +40,96 @@
 	CLController.delegate = self;
 	[CLController.locMgr startUpdatingLocation];
     
-    [self.speedometer init];
+    self.speedometer = [self.speedometer init];
     
     //assemble constraints needed to be added in order to adjust layout for landscape orientation
     
-    self->landSpeedometerTrailingConstraint = [NSLayoutConstraint constraintWithItem:self.speedometer attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0.0];
-    self->landSpeedometerResetButtonConstraint = [NSLayoutConstraint constraintWithItem:self.speedometer attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.resetButton attribute:NSLayoutAttributeLeft multiplier:1.0 constant:-8.0];
+    self->landSpeedometerBottomSpacing = [NSLayoutConstraint constraintWithItem:self.controlView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.speedometer attribute:NSLayoutAttributeBottom multiplier:1.0 constant:8.0];
+    self->landControlViewSpeedometerSpacing = [NSLayoutConstraint constraintWithItem:self.controlView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.speedometer attribute:NSLayoutAttributeRight multiplier:1.0 constant:-8.0];
     
+    /*
+    debug_NSLog(@"view %@", self.view);
+    debug_NSLog(@"speedometer %@", self.speedometer);
+    debug_NSLog(@"controlView %@", self.controlView);
     
-    //retreive constraints needed to be removed in order to adjust layout for landscape orientation
+    [self displayConstraint:self.controlViewSpeedometerSpacing withName:@"controlViewSpeedometerSpacing"];
     
-    for(NSLayoutConstraint* c in self.contentView.constraints) {
-        
-        if(c.firstItem == self.speedometer && c.firstAttribute == NSLayoutAttributeTrailing && c.secondItem == self.contentView && c.secondAttribute == NSLayoutAttributeTrailing) {
-            self->portSpeedometerTrailingConstraint = c;
-        }
-        
-        if(c.firstItem == self.resetButton
-           && c.firstAttribute == NSLayoutAttributeTop
-           && c.secondItem == self.speedometer
-           && c.secondAttribute == NSLayoutAttributeBottom) {
-            self->portSpeedometerResetButtonConstraint = c;
-        }
-    }
-    
-    assert(self->portSpeedometerResetButtonConstraint);
-    assert(self->portSpeedometerTrailingConstraint);
+    [self displayConstraint:self->landSpeedometerBottom withName:@"landSpeedometerBottom"];
+    [self displayConstraint:self->landControlViewSpeedometerSpacing withName:@"landControlViewSpeedometerSpacing"];*/
 }
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)orientation duration:(NSTimeInterval)duration
 {
+    /*for(NSLayoutConstraint* c in self.view.constraints) {
+        [self displayConstraint:c withName:@""];
+    }*/
+    
     //reposition views
     
     if (orientation == UIInterfaceOrientationLandscapeLeft || orientation == UIInterfaceOrientationLandscapeRight) {
-        [self.contentView removeConstraint:self->portSpeedometerResetButtonConstraint];
-        [self.contentView removeConstraint:self->portSpeedometerTrailingConstraint];
-        [self.contentView addConstraint:self->landSpeedometerResetButtonConstraint];
-        [self.contentView addConstraint:self->landSpeedometerTrailingConstraint];
+        [self.view removeConstraint:self.controlViewSpeedometerSpacing];
+        [self.view addConstraint:self->landSpeedometerBottomSpacing];
+        [self.view addConstraint:self->landControlViewSpeedometerSpacing];
     } else {
-        [self.contentView removeConstraint:self->landSpeedometerResetButtonConstraint];
-        [self.contentView removeConstraint:self->landSpeedometerTrailingConstraint];
-        [self.contentView addConstraint:self->portSpeedometerResetButtonConstraint];
-        [self.contentView addConstraint:self->portSpeedometerTrailingConstraint];
+        [self.view removeConstraint:self->landSpeedometerBottomSpacing];
+        [self.view removeConstraint:self->landControlViewSpeedometerSpacing];
+        [self.view addConstraint:self.controlViewSpeedometerSpacing];
     }
+    
+    [self.view setNeedsUpdateConstraints];
+}
+
+//for debugging layouts
+- (void)displayConstraint:(NSLayoutConstraint*)c withName:(NSString*)name
+{
+    NSString* firstItem = [self identifyItem:c.firstItem];
+    NSString* secondItem = [self identifyItem:c.secondItem];
+    
+    debug_NSLog(@"constraint %@(%@): %@ %@ %f %d %@ %@", name, c, firstItem, [self identifyLayoutAttribute:c.firstAttribute], c.constant, c.relation, secondItem, [self identifyLayoutAttribute:c.secondAttribute]);
+}
+
+//for debugging layouts
+- (NSString*)identifyItem:(id)item
+{
+    if(item == self.view) {
+        return @"view";
+    } else if(item == self.speedometer) {
+        return @"speedometer";
+    } else if(item == self.controlView) {
+        return @"controlView";
+    }
+    return [[NSString alloc] initWithFormat:@"%@",item];
+}
+
+//for debugging layouts
+- (NSString*)identifyLayoutAttribute:(NSLayoutAttribute)attr
+{
+    switch ((NSInteger)attr) {
+        case NSLayoutAttributeLeft:
+            return @"NSLayoutAttributeLeft";
+        case NSLayoutAttributeRight:
+            return @"NSLayoutAttributeRight";
+        case NSLayoutAttributeTop:
+            return @"NSLayoutAttributeTop";
+        case NSLayoutAttributeBottom:
+            return @"NSLayoutAttributeBottom";
+        case NSLayoutAttributeLeading:
+            return @"NSLayoutAttributeLeading";
+        case NSLayoutAttributeTrailing:
+            return @"NSLayoutAttributeTrailing";
+        case NSLayoutAttributeWidth:
+            return @"NSLayoutAttributeWidth";
+        case NSLayoutAttributeHeight:
+            return @"NSLayoutAttributeHeight";
+        case NSLayoutAttributeCenterX:
+            return @"NSLayoutAttributeCenterX";
+        case NSLayoutAttributeCenterY:
+            return @"NSLayoutAttributeCenterY";
+        case NSLayoutAttributeBaseline:
+            return @"NSLayoutAttributeBaseline";
+    }
+    
+    return @"NSLayoutAttributeNotAnAttribute";
 }
 
 - (void)didReceiveMemoryWarning

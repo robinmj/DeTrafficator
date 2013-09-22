@@ -13,11 +13,8 @@
 #import <AudioToolbox/AudioToolbox.h>
 
 @interface RootViewController : UIViewController <CoreLocationControllerDelegate> {
-    NSLayoutConstraint* portSpeedometerTrailingConstraint;
-    NSLayoutConstraint* portSpeedometerResetButtonConstraint;
-    
-    NSLayoutConstraint* landSpeedometerTrailingConstraint;
-    NSLayoutConstraint* landSpeedometerResetButtonConstraint;
+    NSLayoutConstraint* landSpeedometerBottomSpacing;
+    NSLayoutConstraint* landControlViewSpeedometerSpacing;
     
     CoreLocationController *CLController;
     SystemSoundID speedUpSound;
@@ -26,8 +23,9 @@
 }
 
 @property (nonatomic, retain) CoreLocationController *CLController;
-@property (strong, nonatomic) IBOutlet UIView *contentView;
+@property (strong, nonatomic) IBOutlet UIView *controlView;
 @property (strong, nonatomic) IBOutlet SpeedometerView *speedometer;
 @property (strong, nonatomic) IBOutlet UIButton *resetButton;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint* controlViewSpeedometerSpacing;
 
 @end
