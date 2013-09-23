@@ -168,4 +168,19 @@
     [CLController resetAvg];
 }
 
+- (IBAction)changeUnit:(id)sender {
+    [CLController resetAvg];
+    
+    UISegmentedControl * unitsSwitch = (UISegmentedControl*)sender;
+    
+    switch(unitsSwitch.selectedSegmentIndex) {
+        case 0:
+            self.speedometer.unit = mph;
+            break;
+        case 1:
+            self.speedometer.unit = kph;
+            break;
+    }
+}
+
 @end

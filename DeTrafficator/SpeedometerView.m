@@ -9,7 +9,7 @@
 #import "SpeedometerView.h"
 
 #define GAUGE_HEIGHT 840
-#define MAX_SPEED_MPH 120
+#define MAX_SPEED_M_S 53.6448
 #define MAJOR_TICK_INTERVAL 10
 #define MINOR_TICK_INTERVAL 5
 #define TICK_SPACING 10
@@ -18,11 +18,19 @@
 #define LABEL_COLUMN_WIDTH 65
 #define VERTICAL_PADDING 20
 
+#define MPH_CONVERSION_FACTOR 2.2369363
+#define KPH_CONVERSION_FACTOR 3.6
+
 @interface SpeedometerView () {
     
     UIColor *avgColor;
     UIColor *indicatorWindowColor;
     UIColor *indicatorWindowHighlightColor;
+    
+    /*
+     multiply by this to convert from m/s to the current speed unit
+     */
+    double conversionFactor;
 }
 
 @property (strong, nonatomic) CAScrollLayer *speedometerLayer;
@@ -32,7 +40,6 @@
 @property (strong, nonatomic) CAShapeLayer *avgSpeedIndicator;
 @property (strong, nonatomic) CATextLayer *avgSpeedText;
 @property (strong, nonatomic) CATextLayer *avgSpeedUnit;
-@property (assign, nonatomic) NSInteger speedometerSublayerHeight;
 
 @end
 
@@ -41,6 +48,7 @@
 @synthesize currentSpeed = _currentSpeed;
 @synthesize avgSpeed = _avgSpeed;
 @synthesize speedometerLayer = _speedometerLayer;
+@synthesize unit = _unit;
 
 - (id)init
 {
@@ -51,72 +59,7 @@
         
         self.speedometerLayer = [[CAScrollLayer alloc] init];
         
-        self.speedometerSublayerHeight = GAUGE_HEIGHT + VERTICAL_PADDING;
-        
-        CGColorRef tickColor = [[UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:1.0] CGColor];
-        
         self->avgColor = [UIColor colorWithRed:0.365 green:0.318 blue:0.58 alpha:1.0];
-        
-        CGFloat lastTickY = [self getYCoordForSpeed:MAX_SPEED_MPH];
-        CGFloat lastLabelY = [self getYCoordForSpeed:MAX_SPEED_MPH];
-        
-        BOOL tinyTicksEnabled = FALSE;
-        
-        for (int i = MAX_SPEED_MPH; i >= 0; i--) {
-            
-            CGFloat speedYPos = [self getYCoordForSpeed:i];
-            
-            CGFloat scaleDensity = speedYPos - lastTickY;
-            
-            BOOL majorTick = i % MAJOR_TICK_INTERVAL == 0;
-            BOOL minorTick = i % MINOR_TICK_INTERVAL == 0;
-            
-            //switch on smallest tick marks once the scale is sparse enough
-            if(minorTick && !tinyTicksEnabled) {
-                tinyTicksEnabled = scaleDensity > TICK_SPACING;
-            }
-            
-            if(majorTick ||
-               (minorTick && scaleDensity > (TICK_SPACING / MINOR_TICK_INTERVAL)) ||
-               tinyTicksEnabled) {
-                
-                CAShapeLayer* tick = [[CAShapeLayer alloc] init];
-                tick.position = CGPointMake(LABEL_COLUMN_WIDTH + 5, speedYPos);
-                tick.anchorPoint = CGPointMake(0,0.5);
-                tick.fillColor = tickColor;
-                tick.strokeColor = tickColor;
-                tick.lineWidth = 4;
-                tick.lineJoin = kCALineJoinRound;
-                
-                if(majorTick) {
-                    tick.bounds = CGRectMake(0,0,16,1);
-                } else if(minorTick) {
-                    tick.bounds = CGRectMake(0,0,6,1);
-                } else {
-                    tick.bounds = CGRectMake(0,0,1,1);
-                }
-                
-                CGMutablePathRef tickRect = CGPathCreateMutable();
-                CGPathAddRect(tickRect, NULL, tick.bounds);
-                tick.path = tickRect;
-                
-                [self.speedometerLayer addSublayer:tick];
-            }
-            lastTickY = speedYPos;
-            
-            if((i % LABEL_INTERVAL == 0) && (majorTick || (speedYPos - lastLabelY) >= LABEL_HEIGHT)) {
-                CATextLayer* label = [[CATextLayer alloc] init];
-                label.string = [NSString stringWithFormat:@"%i", i];
-                label.bounds = CGRectMake(0,0,LABEL_COLUMN_WIDTH,LABEL_HEIGHT);
-                label.position = CGPointMake(0, speedYPos);
-                label.anchorPoint = CGPointMake(0,0.5);
-                label.foregroundColor = [[UIColor blackColor] CGColor];
-                label.alignmentMode = kCAAlignmentRight;
-                [self.speedometerLayer addSublayer:label];
-                
-                lastLabelY = speedYPos;
-            }
-        }
         
         [self.layer addSublayer:self.speedometerLayer];
         
@@ -138,8 +81,6 @@
         self.avgSpeedIndicator.path = diamond;
         [self.avgSpeedIndicator setHidden:TRUE];
         
-        [self.speedometerLayer addSublayer:self.avgSpeedIndicator];
-        
         self->indicatorWindowColor = [[UIColor alloc] initWithRed:0.9 green:0.9 blue:0.9 alpha:0.5];
         self->indicatorWindowHighlightColor = [[UIColor alloc] initWithRed:0.0 green:0.6 blue:0.9 alpha:0.5];
         
@@ -155,7 +96,10 @@
         self.currentSpeedUnit.foregroundColor = [[UIColor blackColor] CGColor];
         self.currentSpeedUnit.alignmentMode = kCAAlignmentLeft;
         self.currentSpeedUnit.fontSize = 18.0;
-        self.currentSpeedUnit.string = @"mi/h";
+        
+        [self setUnit:mph];
+        
+        [self drawGaugeMarkings];
         
         [self.currentSpeedIndicator addSublayer:self.currentSpeedUnit];
         
@@ -201,12 +145,90 @@
     
 }
 
+- (void)drawGaugeMarkings
+{
+    
+    CGColorRef tickColor = [[UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:1.0] CGColor];
+    
+    self.speedometerLayer.sublayers = [[NSArray alloc] init];
+    
+    CGFloat lastTickY = VERTICAL_PADDING;
+    CGFloat lastLabelY = VERTICAL_PADDING;
+    
+    BOOL tinyTicksEnabled = FALSE;
+    
+    NSInteger gaugeMax = (NSInteger)(MAX_SPEED_M_S * self->conversionFactor);
+    
+    for (int i = gaugeMax; i >= 0; i--) {
+        
+        CGFloat speedYPos = [self getYCoordForSpeed:i / self->conversionFactor];
+        
+        CGFloat scaleDensity = speedYPos - lastTickY;
+        
+        BOOL majorTick = i % MAJOR_TICK_INTERVAL == 0;
+        BOOL minorTick = i % MINOR_TICK_INTERVAL == 0;
+        
+        //switch on smallest tick marks once the scale is sparse enough
+        if(minorTick && !tinyTicksEnabled) {
+            tinyTicksEnabled = scaleDensity > TICK_SPACING;
+        }
+        
+        if(majorTick ||
+           (minorTick && scaleDensity > (TICK_SPACING / MINOR_TICK_INTERVAL)) ||
+           tinyTicksEnabled) {
+            
+            CAShapeLayer* tick = [[CAShapeLayer alloc] init];
+            tick.position = CGPointMake(LABEL_COLUMN_WIDTH + 5, speedYPos);
+            tick.anchorPoint = CGPointMake(0,0.5);
+            tick.fillColor = tickColor;
+            tick.strokeColor = tickColor;
+            tick.lineWidth = 4;
+            tick.lineJoin = kCALineJoinRound;
+            
+            if(majorTick) {
+                tick.bounds = CGRectMake(0,0,16,1);
+            } else if(minorTick) {
+                tick.bounds = CGRectMake(0,0,6,1);
+            } else {
+                tick.bounds = CGRectMake(0,0,1,1);
+            }
+            
+            CGMutablePathRef tickRect = CGPathCreateMutable();
+            CGPathAddRect(tickRect, NULL, tick.bounds);
+            tick.path = tickRect;
+            
+            [self.speedometerLayer addSublayer:tick];
+        }
+        lastTickY = speedYPos;
+        
+        if((i % LABEL_INTERVAL == 0) && (majorTick || (speedYPos - lastLabelY) >= LABEL_HEIGHT)) {
+            CATextLayer* label = [[CATextLayer alloc] init];
+            label.string = [NSString stringWithFormat:@"%i", i];
+            label.bounds = CGRectMake(0,0,LABEL_COLUMN_WIDTH,LABEL_HEIGHT);
+            label.position = CGPointMake(0, speedYPos);
+            label.anchorPoint = CGPointMake(0,0.5);
+            label.foregroundColor = [[UIColor blackColor] CGColor];
+            label.alignmentMode = kCAAlignmentRight;
+            [self.speedometerLayer addSublayer:label];
+            
+            lastLabelY = speedYPos;
+        }
+    }
+    
+    [self.speedometerLayer addSublayer:self.avgSpeedIndicator];
+}
+
+/*
+ 
+ currentSpeed - in m/s
+ 
+ */
 - (void)setCurrentSpeed:(double)currentSpeed {
-    if(currentSpeed > MAX_SPEED_MPH) {
-        currentSpeed = MAX_SPEED_MPH;
+    if(currentSpeed > MAX_SPEED_M_S) {
+        currentSpeed = MAX_SPEED_M_S;
     }
     _currentSpeed = currentSpeed;
-    self.currentSpeedText.string = [self abbreviate:currentSpeed];
+    self.currentSpeedText.string = [self abbreviate:currentSpeed * self->conversionFactor];
     self.speedometerLayer.backgroundColor = [[UIColor whiteColor] CGColor];
     [self refreshIndicator];
     
@@ -230,6 +252,11 @@
     [self.speedometerLayer scrollToPoint:CGPointMake(0, [self getYCoordForSpeed:_currentSpeed] - CGRectGetMidY(self.bounds))];
 }
 
+/*
+ 
+ avgSpeed - in m/s
+ 
+ */
 - (void)setAvgSpeed:(double)avgSpeed {
     _avgSpeed = avgSpeed;
     [self.avgSpeedIndicator setHidden:FALSE];
@@ -242,8 +269,13 @@
     self.speedometerLayer.backgroundColor = [[UIColor colorWithRed:0.7 green:0.7 blue:0.7 alpha:1.0] CGColor];
 }
 
+/*
+ 
+  speed - in m/s
+ 
+ */
 - (CGFloat)getYCoordForSpeed:(double)speed {
-    return (CGFloat)self.speedometerSublayerHeight - GAUGE_HEIGHT * log10(speed + 1.0) / log10(MAX_SPEED_MPH + 1.0);
+    return (CGFloat)(GAUGE_HEIGHT + VERTICAL_PADDING - GAUGE_HEIGHT * log10(speed + 1.0) / log10(MAX_SPEED_M_S + 1.0));
 }
 
 - (NSString *)abbreviate:(double) number {
@@ -255,6 +287,23 @@
         decimalPart = 0;
     }
     return [NSString stringWithFormat:@"%d.%d", wholePart, decimalPart];
+}
+
+- (void)setUnit:(SpeedUnit)unit {
+    _unit = unit;
+    
+    switch(_unit) {
+        case mph:
+            self.currentSpeedUnit.string = @"mi/h";
+            self->conversionFactor = MPH_CONVERSION_FACTOR;
+            break;
+        case kph:
+            self.currentSpeedUnit.string = @"km/h";
+            self->conversionFactor = KPH_CONVERSION_FACTOR;
+            break;
+    }
+    
+    [self drawGaugeMarkings];
 }
 
 @end

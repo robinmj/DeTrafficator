@@ -15,10 +15,35 @@
 
 @interface SpeedometerView : UIView
 
+/*
+ 
+ current speed, in m/s
+ 
+ */
 @property (assign, nonatomic) double currentSpeed;
+
+/*
+ 
+ average speed, in m/s
+ 
+ */
 @property (assign, nonatomic) double avgSpeed;
 
+@property (assign, nonatomic) SpeedUnit unit;
+
+/*
+ 
+ Indicate that there is no speed data to display.
+ Setting currentSpeed reverts this.
+ 
+ */
 - (void)disable;
+
+/*
+ 
+ repositions the gauge layer to correct for a situation where the view was resized
+ 
+ */
 - (void)refreshIndicator;
 
 @end

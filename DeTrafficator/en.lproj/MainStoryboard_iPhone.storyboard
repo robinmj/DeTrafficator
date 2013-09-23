@@ -27,31 +27,36 @@
                             <view autoresizesSubviews="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="304" placeholderIntrinsicHeight="infinite" translatesAutoresizingMaskIntoConstraints="NO" id="9" userLabel="Control View">
                                 <rect key="frame" x="8" y="422" width="304" height="138"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3fC-2s-Ba7">
-                                        <rect key="frame" x="199" y="87" width="85" height="51"/>
-                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="32"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yw5-dm-ssf">
+                                        <rect key="frame" x="202" y="67" width="82" height="51"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="32"/>
                                         <state key="normal" title="Reset">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
-                                            <action selector="resetAverage:" destination="12" eventType="touchUpInside" id="yrU-wn-biE"/>
+                                            <action selector="resetAverage:" destination="12" eventType="touchUpInside" id="9mC-dd-bOg"/>
                                         </connections>
                                     </button>
-                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="S0g-yP-ulm" userLabel="unit selector">
-                                        <rect key="frame" x="193" y="20" width="91" height="29"/>
+                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Wcv-2P-3Tw">
+                                        <rect key="frame" x="198" y="19" width="91" height="29"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <segments>
                                             <segment title="mi/h"/>
                                             <segment title="km/h"/>
                                         </segments>
+                                        <connections>
+                                            <action selector="changeUnit:" destination="12" eventType="valueChanged" id="etS-Un-WDZ"/>
+                                        </connections>
                                     </segmentedControl>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="yw5-dm-ssf" secondAttribute="bottom" constant="20" id="0uS-Zp-2Qt"/>
                                     <constraint firstAttribute="height" constant="138" id="581-Vx-fAm"/>
-                                    <constraint firstAttribute="bottom" secondItem="3fC-2s-Ba7" secondAttribute="bottom" id="UsE-Ll-GUR"/>
-                                    <constraint firstAttribute="trailing" secondItem="3fC-2s-Ba7" secondAttribute="trailing" constant="20" id="gtd-r2-u32"/>
-                                    <constraint firstAttribute="right" secondItem="S0g-yP-ulm" secondAttribute="right" constant="20" id="sce-B1-yWf"/>
-                                    <constraint firstItem="3fC-2s-Ba7" firstAttribute="top" secondItem="S0g-yP-ulm" secondAttribute="bottom" constant="39" id="xad-K4-3m5"/>
+                                    <constraint firstItem="yw5-dm-ssf" firstAttribute="top" secondItem="Wcv-2P-3Tw" secondAttribute="bottom" constant="20" id="Fqb-Ip-A32"/>
+                                    <constraint firstItem="Wcv-2P-3Tw" firstAttribute="centerX" secondItem="yw5-dm-ssf" secondAttribute="centerX" id="V2E-Hu-6Mf"/>
+                                    <constraint firstAttribute="right" secondItem="yw5-dm-ssf" secondAttribute="right" constant="20" id="Vvv-xu-Pxa"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -67,7 +72,7 @@
                     <connections>
                         <outlet property="controlView" destination="9" id="DYg-7D-dHn"/>
                         <outlet property="controlViewSpeedometerSpacing" destination="zp6-Bb-lfa" id="WSl-eP-sUN"/>
-                        <outlet property="resetButton" destination="3fC-2s-Ba7" id="MIE-7B-oQF"/>
+                        <outlet property="resetButton" destination="yw5-dm-ssf" id="0r8-Xm-T6g"/>
                         <outlet property="speedometer" destination="dYk-5e-kWa" id="jCd-cy-dht"/>
                     </connections>
                 </viewController>
