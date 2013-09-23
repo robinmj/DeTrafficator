@@ -208,7 +208,7 @@
     _currentSpeed = currentSpeed;
     self.currentSpeedText.string = [self abbreviate:currentSpeed];
     self.speedometerLayer.backgroundColor = [[UIColor whiteColor] CGColor];
-    [self.speedometerLayer scrollToPoint:CGPointMake(0, [self getYCoordForSpeed:currentSpeed] - CGRectGetMidY(self.bounds))];
+    [self refreshIndicator];
     
     if(currentSpeed > 0) {
         double ds = ABS(currentSpeed - _avgSpeed);
@@ -223,6 +223,11 @@
     } else {
         self.currentSpeedIndicator.fillColor = [self->indicatorWindowColor CGColor];
     }
+}
+
+- (void)refreshIndicator
+{
+    [self.speedometerLayer scrollToPoint:CGPointMake(0, [self getYCoordForSpeed:_currentSpeed] - CGRectGetMidY(self.bounds))];
 }
 
 - (void)setAvgSpeed:(double)avgSpeed {

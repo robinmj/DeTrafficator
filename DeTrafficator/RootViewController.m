@@ -79,6 +79,13 @@
     [self.view setNeedsUpdateConstraints];
 }
 
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+{
+    //speedometer indicator gets thrown off when it is resized.
+    // this is only a problem when the speed is not being updated
+    [self.speedometer refreshIndicator];
+}
+
 //for debugging layouts
 - (void)displayConstraint:(NSLayoutConstraint*)c withName:(NSString*)name
 {

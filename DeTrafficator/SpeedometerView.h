@@ -19,6 +19,7 @@
 @property (assign, nonatomic) double avgSpeed;
 
 - (void)disable;
+- (void)refreshIndicator;
 
 @end
 
