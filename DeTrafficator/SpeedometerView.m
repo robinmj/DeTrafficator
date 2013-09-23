@@ -96,6 +96,7 @@
         self.currentSpeedUnit.foregroundColor = [[UIColor blackColor] CGColor];
         self.currentSpeedUnit.alignmentMode = kCAAlignmentLeft;
         self.currentSpeedUnit.fontSize = 18.0;
+        self.currentSpeedUnit.contentsScale = [[UIScreen mainScreen] scale];
         
         [self setUnit:mph];
         
@@ -107,6 +108,7 @@
         self.currentSpeedText.anchorPoint = CGPointMake(1.0, 1.0);
         self.currentSpeedText.foregroundColor = [[UIColor blackColor] CGColor];
         self.currentSpeedText.alignmentMode = kCAAlignmentRight;
+        self.currentSpeedText.contentsScale = [[UIScreen mainScreen] scale];
         self.currentSpeedText.string = @"0.0";
         
         [self.currentSpeedIndicator addSublayer:self.currentSpeedText];
@@ -153,9 +155,13 @@
     self.speedometerLayer.sublayers = [[NSArray alloc] init];
     
     CGFloat lastTickY = VERTICAL_PADDING;
-    CGFloat lastLabelY = VERTICAL_PADDING;
+    CGFloat lastLabelY = VERTICAL_PADDING - LABEL_HEIGHT;
     
     BOOL tinyTicksEnabled = FALSE;
+    
+    BOOL majorLabelsEnabled = FALSE;
+    BOOL minorLabelsEnabled = FALSE;
+    BOOL tinyTickLabelsEnabled = FALSE;
     
     NSInteger gaugeMax = (NSInteger)(MAX_SPEED_M_S * self->conversionFactor);
     
@@ -201,7 +207,24 @@
         }
         lastTickY = speedYPos;
         
-        if((i % LABEL_INTERVAL == 0) && (majorTick || (speedYPos - lastLabelY) >= LABEL_HEIGHT)) {
+        if(majorTick) {
+            majorLabelsEnabled = (speedYPos - lastLabelY) >= LABEL_HEIGHT;
+        } else if(minorTick) {
+            if(majorLabelsEnabled && !minorLabelsEnabled) {
+                minorLabelsEnabled = (speedYPos - lastLabelY) >= LABEL_HEIGHT;
+            }
+        } else {
+            if(tinyTicksEnabled && minorLabelsEnabled && !tinyTickLabelsEnabled) {
+                CGFloat nextSpeedYPos = [self getYCoordForSpeed:(i - 1) / self->conversionFactor];
+                
+                tinyTickLabelsEnabled = (nextSpeedYPos - speedYPos) >= LABEL_HEIGHT;
+            }
+        }
+        
+        if((majorTick && majorLabelsEnabled) ||
+            (minorTick && minorLabelsEnabled) ||
+            tinyTickLabelsEnabled) {
+            
             CATextLayer* label = [[CATextLayer alloc] init];
             label.string = [NSString stringWithFormat:@"%i", i];
             label.bounds = CGRectMake(0,0,LABEL_COLUMN_WIDTH,LABEL_HEIGHT);
@@ -209,6 +232,7 @@
             label.anchorPoint = CGPointMake(0,0.5);
             label.foregroundColor = [[UIColor blackColor] CGColor];
             label.alignmentMode = kCAAlignmentRight;
+            label.contentsScale = [[UIScreen mainScreen] scale];
             [self.speedometerLayer addSublayer:label];
             
             lastLabelY = speedYPos;
