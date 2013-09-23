@@ -147,6 +147,12 @@
 
 - (void)locationUpdate:(CLLocation *)location withAvgSpeed:(CLLocationSpeed)avgSpeed {
     double currentSpeed = [location speed];
+    
+    if(currentSpeed < 0.0) {
+        [self.speedometer disable];
+        return;
+    }
+    
     self.speedometer.currentSpeed = currentSpeed;
     self.speedometer.avgSpeed = avgSpeed;
     
