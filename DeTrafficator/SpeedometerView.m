@@ -8,7 +8,7 @@
 
 #import "SpeedometerView.h"
 
-#define GAUGE_HEIGHT 840
+#define GAUGE_HEIGHT 900
 #define MAX_SPEED_M_S 53.6448
 #define MAJOR_TICK_INTERVAL 10
 #define MINOR_TICK_INTERVAL 5
@@ -47,6 +47,7 @@
 
 @synthesize currentSpeed = _currentSpeed;
 @synthesize avgSpeed = _avgSpeed;
+@synthesize avgInterval = _avgInterval;
 @synthesize speedometerLayer = _speedometerLayer;
 @synthesize unit = _unit;
 
@@ -64,21 +65,44 @@
         [self.layer addSublayer:self.speedometerLayer];
         
         self.avgSpeedIndicator = [[CAShapeLayer alloc] init];
-        self.avgSpeedIndicator.bounds = CGRectMake(0, 0, 30, 30);
-        self.avgSpeedIndicator.anchorPoint = CGPointMake(1,0.5);
+        self.avgSpeedIndicator.bounds = CGRectMake(0, 0, 80, 60);
+        self.avgSpeedIndicator.anchorPoint = CGPointMake(0.0,0.5);
         self.avgSpeedIndicator.fillColor = [avgColor CGColor];
         self.avgSpeedIndicator.lineWidth = 2;
         self.avgSpeedIndicator.strokeColor = [avgColor CGColor];
         self.avgSpeedIndicator.lineJoin = kCALineJoinBevel;
         
         CGMutablePathRef diamond = CGPathCreateMutable();
-        CGPathMoveToPoint(diamond, NULL, CGRectGetMidX(self.avgSpeedIndicator.bounds), 0);
-        CGPathAddLineToPoint(diamond, NULL, 0, CGRectGetMidY(self.avgSpeedIndicator.bounds));
-        CGPathAddLineToPoint(diamond, NULL, CGRectGetMidX(self.avgSpeedIndicator.bounds), self.avgSpeedIndicator.bounds.size.height);
+        //top left
+        CGPathMoveToPoint(diamond, NULL, CGRectGetMidY(self.avgSpeedIndicator.bounds), 0);
+        //top right
+        CGPathAddLineToPoint(diamond, NULL, self.avgSpeedIndicator.bounds.size.width - CGRectGetMidY(self.avgSpeedIndicator.bounds), 0);
+        //right
         CGPathAddLineToPoint(diamond, NULL, self.avgSpeedIndicator.bounds.size.width, CGRectGetMidY(self.avgSpeedIndicator.bounds));
-        CGPathAddLineToPoint(diamond, NULL, CGRectGetMidX(self.avgSpeedIndicator.bounds), 0);
+        //bottom right
+        CGPathAddLineToPoint(diamond, NULL, self.avgSpeedIndicator.bounds.size.width - CGRectGetMidY(self.avgSpeedIndicator.bounds), self.avgSpeedIndicator.bounds.size.height);
+        //bottom left
+        CGPathAddLineToPoint(diamond, NULL, CGRectGetMidY(self.avgSpeedIndicator.bounds), self.avgSpeedIndicator.bounds.size.height);
+        //left
+        CGPathAddLineToPoint(diamond, NULL, 0, CGRectGetMidY(self.avgSpeedIndicator.bounds));
+        CGPathCloseSubpath(diamond);
         
         self.avgSpeedIndicator.path = diamond;
+        
+        self.avgSpeedText = [[CATextLayer alloc] init];
+        self.avgSpeedText.bounds = CGRectMake(0,0, 80, 60);
+        self.avgSpeedText.position = CGPointMake(0, self.avgSpeedIndicator.bounds.size.height);
+        self.avgSpeedText.anchorPoint = CGPointMake(0.0, 0.85);
+        self.avgSpeedText.foregroundColor = [[UIColor whiteColor] CGColor];
+        self.avgSpeedText.alignmentMode = kCAAlignmentCenter;
+        self.avgSpeedText.wrapped = YES;
+        self.avgSpeedText.contentsScale = [[UIScreen mainScreen] scale];
+        self.avgSpeedText.fontSize = 20.0;
+        
+        [self setAvgInterval:5 * 60];
+        
+        [self.avgSpeedIndicator addSublayer:self.avgSpeedText];
+        
         [self.avgSpeedIndicator setHidden:TRUE];
         
         self->indicatorWindowColor = [[UIColor alloc] initWithRed:0.9 green:0.9 blue:0.9 alpha:0.5];
@@ -135,7 +159,7 @@
     CGPathAddLineToPoint(p, NULL, 0, CGRectGetMidY(self.currentSpeedIndicator.bounds));
     CGPathAddLineToPoint(p, NULL, 30, self.currentSpeedIndicator.bounds.size.height);
     CGPathAddLineToPoint(p, NULL, self.currentSpeedIndicator.bounds.size.width - 10, self.currentSpeedIndicator.bounds.size.height);
-    CGPathAddLineToPoint(p, NULL, self.currentSpeedIndicator.bounds.size.width - 10, 0);
+    CGPathCloseSubpath(p);
     
     self.currentSpeedIndicator.path = p;
     
@@ -248,9 +272,6 @@
  
  */
 - (void)setCurrentSpeed:(double)currentSpeed {
-    if(currentSpeed > MAX_SPEED_M_S) {
-        currentSpeed = MAX_SPEED_M_S;
-    }
     _currentSpeed = currentSpeed;
     self.currentSpeedText.string = [self abbreviate:currentSpeed * self->conversionFactor];
     self.speedometerLayer.backgroundColor = [[UIColor whiteColor] CGColor];
@@ -273,7 +294,7 @@
 
 - (void)refreshIndicator
 {
-    [self.speedometerLayer scrollToPoint:CGPointMake(0, [self getYCoordForSpeed:_currentSpeed] - CGRectGetMidY(self.bounds))];
+    [self.speedometerLayer scrollToPoint:CGPointMake(0, [self getYCoordForSpeed:MIN(_currentSpeed,MAX_SPEED_M_S)] - CGRectGetMidY(self.bounds))];
 }
 
 /*
@@ -284,7 +305,7 @@
 - (void)setAvgSpeed:(double)avgSpeed {
     _avgSpeed = avgSpeed;
     [self.avgSpeedIndicator setHidden:FALSE];
-    self.avgSpeedIndicator.position = CGPointMake(LABEL_COLUMN_WIDTH + 70, [self getYCoordForSpeed:avgSpeed]);
+    self.avgSpeedIndicator.position = CGPointMake(LABEL_COLUMN_WIDTH + 25, [self getYCoordForSpeed:avgSpeed]);
 }
 
 - (void)disable {
@@ -328,6 +349,14 @@
     }
     
     [self drawGaugeMarkings];
+}
+
+- (void)setAvgInterval:(NSTimeInterval)avgInterval {
+    if((NSInteger)avgInterval % 60 == 0) {
+        self.avgSpeedText.string = [[NSString alloc] initWithFormat:@"%d min avg", (NSInteger)(avgInterval / 60)];
+    } else {
+        self.avgSpeedText.string = [[NSString alloc] initWithFormat:@"%d sec avg", (NSInteger)avgInterval];
+    }
 }
 
 @end

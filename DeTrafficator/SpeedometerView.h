@@ -29,6 +29,13 @@
  */
 @property (assign, nonatomic) double avgSpeed;
 
+/*
+ 
+ time interval, in seconds, over which avgSpeed was calculated
+ 
+ */
+@property (assign, nonatomic) NSTimeInterval avgInterval;
+
 @property (assign, nonatomic) SpeedUnit unit;
 
 /*
