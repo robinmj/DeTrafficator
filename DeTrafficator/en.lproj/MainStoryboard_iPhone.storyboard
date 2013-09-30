@@ -63,6 +63,7 @@
                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="9" secondAttribute="bottom" constant="8" id="2lc-KD-NDc"/>
+                            <constraint firstItem="9" firstAttribute="left" secondItem="6" secondAttribute="left" constant="8" id="FhT-H1-lMc"/>
                             <constraint firstItem="dYk-5e-kWa" firstAttribute="top" secondItem="6" secondAttribute="top" constant="20" id="Jih-RB-mB8"/>
                             <constraint firstItem="dYk-5e-kWa" firstAttribute="left" secondItem="6" secondAttribute="left" constant="8" id="JyH-BF-Lky"/>
                             <constraint firstAttribute="right" secondItem="9" secondAttribute="right" constant="8" id="bnO-Ui-KPl"/>
@@ -71,6 +72,7 @@
                     </view>
                     <connections>
                         <outlet property="controlView" destination="9" id="DYg-7D-dHn"/>
+                        <outlet property="controlViewLeftSpacing" destination="FhT-H1-lMc" id="bcm-mw-NpG"/>
                         <outlet property="controlViewSpeedometerSpacing" destination="zp6-Bb-lfa" id="WSl-eP-sUN"/>
                         <outlet property="resetButton" destination="yw5-dm-ssf" id="0r8-Xm-T6g"/>
                         <outlet property="speedometer" destination="dYk-5e-kWa" id="jCd-cy-dht"/>
