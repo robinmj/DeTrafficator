@@ -66,7 +66,6 @@
 		00AE1FD21785DFD200443620 /* RootViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
 		00AE1FD31785DFD200443620 /* RootViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
 		00AE1FDC1785DFD200443620 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPhone.storyboard; sourceTree = "<group>"; };
-		00AE1FDF1785DFD200443620 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPad.storyboard; sourceTree = "<group>"; };
 		00AE1FE61785DFD300443620 /* DeTrafficatorTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DeTrafficatorTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00AE1FE71785DFD300443620 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		00AE1FEF1785DFD300443620 /* DeTrafficatorTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "DeTrafficatorTests-Info.plist"; sourceTree = "<group>"; };
@@ -146,7 +145,6 @@
 				00AE1FD21785DFD200443620 /* RootViewController.h */,
 				00AE1FD31785DFD200443620 /* RootViewController.m */,
 				00AE1FDB1785DFD200443620 /* MainStoryboard_iPhone.storyboard */,
-				00AE1FDE1785DFD200443620 /* MainStoryboard_iPad.storyboard */,
 				00AE1FC11785DFD200443620 /* Supporting Files */,
 				00641C94179061CB00E6406F /* CoreLocationController.h */,
 				00641C95179061CB00E6406F /* CoreLocationController.m */,
@@ -345,14 +343,6 @@
 				00AE1FDC1785DFD200443620 /* en */,
 			);
 			name = MainStoryboard_iPhone.storyboard;
-			sourceTree = "<group>";
-		};
-		00AE1FDE1785DFD200443620 /* MainStoryboard_iPad.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				00AE1FDF1785DFD200443620 /* en */,
-			);
-			name = MainStoryboard_iPad.storyboard;
 			sourceTree = "<group>";
 		};
 		00AE1FF01785DFD300443620 /* InfoPlist.strings */ = {
