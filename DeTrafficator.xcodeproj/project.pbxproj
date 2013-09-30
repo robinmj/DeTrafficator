@@ -23,7 +23,6 @@
 		00AE1FD11785DFD200443620 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 00AE1FD01785DFD200443620 /* Default-568h@2x.png */; };
 		00AE1FD41785DFD200443620 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 00AE1FD31785DFD200443620 /* RootViewController.m */; };
 		00AE1FDD1785DFD200443620 /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 00AE1FDB1785DFD200443620 /* MainStoryboard_iPhone.storyboard */; };
-		00AE1FE01785DFD200443620 /* MainStoryboard_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 00AE1FDE1785DFD200443620 /* MainStoryboard_iPad.storyboard */; };
 		00AE1FE81785DFD300443620 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00AE1FE71785DFD300443620 /* SenTestingKit.framework */; };
 		00AE1FE91785DFD300443620 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00AE1FBA1785DFD200443620 /* UIKit.framework */; };
 		00AE1FEA1785DFD300443620 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00AE1FBC1785DFD200443620 /* Foundation.framework */; };
@@ -269,7 +268,6 @@
 				00AE1FCF1785DFD200443620 /* Default@2x.png in Resources */,
 				00AE1FD11785DFD200443620 /* Default-568h@2x.png in Resources */,
 				00AE1FDD1785DFD200443620 /* MainStoryboard_iPhone.storyboard in Resources */,
-				00AE1FE01785DFD200443620 /* MainStoryboard_iPad.storyboard in Resources */,
 				007156C717E226E90056E0B6 /* speed_up.aif in Resources */,
 				007156C917E228040056E0B6 /* slow_down.aif in Resources */,
 			);
@@ -396,7 +394,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -421,7 +419,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
