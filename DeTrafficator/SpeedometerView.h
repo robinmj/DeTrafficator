@@ -46,6 +46,8 @@
  */
 - (void)disable;
 
+- (void)resetAvg;
+
 /*
  
  repositions the gauge layer to correct for a situation where the view was resized

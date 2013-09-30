@@ -314,6 +314,14 @@
     self.speedometerLayer.backgroundColor = [[UIColor colorWithRed:0.7 green:0.7 blue:0.7 alpha:1.0] CGColor];
 }
 
+- (void)resetAvg {
+    if([self.avgSpeedIndicator isHidden]) {
+        return;
+    }
+    
+    [self setAvgSpeed:self.currentSpeed];
+}
+
 /*
  
   speed - in m/s

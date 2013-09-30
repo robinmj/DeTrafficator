@@ -173,6 +173,7 @@
 }
 
 - (IBAction)resetAverage:(id)sender {
+    [self.speedometer resetAvg];
     [CLController resetAvg];
 }
 
