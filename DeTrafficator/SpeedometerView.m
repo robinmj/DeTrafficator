@@ -348,6 +348,10 @@
 }
 
 - (NSString *)abbreviate:(double) number {
+    if(number >= 100.0) {
+        return [NSString stringWithFormat:@"%d",(NSInteger)round(number)];
+    }
+    
     NSInteger wholePart = (NSInteger)number;
     NSInteger decimalPart = (NSInteger)round((number - wholePart) * 10);
     //decimal part rounded up to 10
