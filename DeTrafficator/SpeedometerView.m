@@ -33,6 +33,7 @@
     double conversionFactor;
 }
 
+@property (strong, nonatomic) CAShapeLayer *shadowLayer;
 @property (strong, nonatomic) CAScrollLayer *speedometerLayer;
 @property (strong, nonatomic) CAShapeLayer *currentSpeedIndicator;
 @property (strong, nonatomic) CATextLayer *currentSpeedText;
@@ -58,11 +59,21 @@
         
         // Initialization code
         
+        self.shadowLayer = [[CAShapeLayer alloc] init];
+        self.shadowLayer.shadowColor = [[UIColor blackColor] CGColor];
+        self.shadowLayer.shadowOffset = CGSizeMake(1.0, 2.0);
+        self.shadowLayer.shadowOpacity = 0.5;
+        self.shadowLayer.backgroundColor = [[UIColor clearColor] CGColor];
+        self.shadowLayer.fillColor = [[UIColor clearColor] CGColor];
+        self.shadowLayer.strokeColor = [[UIColor blackColor] CGColor];
+        self.shadowLayer.lineWidth = 10;
+        
         self.speedometerLayer = [[CAScrollLayer alloc] init];
         
         self->avgColor = [UIColor colorWithRed:0.365 green:0.318 blue:0.58 alpha:1.0];
         
         [self.layer addSublayer:self.speedometerLayer];
+        [self.layer addSublayer:self.shadowLayer];
         
         self.avgSpeedIndicator = [[CAShapeLayer alloc] init];
         self.avgSpeedIndicator.bounds = CGRectMake(0, 0, 80, 60);
@@ -146,6 +157,11 @@
 {
     
     self.speedometerLayer.frame = self.bounds;
+    
+    CGMutablePathRef shadowPath = CGPathCreateMutable();
+    CGPathAddRect(shadowPath, NULL, CGRectInset(self.bounds, -5, -5));
+    
+    self.shadowLayer.path = shadowPath;
     
     NSInteger currentSpeedIndicatorLeftMargin = LABEL_COLUMN_WIDTH + 10;
     

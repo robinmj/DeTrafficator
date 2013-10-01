@@ -60,7 +60,7 @@
                                 </constraints>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="9" secondAttribute="bottom" constant="8" id="2lc-KD-NDc"/>
                             <constraint firstItem="9" firstAttribute="left" secondItem="6" secondAttribute="left" constant="8" id="FhT-H1-lMc"/>
