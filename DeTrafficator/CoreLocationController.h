@@ -15,6 +15,7 @@
 
 @property (nonatomic, retain) CLLocationManager *locMgr;
 @property (nonatomic, assign) id delegate;
+@property (nonatomic, assign) NSTimeInterval samplingPeriod;
 
 - (void)resetAvg;
 

@@ -12,7 +12,6 @@
 @interface CoreLocationController ()
 
 @property (nonatomic, retain) NSMutableArray *speedData;
-@property (nonatomic, assign) NSTimeInterval timeInterval;
 @property (nonatomic, assign) CLLocationSpeed avgSpeed;
 
 @end
@@ -30,7 +29,7 @@
 		self.locMgr.delegate = self; // Set the delegate as self.
         
         //5 minutes
-        self.timeInterval = 5 * 60;
+        self.samplingPeriod = 5 * 60;
         self.speedData = [NSMutableArray array];
 	}
     
@@ -43,13 +42,17 @@
     
     NSInteger firstValidReadingIdx = 0;
     
+    //_samplingPeriod is volatile, so take a snapshot
+    NSTimeInterval samplingPeriod = _samplingPeriod;
+    
+    debug_NSLog(@"sampling period=%f",samplingPeriod);
     debug_NSLog(@"speedData.count = %i", self.speedData.count);
     debug_NSLog(@"reading interval=%f",[newLocation.timestamp timeIntervalSinceDate:oldLocation.timestamp]);
     
     for (; firstValidReadingIdx < _speedData.count; firstValidReadingIdx++) {
         CLLocation *reading = [_speedData objectAtIndex:firstValidReadingIdx];
         
-        if([newLocation.timestamp timeIntervalSinceDate:reading.timestamp] <= _timeInterval) {
+        if([newLocation.timestamp timeIntervalSinceDate:reading.timestamp] <= samplingPeriod) {
             firstValidReading = reading;
             break;
         }

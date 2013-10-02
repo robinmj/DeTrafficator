@@ -38,6 +38,7 @@
 	
     CLController = [[CoreLocationController alloc] init];
 	CLController.delegate = self;
+    [self setSamplingPeriod:self.periodSlider];
 	[CLController.locMgr startUpdatingLocation];
     
     self.speedometer = [self.speedometer init];
@@ -190,6 +191,42 @@
             self.speedometer.unit = kph;
             break;
     }
+}
+
+- (IBAction)adjustSamplingPeriod:(id)sender {
+    UISlider *periodSlider = (UISlider*)sender;
+    
+    self.periodLabel.text = [self humanizePeriod:roundf(periodSlider.value)];
+}
+
+- (IBAction)setSamplingPeriod:(id)sender {
+    UISlider *periodSlider = (UISlider*)sender;
+    
+    //round to the nearest half minute
+    float periodHalfMinutes = roundf(periodSlider.value);
+    
+    periodSlider.value = periodHalfMinutes;
+    
+    self.periodLabel.text = [self humanizePeriod:(NSInteger)periodHalfMinutes];
+    
+    float periodSeconds = periodHalfMinutes * 30.0f;
+    [CLController setSamplingPeriod:periodSeconds];
+}
+
+- (NSString*)humanizePeriod:(NSInteger) halfMinutes {
+    
+    if(halfMinutes == 1) {
+        return @"30 sec";
+    }
+    
+    NSInteger minutes = halfMinutes / 2;
+    
+    if(halfMinutes % 2 == 0) {
+        
+        return [NSString stringWithFormat:@"%d min",minutes];
+    }
+    
+    return [NSString stringWithFormat:@"%d.5 min",minutes];
 }
 
 @end

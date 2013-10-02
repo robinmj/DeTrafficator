@@ -39,7 +39,7 @@
                                         </connections>
                                     </button>
                                     <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Wcv-2P-3Tw">
-                                        <rect key="frame" x="198" y="19" width="91" height="29"/>
+                                        <rect key="frame" x="103" y="79" width="91" height="29"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <segments>
                                             <segment title="mi/h"/>
@@ -49,14 +49,45 @@
                                             <action selector="changeUnit:" destination="12" eventType="valueChanged" id="etS-Un-WDZ"/>
                                         </connections>
                                     </segmentedControl>
+                                    <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="6" minValue="1" maxValue="10" translatesAutoresizingMaskIntoConstraints="NO" id="Wjy-J1-cUZ" userLabel="Period Control">
+                                        <rect key="frame" x="-6" y="38" width="308" height="34"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <connections>
+                                            <action selector="adjustSamplingPeriod:" destination="12" eventType="valueChanged" id="v32-aD-gUZ"/>
+                                            <action selector="setSamplingPeriod:" destination="12" eventType="touchUpInside" id="8wq-b8-Rf4"/>
+                                        </connections>
+                                    </slider>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="target speed averaging period" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8xH-ot-92u">
+                                        <rect key="frame" x="31" y="0.0" width="235" height="21"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="-" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QI1-Rz-JHv" userLabel="Period Value">
+                                        <rect key="frame" x="122" y="20" width="61" height="21"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="61" id="mnz-AI-7of"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="bottom" secondItem="yw5-dm-ssf" secondAttribute="bottom" constant="20" id="0uS-Zp-2Qt"/>
+                                    <constraint firstItem="Wjy-J1-cUZ" firstAttribute="top" secondItem="8xH-ot-92u" secondAttribute="bottom" constant="17" id="13k-mX-Ere"/>
                                     <constraint firstAttribute="height" constant="138" id="581-Vx-fAm"/>
-                                    <constraint firstItem="yw5-dm-ssf" firstAttribute="top" secondItem="Wcv-2P-3Tw" secondAttribute="bottom" constant="20" id="Fqb-Ip-A32"/>
-                                    <constraint firstItem="Wcv-2P-3Tw" firstAttribute="centerX" secondItem="yw5-dm-ssf" secondAttribute="centerX" id="V2E-Hu-6Mf"/>
+                                    <constraint firstItem="QI1-Rz-JHv" firstAttribute="top" secondItem="9" secondAttribute="top" constant="20" symbolic="YES" id="8k6-sd-i0j"/>
+                                    <constraint firstAttribute="centerX" secondItem="QI1-Rz-JHv" secondAttribute="centerX" constant="-0.5" id="Bjd-HC-Yrz"/>
+                                    <constraint firstItem="yw5-dm-ssf" firstAttribute="top" secondItem="Wcv-2P-3Tw" secondAttribute="bottom" constant="-40" id="Fqb-Ip-A32"/>
+                                    <constraint firstItem="8xH-ot-92u" firstAttribute="top" secondItem="9" secondAttribute="top" id="Qlr-cK-3Gm"/>
+                                    <constraint firstItem="Wcv-2P-3Tw" firstAttribute="centerX" secondItem="yw5-dm-ssf" secondAttribute="centerX" constant="-94.5" id="V2E-Hu-6Mf"/>
                                     <constraint firstAttribute="right" secondItem="yw5-dm-ssf" secondAttribute="right" constant="20" id="Vvv-xu-Pxa"/>
+                                    <constraint firstAttribute="centerX" secondItem="8xH-ot-92u" secondAttribute="centerX" constant="3.5" id="cNI-6H-o1b"/>
+                                    <constraint firstItem="8xH-ot-92u" firstAttribute="leading" secondItem="9" secondAttribute="leading" constant="31" id="eTx-ic-9mL"/>
+                                    <constraint firstItem="8xH-ot-92u" firstAttribute="centerX" secondItem="Wjy-J1-cUZ" secondAttribute="centerX" id="rfp-mZ-1UQ"/>
+                                    <constraint firstItem="Wjy-J1-cUZ" firstAttribute="width" secondItem="9" secondAttribute="width" id="ukL-HT-qnB"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -74,6 +105,8 @@
                         <outlet property="controlView" destination="9" id="DYg-7D-dHn"/>
                         <outlet property="controlViewLeftSpacing" destination="FhT-H1-lMc" id="bcm-mw-NpG"/>
                         <outlet property="controlViewSpeedometerSpacing" destination="zp6-Bb-lfa" id="WSl-eP-sUN"/>
+                        <outlet property="periodLabel" destination="QI1-Rz-JHv" id="ue2-Ok-TRI"/>
+                        <outlet property="periodSlider" destination="Wjy-J1-cUZ" id="1Wz-tJ-6T4"/>
                         <outlet property="resetButton" destination="yw5-dm-ssf" id="0r8-Xm-T6g"/>
                         <outlet property="speedometer" destination="dYk-5e-kWa" id="jCd-cy-dht"/>
                     </connections>
