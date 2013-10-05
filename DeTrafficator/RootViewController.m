@@ -46,7 +46,7 @@
     //assemble constraints needed to be added in order to adjust layout for landscape orientation
     
     self->landSpeedometerBottomSpacing = [NSLayoutConstraint constraintWithItem:self.view attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.speedometer attribute:NSLayoutAttributeBottom multiplier:1.0 constant:8.0];
-    self->landControlViewSpeedometerSpacing = [NSLayoutConstraint constraintWithItem:self.controlView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.speedometer attribute:NSLayoutAttributeRight multiplier:1.0 constant:8.0];
+    self->landControlViewSpeedometerSpacing = [NSLayoutConstraint constraintWithItem:self.controlView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationLessThanOrEqual toItem:self.speedometer attribute:NSLayoutAttributeRight multiplier:1.0 constant:8.0];
     
     /*
     debug_NSLog(@"view %@", self.view);
