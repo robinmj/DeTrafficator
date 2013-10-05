@@ -14,21 +14,21 @@
                         <viewControllerLayoutGuide type="bottom" id="a3A-Mu-tFo"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="6">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <view autoresizesSubviews="NO" clipsSubviews="YES" contentMode="scaleToFill" placeholderIntrinsicWidth="infinite" placeholderIntrinsicHeight="406" restorationIdentifier="speedometer" translatesAutoresizingMaskIntoConstraints="NO" id="dYk-5e-kWa" customClass="SpeedometerView">
-                                <rect key="frame" x="8" y="20" width="304" height="394"/>
+                                <rect key="frame" x="8" y="20" width="304" height="306"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="304" id="LCr-dL-w4b"/>
                                 </constraints>
                             </view>
                             <view autoresizesSubviews="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="304" placeholderIntrinsicHeight="infinite" translatesAutoresizingMaskIntoConstraints="NO" id="9" userLabel="Control View">
-                                <rect key="frame" x="8" y="422" width="304" height="138"/>
+                                <rect key="frame" x="8" y="334" width="304" height="138"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yw5-dm-ssf">
-                                        <rect key="frame" x="202" y="67" width="82" height="51"/>
+                                        <rect key="frame" x="111" y="67" width="82" height="51"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="32"/>
                                         <state key="normal" title="Reset">
@@ -38,19 +38,8 @@
                                             <action selector="resetAverage:" destination="12" eventType="touchUpInside" id="9mC-dd-bOg"/>
                                         </connections>
                                     </button>
-                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Wcv-2P-3Tw">
-                                        <rect key="frame" x="103" y="79" width="91" height="29"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <segments>
-                                            <segment title="mi/h"/>
-                                            <segment title="km/h"/>
-                                        </segments>
-                                        <connections>
-                                            <action selector="changeUnit:" destination="12" eventType="valueChanged" id="etS-Un-WDZ"/>
-                                        </connections>
-                                    </segmentedControl>
                                     <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="6" minValue="1" maxValue="10" translatesAutoresizingMaskIntoConstraints="NO" id="Wjy-J1-cUZ" userLabel="Period Control">
-                                        <rect key="frame" x="-6" y="38" width="308" height="34"/>
+                                        <rect key="frame" x="-2" y="38" width="308" height="34"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <connections>
                                             <action selector="adjustSamplingPeriod:" destination="12" eventType="valueChanged" id="v32-aD-gUZ"/>
@@ -58,7 +47,7 @@
                                         </connections>
                                     </slider>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="target speed averaging period" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8xH-ot-92u">
-                                        <rect key="frame" x="31" y="0.0" width="235" height="21"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="304" height="21"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="highlightedColor"/>
@@ -79,14 +68,12 @@
                                     <constraint firstItem="Wjy-J1-cUZ" firstAttribute="top" secondItem="8xH-ot-92u" secondAttribute="bottom" constant="17" id="13k-mX-Ere"/>
                                     <constraint firstAttribute="height" constant="138" id="581-Vx-fAm"/>
                                     <constraint firstItem="QI1-Rz-JHv" firstAttribute="top" secondItem="9" secondAttribute="top" constant="20" symbolic="YES" id="8k6-sd-i0j"/>
-                                    <constraint firstAttribute="centerX" secondItem="QI1-Rz-JHv" secondAttribute="centerX" constant="-0.5" id="Bjd-HC-Yrz"/>
-                                    <constraint firstItem="yw5-dm-ssf" firstAttribute="top" secondItem="Wcv-2P-3Tw" secondAttribute="bottom" constant="-40" id="Fqb-Ip-A32"/>
+                                    <constraint firstItem="8xH-ot-92u" firstAttribute="centerX" secondItem="QI1-Rz-JHv" secondAttribute="centerX" id="8lA-JC-NeR"/>
+                                    <constraint firstItem="Wjy-J1-cUZ" firstAttribute="leading" secondItem="9" secondAttribute="leading" id="ALX-1t-U9g"/>
+                                    <constraint firstAttribute="centerX" secondItem="QI1-Rz-JHv" secondAttribute="centerX" id="Bjd-HC-Yrz"/>
+                                    <constraint firstAttribute="centerX" secondItem="yw5-dm-ssf" secondAttribute="centerX" id="MyP-LL-de9"/>
                                     <constraint firstItem="8xH-ot-92u" firstAttribute="top" secondItem="9" secondAttribute="top" id="Qlr-cK-3Gm"/>
-                                    <constraint firstItem="Wcv-2P-3Tw" firstAttribute="centerX" secondItem="yw5-dm-ssf" secondAttribute="centerX" constant="-94.5" id="V2E-Hu-6Mf"/>
-                                    <constraint firstAttribute="right" secondItem="yw5-dm-ssf" secondAttribute="right" constant="20" id="Vvv-xu-Pxa"/>
-                                    <constraint firstAttribute="centerX" secondItem="8xH-ot-92u" secondAttribute="centerX" constant="3.5" id="cNI-6H-o1b"/>
-                                    <constraint firstItem="8xH-ot-92u" firstAttribute="leading" secondItem="9" secondAttribute="leading" constant="31" id="eTx-ic-9mL"/>
-                                    <constraint firstItem="8xH-ot-92u" firstAttribute="centerX" secondItem="Wjy-J1-cUZ" secondAttribute="centerX" id="rfp-mZ-1UQ"/>
+                                    <constraint firstAttribute="width" secondItem="8xH-ot-92u" secondAttribute="width" id="T0T-4J-vEU"/>
                                     <constraint firstItem="Wjy-J1-cUZ" firstAttribute="width" secondItem="9" secondAttribute="width" id="ukL-HT-qnB"/>
                                 </constraints>
                             </view>
@@ -119,6 +106,6 @@
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
-        <simulatedScreenMetrics key="destination" type="retina4"/>
+        <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
 </document>
