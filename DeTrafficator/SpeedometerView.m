@@ -146,7 +146,11 @@
         
         [self.currentSpeedIndicator addSublayer:self.kphLabel];
         
-        [self setUnit:mph];
+        NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
+        
+        //force refresh the speed unit
+        _unit = -1;
+        [self setUnit:[defaults integerForKey:@"speed_unit_preference"]];
         
         self.currentSpeedText = [[CATextLayer alloc] init];
         self.currentSpeedText.anchorPoint = CGPointMake(1.0, 1.0);
@@ -201,6 +205,10 @@
     
     self.currentSpeedText.bounds = CGRectMake(0,0, 80, self.currentSpeedIndicator.bounds.size.height);
     self.currentSpeedText.position = CGPointMake(self.mphLabel.position.x - 5, self.currentSpeedIndicator.bounds.size.height);
+    
+    NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
+    
+    [self setUnit:[defaults integerForKey:@"speed_unit_preference"]];
     
     [super layoutSubviews];
 }
@@ -381,6 +389,10 @@
 }
 
 - (void)setUnit:(SpeedUnit)unit {
+    if(_unit == unit) {
+        return;
+    }
+    
     _unit = unit;
     
     switch(_unit) {
@@ -418,14 +430,15 @@
     
     if(firstTouch.tapCount == 1 &&
        CGRectContainsPoint(self->unitSelectorButton, [firstTouch previousLocationInView:self])) {
-        switch(_unit) {
-            case mph:
-                [self setUnit:kph];
-                break;
-            case kph:
-                [self setUnit:mph];
-                break;
-        }
+        SpeedUnit newUnit = (_unit == mph) ? kph :mph;
+        [self setUnit:newUnit];
+        
+        
+        NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
+        
+        [defaults setInteger:newUnit forKey:@"speed_unit_preference"];
+        
+        
     }
 }
 
