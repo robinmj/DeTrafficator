@@ -148,7 +148,7 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)locationUpdate:(CLLocation *)location withAvgSpeed:(CLLocationSpeed)avgSpeed {
+- (void)locationUpdate:(CLLocation *)location withAvgSpeed:(CLLocationSpeed)avgSpeed overPeriod:(NSTimeInterval)period{
     double currentSpeed = [location speed];
     
     if(currentSpeed < 0.0) {
@@ -158,6 +158,7 @@
     
     self.speedometer.currentSpeed = currentSpeed;
     self.speedometer.avgSpeed = avgSpeed;
+    self.speedometer.avgInterval = period;
     
     double dsRatio = (currentSpeed - avgSpeed) / currentSpeed;
     

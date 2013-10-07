@@ -23,6 +23,6 @@
 
 @protocol CoreLocationControllerDelegate
 @required
-- (void)locationUpdate:(CLLocation *)location withAvgSpeed:(CLLocationSpeed) avgSpeed;
+- (void)locationUpdate:(CLLocation *)location withAvgSpeed:(CLLocationSpeed) avgSpeed overPeriod:(NSTimeInterval) period;
 - (void)locationError:(NSError *)error;
 @end

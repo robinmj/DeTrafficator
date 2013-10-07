@@ -63,7 +63,7 @@
         [self.speedData removeAllObjects];
         [self.speedData addObject:newLocation];
         self.avgSpeed = [newLocation speed];
-        [self.delegate locationUpdate:newLocation withAvgSpeed:self.avgSpeed];
+        [self.delegate locationUpdate:newLocation withAvgSpeed:self.avgSpeed overPeriod:1];
         return;
     }
     
@@ -91,7 +91,7 @@
     
     self.avgSpeed = totalSpeedTime / totalElapsed;
     
-	[self.delegate locationUpdate:newLocation withAvgSpeed:self.avgSpeed];
+	[self.delegate locationUpdate:newLocation withAvgSpeed:self.avgSpeed overPeriod:totalElapsed];
 }
 
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {

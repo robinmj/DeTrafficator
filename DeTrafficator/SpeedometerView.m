@@ -78,7 +78,7 @@
         [self.layer addSublayer:self.shadowLayer];
         
         self.avgSpeedIndicator = [[CAShapeLayer alloc] init];
-        self.avgSpeedIndicator.bounds = CGRectMake(0, 0, 80, 60);
+        self.avgSpeedIndicator.bounds = CGRectMake(0, 0, 80, 40);
         self.avgSpeedIndicator.anchorPoint = CGPointMake(0.0,0.5);
         self.avgSpeedIndicator.fillColor = [avgColor CGColor];
         self.avgSpeedIndicator.lineWidth = 2;
@@ -86,31 +86,35 @@
         self.avgSpeedIndicator.lineJoin = kCALineJoinBevel;
         
         CGMutablePathRef diamond = CGPathCreateMutable();
-        //top left
-        CGPathMoveToPoint(diamond, NULL, CGRectGetMidY(self.avgSpeedIndicator.bounds), 0);
-        //top right
-        CGPathAddLineToPoint(diamond, NULL, self.avgSpeedIndicator.bounds.size.width - CGRectGetMidY(self.avgSpeedIndicator.bounds), 0);
-        //right
-        CGPathAddLineToPoint(diamond, NULL, self.avgSpeedIndicator.bounds.size.width, CGRectGetMidY(self.avgSpeedIndicator.bounds));
-        //bottom right
-        CGPathAddLineToPoint(diamond, NULL, self.avgSpeedIndicator.bounds.size.width - CGRectGetMidY(self.avgSpeedIndicator.bounds), self.avgSpeedIndicator.bounds.size.height);
+        
+        CGFloat halfHeight = CGRectGetMidY(self.avgSpeedIndicator.bounds);
+        
         //bottom left
-        CGPathAddLineToPoint(diamond, NULL, CGRectGetMidY(self.avgSpeedIndicator.bounds), self.avgSpeedIndicator.bounds.size.height);
+        CGPathMoveToPoint(diamond, NULL, halfHeight, self.avgSpeedIndicator.bounds.size.height);
         //left
-        CGPathAddLineToPoint(diamond, NULL, 0, CGRectGetMidY(self.avgSpeedIndicator.bounds));
+        CGPathAddArcToPoint(diamond, NULL, 0, self.avgSpeedIndicator.bounds.size.height, 0, halfHeight, halfHeight);
+        //top left
+        CGPathAddArcToPoint(diamond, NULL, 0, 0, halfHeight, 0, halfHeight);
+        //top right
+        CGPathAddLineToPoint(diamond, NULL, self.avgSpeedIndicator.bounds.size.width - halfHeight, 0);
+        //right
+        CGPathAddArcToPoint(diamond, NULL, self.avgSpeedIndicator.bounds.size.width, 0, self.avgSpeedIndicator.bounds.size.width, self.avgSpeedIndicator.bounds.size.height - halfHeight, halfHeight);
+        //bottom right
+        CGPathAddArcToPoint(diamond, NULL, self.avgSpeedIndicator.bounds.size.width, self.avgSpeedIndicator.bounds.size.height, self.avgSpeedIndicator.bounds.size.width - halfHeight, self.avgSpeedIndicator.bounds.size.height, halfHeight);
+        //bottom left
         CGPathCloseSubpath(diamond);
         
         self.avgSpeedIndicator.path = diamond;
         
         self.avgSpeedText = [[CATextLayer alloc] init];
-        self.avgSpeedText.bounds = CGRectMake(0,0, 80, 60);
-        self.avgSpeedText.position = CGPointMake(0, self.avgSpeedIndicator.bounds.size.height);
-        self.avgSpeedText.anchorPoint = CGPointMake(0.0, 0.85);
+        self.avgSpeedText.bounds = CGRectMake(0,0, 60, 44);
+        self.avgSpeedText.position = CGPointMake(10, CGRectGetMidY(self.avgSpeedIndicator.bounds));
+        self.avgSpeedText.anchorPoint = CGPointMake(0.0, 0.5);
         self.avgSpeedText.foregroundColor = [[UIColor whiteColor] CGColor];
         self.avgSpeedText.alignmentMode = kCAAlignmentCenter;
         self.avgSpeedText.wrapped = YES;
         self.avgSpeedText.contentsScale = [[UIScreen mainScreen] scale];
-        self.avgSpeedText.fontSize = 20.0;
+        self.avgSpeedText.fontSize = 17.0;
         
         [self setAvgInterval:5 * 60];
         
@@ -347,7 +351,7 @@
 - (void)setAvgSpeed:(double)avgSpeed {
     _avgSpeed = avgSpeed;
     [self.avgSpeedIndicator setHidden:FALSE];
-    self.avgSpeedIndicator.position = CGPointMake(LABEL_COLUMN_WIDTH + 25, [self getYCoordForSpeed:avgSpeed]);
+    self.avgSpeedIndicator.position = CGPointMake(LABEL_COLUMN_WIDTH + 30, [self getYCoordForSpeed:avgSpeed]);
 }
 
 - (void)disable {
@@ -415,10 +419,19 @@
 }
 
 - (void)setAvgInterval:(NSTimeInterval)avgInterval {
-    if((NSInteger)avgInterval % 60 == 0) {
-        self.avgSpeedText.string = [[NSString alloc] initWithFormat:@"%d min avg", (NSInteger)(avgInterval / 60)];
+    if(avgInterval <= 59.0) {
+        self.avgSpeedText.string = [[NSString alloc] initWithFormat:@"%d sec avg", (NSInteger)round(avgInterval)];
+        return;
+    }
+    
+    NSInteger halfMinutes = round(avgInterval / 30);
+    
+    NSInteger minutes = halfMinutes / 2;
+    
+    if(halfMinutes % 2 == 0) {
+        self.avgSpeedText.string = [[NSString alloc] initWithFormat:@"%d min avg",minutes];
     } else {
-        self.avgSpeedText.string = [[NSString alloc] initWithFormat:@"%d sec avg", (NSInteger)avgInterval];
+        self.avgSpeedText.string = [[NSString alloc] initWithFormat:@"%d.5 min avg",minutes];
     }
 }
 
