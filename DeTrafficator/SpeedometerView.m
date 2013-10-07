@@ -26,7 +26,6 @@
     UIColor *avgColor;
     UIColor *indicatorWindowColor;
     UIColor *indicatorWindowHighlightColor;
-    CGRect unitSelectorButton;
     
     /*
      multiply by this to convert from m/s to the current speed unit
@@ -38,8 +37,7 @@
 @property (strong, nonatomic) CAScrollLayer *speedometerLayer;
 @property (strong, nonatomic) CAShapeLayer *currentSpeedIndicator;
 @property (strong, nonatomic) CATextLayer *currentSpeedText;
-@property (strong, nonatomic) CATextLayer *mphLabel;
-@property (strong, nonatomic) CATextLayer *kphLabel;
+@property (strong, nonatomic) CATextLayer *currentSpeedUnit;
 @property (strong, nonatomic) CAShapeLayer *avgSpeedIndicator;
 @property (strong, nonatomic) CATextLayer *avgSpeedText;
 @property (strong, nonatomic) CATextLayer *avgSpeedUnit;
@@ -132,23 +130,14 @@
         self.currentSpeedIndicator.strokeColor = [[UIColor colorWithRed:0.2 green:0.2 blue:0.2 alpha:0.9] CGColor];
         self.currentSpeedIndicator.lineJoin = kCALineJoinBevel;
         
-        self.mphLabel = [[CATextLayer alloc] init];
-        self.mphLabel.anchorPoint = CGPointMake(0.0, 1.0);
-        self.mphLabel.alignmentMode = kCAAlignmentLeft;
-        self.mphLabel.fontSize = 18.0;
-        self.mphLabel.contentsScale = [[UIScreen mainScreen] scale];
-        self.mphLabel.string = @"mi/h";
+        self.currentSpeedUnit = [[CATextLayer alloc] init];
+        self.currentSpeedUnit.anchorPoint = CGPointMake(0.0, 1.0);
+        self.currentSpeedUnit.foregroundColor = [[UIColor blackColor] CGColor];
+        self.currentSpeedUnit.alignmentMode = kCAAlignmentLeft;
+        self.currentSpeedUnit.fontSize = 18.0;
+        self.currentSpeedUnit.contentsScale = [[UIScreen mainScreen] scale];
         
-        [self.currentSpeedIndicator addSublayer:self.mphLabel];
-        
-        self.kphLabel = [[CATextLayer alloc] init];
-        self.kphLabel.anchorPoint = CGPointMake(0.0, 1.0);
-        self.kphLabel.alignmentMode = kCAAlignmentLeft;
-        self.kphLabel.fontSize = 18.0;
-        self.kphLabel.contentsScale = [[UIScreen mainScreen] scale];
-        self.kphLabel.string = @"km/h";
-        
-        [self.currentSpeedIndicator addSublayer:self.kphLabel];
+        [self.currentSpeedIndicator addSublayer:self.currentSpeedUnit];
         
         NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
         
@@ -196,19 +185,11 @@
     
     self.currentSpeedIndicator.path = p;
     
-    self.mphLabel.bounds = CGRectMake(0,0, 50, self.currentSpeedIndicator.bounds.size.height / 2);
-    self.mphLabel.position = CGPointMake(self.currentSpeedIndicator.bounds.size.width - (self.mphLabel.bounds.size.width + 10), self.currentSpeedIndicator.bounds.size.height);
-    
-    self.kphLabel.bounds = CGRectMake(0,0, 50, self.currentSpeedIndicator.bounds.size.height / 2);
-    self.kphLabel.position = CGPointMake(self.currentSpeedIndicator.bounds.size.width - (self.kphLabel.bounds.size.width + 10), self.currentSpeedIndicator.bounds.size.height - self.mphLabel.bounds.size.height);
-    
-    self->unitSelectorButton = [self.layer convertRect:CGRectUnion(self.mphLabel.frame, self.kphLabel.frame)
-                                             fromLayer:self.currentSpeedIndicator];
-    
-    //logRect(self->unitSelectorButton, @"unit selector button");
+    self.currentSpeedUnit.bounds = CGRectMake(0,0, 50, 23);
+    self.currentSpeedUnit.position = CGPointMake(self.currentSpeedIndicator.bounds.size.width - (self.currentSpeedUnit.bounds.size.width + 10), self.currentSpeedIndicator.bounds.size.height);
     
     self.currentSpeedText.bounds = CGRectMake(0,0, 80, self.currentSpeedIndicator.bounds.size.height);
-    self.currentSpeedText.position = CGPointMake(self.mphLabel.position.x - 5, self.currentSpeedIndicator.bounds.size.height);
+    self.currentSpeedText.position = CGPointMake(self.currentSpeedUnit.position.x - 5, self.currentSpeedIndicator.bounds.size.height);
     
     NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
     
@@ -401,13 +382,11 @@
     
     switch(_unit) {
         case mph:
-            self.mphLabel.foregroundColor = [self.tintColor CGColor];
-            self.kphLabel.foregroundColor = [[UIColor lightGrayColor] CGColor];
+            self.currentSpeedUnit.string = @"mi/h";
             self->conversionFactor = MPH_CONVERSION_FACTOR;
             break;
         case kph:
-            self.kphLabel.foregroundColor = [self.tintColor CGColor];
-            self.mphLabel.foregroundColor = [[UIColor lightGrayColor] CGColor];
+            self.currentSpeedUnit.string = @"km/h";
             self->conversionFactor = KPH_CONVERSION_FACTOR;
             break;
     }
@@ -432,26 +411,6 @@
         self.avgSpeedText.string = [[NSString alloc] initWithFormat:@"%d min avg",minutes];
     } else {
         self.avgSpeedText.string = [[NSString alloc] initWithFormat:@"%d.5 min avg",minutes];
-    }
-}
-
-- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
-    
-    NSArray * touchArray = [touches allObjects];
-    
-    UITouch * firstTouch = [touchArray objectAtIndex:0];
-    
-    if(firstTouch.tapCount == 1 &&
-       CGRectContainsPoint(self->unitSelectorButton, [firstTouch previousLocationInView:self])) {
-        SpeedUnit newUnit = (_unit == mph) ? kph :mph;
-        [self setUnit:newUnit];
-        
-        
-        NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
-        
-        [defaults setInteger:newUnit forKey:@"speed_unit_preference"];
-        
-        
     }
 }
 
