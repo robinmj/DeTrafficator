@@ -28,6 +28,7 @@
 @property (strong, nonatomic) IBOutlet UILabel *periodLabel;
 @property (strong, nonatomic) IBOutlet UISlider *periodSlider;
 @property (strong, nonatomic) IBOutlet UIButton *resetButton;
+@property (strong, nonatomic) IBOutlet UISwitch *soundSwitch;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint* controlViewSpeedometerSpacing;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint* controlViewLeftSpacing;
 

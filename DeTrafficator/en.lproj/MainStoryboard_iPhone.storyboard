@@ -28,7 +28,7 @@
                                 <rect key="frame" x="8" y="334" width="304" height="138"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yw5-dm-ssf">
-                                        <rect key="frame" x="111" y="67" width="82" height="51"/>
+                                        <rect key="frame" x="20" y="67" width="82" height="51"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="32"/>
                                         <state key="normal" title="Reset">
@@ -61,6 +61,21 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" onImage="volume-low.png" offImage="volume-mute.png" translatesAutoresizingMaskIntoConstraints="NO" id="FNq-wC-kpc">
+                                        <rect key="frame" x="235" y="77" width="51" height="31"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <connections>
+                                            <action selector="muteClicked:" destination="12" eventType="valueChanged" id="Ynb-OG-PG2"/>
+                                        </connections>
+                                    </switch>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="volume-half.png" translatesAutoresizingMaskIntoConstraints="NO" id="vaQ-0Q-jnq">
+                                        <rect key="frame" x="197" y="78" width="30" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="30" id="0Nz-Bs-FDo"/>
+                                            <constraint firstAttribute="height" constant="30" id="cxg-tb-zqb"/>
+                                        </constraints>
+                                    </imageView>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
@@ -71,9 +86,13 @@
                                     <constraint firstItem="8xH-ot-92u" firstAttribute="centerX" secondItem="QI1-Rz-JHv" secondAttribute="centerX" id="8lA-JC-NeR"/>
                                     <constraint firstItem="Wjy-J1-cUZ" firstAttribute="leading" secondItem="9" secondAttribute="leading" id="ALX-1t-U9g"/>
                                     <constraint firstAttribute="centerX" secondItem="QI1-Rz-JHv" secondAttribute="centerX" id="Bjd-HC-Yrz"/>
-                                    <constraint firstAttribute="centerX" secondItem="yw5-dm-ssf" secondAttribute="centerX" id="MyP-LL-de9"/>
+                                    <constraint firstItem="FNq-wC-kpc" firstAttribute="centerY" secondItem="vaQ-0Q-jnq" secondAttribute="centerY" id="Dry-ke-JuO"/>
+                                    <constraint firstAttribute="trailing" secondItem="FNq-wC-kpc" secondAttribute="trailing" constant="20" id="LRp-k5-Pe5"/>
                                     <constraint firstItem="8xH-ot-92u" firstAttribute="top" secondItem="9" secondAttribute="top" id="Qlr-cK-3Gm"/>
                                     <constraint firstAttribute="width" secondItem="8xH-ot-92u" secondAttribute="width" id="T0T-4J-vEU"/>
+                                    <constraint firstItem="FNq-wC-kpc" firstAttribute="leading" secondItem="vaQ-0Q-jnq" secondAttribute="trailing" constant="8" id="gM4-1z-GXK"/>
+                                    <constraint firstItem="yw5-dm-ssf" firstAttribute="centerY" secondItem="FNq-wC-kpc" secondAttribute="centerY" id="kjJ-9o-SDw"/>
+                                    <constraint firstItem="yw5-dm-ssf" firstAttribute="leading" secondItem="9" secondAttribute="leading" constant="20" id="l8t-lE-oZa"/>
                                     <constraint firstItem="Wjy-J1-cUZ" firstAttribute="width" secondItem="9" secondAttribute="width" id="ukL-HT-qnB"/>
                                 </constraints>
                             </view>
@@ -95,6 +114,7 @@
                         <outlet property="periodLabel" destination="QI1-Rz-JHv" id="ue2-Ok-TRI"/>
                         <outlet property="periodSlider" destination="Wjy-J1-cUZ" id="1Wz-tJ-6T4"/>
                         <outlet property="resetButton" destination="yw5-dm-ssf" id="0r8-Xm-T6g"/>
+                        <outlet property="soundSwitch" destination="FNq-wC-kpc" id="GHV-BS-AR3"/>
                         <outlet property="speedometer" destination="dYk-5e-kWa" id="jCd-cy-dht"/>
                     </connections>
                 </viewController>
@@ -103,6 +123,11 @@
             <point key="canvasLocation" x="360" y="476"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="volume-half.png" width="30" height="30"/>
+        <image name="volume-low.png" width="30" height="30"/>
+        <image name="volume-mute.png" width="30" height="30"/>
+    </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

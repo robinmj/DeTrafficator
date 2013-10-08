@@ -162,11 +162,22 @@
     
     double dsRatio = (currentSpeed - avgSpeed) / currentSpeed;
     
-    if(dsRatio > 0.1 && prevSpeed <= currentSpeed) {
-        AudioServicesPlaySystemSound (self->slowDownSound);
-    } else if(dsRatio < -0.1 && prevSpeed >= currentSpeed) {
-        AudioServicesPlaySystemSound (self->speedUpSound);
+    
+    NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
+    
+    BOOL soundOn = [defaults boolForKey:@"sound_enabled_preference"];
+    
+    if(soundOn) {
+        if(dsRatio > 0.1 && prevSpeed <= currentSpeed) {
+            AudioServicesPlaySystemSound (self->slowDownSound);
+        } else if(dsRatio < -0.1 && prevSpeed >= currentSpeed) {
+            AudioServicesPlaySystemSound (self->speedUpSound);
+        }
     }
+    
+    //keep sound switch in sync with preferences
+    self.soundSwitch.on = soundOn;
+    
     self->prevSpeed = currentSpeed;
 }
 
@@ -214,5 +225,15 @@
     
     return [NSString stringWithFormat:@"%d.5 min",minutes];
 }
+
+- (IBAction)muteClicked:(id)sender {
+    UISwitch *soundSwitch = (UISwitch*)sender;
+    
+    NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
+    
+    [defaults setBool:soundSwitch.on forKey:@"sound_enabled_preference"];
+}
+
+
 
 @end
