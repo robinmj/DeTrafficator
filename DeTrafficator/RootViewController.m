@@ -47,6 +47,7 @@
     
     self->landSpeedometerBottomSpacing = [NSLayoutConstraint constraintWithItem:self.view attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.speedometer attribute:NSLayoutAttributeBottom multiplier:1.0 constant:8.0];
     self->landControlViewSpeedometerSpacing = [NSLayoutConstraint constraintWithItem:self.controlView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationLessThanOrEqual toItem:self.speedometer attribute:NSLayoutAttributeRight multiplier:1.0 constant:8.0];
+    self->landControlViewTopSpacing = [NSLayoutConstraint constraintWithItem:self.controlView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTop multiplier:1.0 constant:20.0];
     
     /*
     debug_NSLog(@"view %@", self.view);
@@ -70,11 +71,15 @@
     if (orientation == UIInterfaceOrientationLandscapeLeft || orientation == UIInterfaceOrientationLandscapeRight) {
         [self.view removeConstraint:self.controlViewSpeedometerSpacing];
         [self.view removeConstraint:self.controlViewLeftSpacing];
+        [self.controlView removeConstraint:self.controlViewHeight];
         [self.view addConstraint:self->landSpeedometerBottomSpacing];
         [self.view addConstraint:self->landControlViewSpeedometerSpacing];
+        [self.view addConstraint:self->landControlViewTopSpacing];
     } else {
         [self.view removeConstraint:self->landSpeedometerBottomSpacing];
         [self.view removeConstraint:self->landControlViewSpeedometerSpacing];
+        [self.view removeConstraint:self->landControlViewTopSpacing];
+        [self.controlView addConstraint:self.controlViewHeight];
         [self.view addConstraint:self.controlViewSpeedometerSpacing];
         [self.view addConstraint:self.controlViewLeftSpacing];
     }
@@ -87,6 +92,8 @@
     //speedometer indicator gets thrown off when it is resized.
     // this is only a problem when the speed is not being updated
     [self.speedometer refreshIndicator];
+    
+    [self.periodControlLabel setPreferredMaxLayoutWidth:self.controlView.bounds.size.width];
 }
 
 //for debugging layouts

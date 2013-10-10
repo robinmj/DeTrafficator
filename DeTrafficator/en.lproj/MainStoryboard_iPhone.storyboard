@@ -24,11 +24,11 @@
                                     <constraint firstAttribute="width" constant="304" id="LCr-dL-w4b"/>
                                 </constraints>
                             </view>
-                            <view autoresizesSubviews="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="304" placeholderIntrinsicHeight="infinite" translatesAutoresizingMaskIntoConstraints="NO" id="9" userLabel="Control View">
+                            <view contentMode="scaleToFill" placeholderIntrinsicWidth="304" placeholderIntrinsicHeight="infinite" translatesAutoresizingMaskIntoConstraints="NO" id="9" userLabel="Control View">
                                 <rect key="frame" x="8" y="334" width="304" height="138"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yw5-dm-ssf">
-                                        <rect key="frame" x="20" y="67" width="82" height="51"/>
+                                        <rect key="frame" x="77" y="54" width="82" height="51"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="32"/>
                                         <state key="normal" title="Reset">
@@ -39,37 +39,37 @@
                                         </connections>
                                     </button>
                                     <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="6" minValue="1" maxValue="10" translatesAutoresizingMaskIntoConstraints="NO" id="Wjy-J1-cUZ" userLabel="Period Control">
-                                        <rect key="frame" x="-2" y="38" width="308" height="34"/>
+                                        <rect key="frame" x="-2" y="21" width="239" height="34"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <connections>
                                             <action selector="adjustSamplingPeriod:" destination="12" eventType="valueChanged" id="v32-aD-gUZ"/>
                                             <action selector="setSamplingPeriod:" destination="12" eventType="touchUpInside" id="8wq-b8-Rf4"/>
                                         </connections>
                                     </slider>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="target speed averaging period" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8xH-ot-92u">
-                                        <rect key="frame" x="0.0" y="0.0" width="304" height="21"/>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="target speed averaging period" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="230" translatesAutoresizingMaskIntoConstraints="NO" id="8xH-ot-92u">
+                                        <rect key="frame" x="0.0" y="0.0" width="230" height="21"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="-" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QI1-Rz-JHv" userLabel="Period Value">
-                                        <rect key="frame" x="122" y="20" width="61" height="21"/>
+                                        <rect key="frame" x="243" y="21" width="61" height="21"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="61" id="mnz-AI-7of"/>
+                                            <constraint firstAttribute="width" constant="61" id="A3N-nM-GOr"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" onImage="volume-low.png" offImage="volume-mute.png" translatesAutoresizingMaskIntoConstraints="NO" id="FNq-wC-kpc">
-                                        <rect key="frame" x="235" y="77" width="51" height="31"/>
+                                        <rect key="frame" x="235" y="87" width="51" height="31"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <connections>
                                             <action selector="muteClicked:" destination="12" eventType="valueChanged" id="Ynb-OG-PG2"/>
                                         </connections>
                                     </switch>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="volume-half.png" translatesAutoresizingMaskIntoConstraints="NO" id="vaQ-0Q-jnq">
-                                        <rect key="frame" x="197" y="78" width="30" height="30"/>
+                                        <rect key="frame" x="197" y="88" width="30" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="30" id="0Nz-Bs-FDo"/>
@@ -79,21 +79,20 @@
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="bottom" secondItem="yw5-dm-ssf" secondAttribute="bottom" constant="20" id="0uS-Zp-2Qt"/>
-                                    <constraint firstItem="Wjy-J1-cUZ" firstAttribute="top" secondItem="8xH-ot-92u" secondAttribute="bottom" constant="17" id="13k-mX-Ere"/>
                                     <constraint firstAttribute="height" constant="138" id="581-Vx-fAm"/>
-                                    <constraint firstItem="QI1-Rz-JHv" firstAttribute="top" secondItem="9" secondAttribute="top" constant="20" symbolic="YES" id="8k6-sd-i0j"/>
-                                    <constraint firstItem="8xH-ot-92u" firstAttribute="centerX" secondItem="QI1-Rz-JHv" secondAttribute="centerX" id="8lA-JC-NeR"/>
-                                    <constraint firstItem="Wjy-J1-cUZ" firstAttribute="leading" secondItem="9" secondAttribute="leading" id="ALX-1t-U9g"/>
-                                    <constraint firstAttribute="centerX" secondItem="QI1-Rz-JHv" secondAttribute="centerX" id="Bjd-HC-Yrz"/>
+                                    <constraint firstItem="Wjy-J1-cUZ" firstAttribute="left" secondItem="9" secondAttribute="left" id="ALX-1t-U9g"/>
+                                    <constraint firstItem="Wjy-J1-cUZ" firstAttribute="centerX" secondItem="yw5-dm-ssf" secondAttribute="centerX" id="ArY-Mo-l6B"/>
+                                    <constraint firstItem="Wjy-J1-cUZ" firstAttribute="top" secondItem="8xH-ot-92u" secondAttribute="bottom" id="CIA-9Y-hy2"/>
                                     <constraint firstItem="FNq-wC-kpc" firstAttribute="centerY" secondItem="vaQ-0Q-jnq" secondAttribute="centerY" id="Dry-ke-JuO"/>
-                                    <constraint firstAttribute="trailing" secondItem="FNq-wC-kpc" secondAttribute="trailing" constant="20" id="LRp-k5-Pe5"/>
+                                    <constraint firstAttribute="right" secondItem="FNq-wC-kpc" secondAttribute="right" constant="20" symbolic="YES" id="LRp-k5-Pe5"/>
                                     <constraint firstItem="8xH-ot-92u" firstAttribute="top" secondItem="9" secondAttribute="top" id="Qlr-cK-3Gm"/>
-                                    <constraint firstAttribute="width" secondItem="8xH-ot-92u" secondAttribute="width" id="T0T-4J-vEU"/>
+                                    <constraint firstItem="QI1-Rz-JHv" firstAttribute="left" secondItem="Wjy-J1-cUZ" secondAttribute="right" constant="8" symbolic="YES" id="YWd-IK-RDP"/>
                                     <constraint firstItem="FNq-wC-kpc" firstAttribute="leading" secondItem="vaQ-0Q-jnq" secondAttribute="trailing" constant="8" id="gM4-1z-GXK"/>
-                                    <constraint firstItem="yw5-dm-ssf" firstAttribute="centerY" secondItem="FNq-wC-kpc" secondAttribute="centerY" id="kjJ-9o-SDw"/>
-                                    <constraint firstItem="yw5-dm-ssf" firstAttribute="leading" secondItem="9" secondAttribute="leading" constant="20" id="l8t-lE-oZa"/>
-                                    <constraint firstItem="Wjy-J1-cUZ" firstAttribute="width" secondItem="9" secondAttribute="width" id="ukL-HT-qnB"/>
+                                    <constraint firstAttribute="right" secondItem="QI1-Rz-JHv" secondAttribute="right" id="hlI-Ga-gqT"/>
+                                    <constraint firstAttribute="bottom" secondItem="FNq-wC-kpc" secondAttribute="bottom" constant="20" symbolic="YES" id="iuW-2m-NZi"/>
+                                    <constraint firstItem="8xH-ot-92u" firstAttribute="left" secondItem="9" secondAttribute="left" id="q1Z-lB-gr5"/>
+                                    <constraint firstItem="QI1-Rz-JHv" firstAttribute="top" secondItem="8xH-ot-92u" secondAttribute="bottom" id="qhz-OY-12c"/>
+                                    <constraint firstItem="yw5-dm-ssf" firstAttribute="top" secondItem="Wjy-J1-cUZ" secondAttribute="bottom" id="whU-OD-QIF"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -109,8 +108,10 @@
                     </view>
                     <connections>
                         <outlet property="controlView" destination="9" id="DYg-7D-dHn"/>
+                        <outlet property="controlViewHeight" destination="581-Vx-fAm" id="hsA-UN-akN"/>
                         <outlet property="controlViewLeftSpacing" destination="FhT-H1-lMc" id="bcm-mw-NpG"/>
                         <outlet property="controlViewSpeedometerSpacing" destination="zp6-Bb-lfa" id="WSl-eP-sUN"/>
+                        <outlet property="periodControlLabel" destination="8xH-ot-92u" id="FsJ-7V-HiV"/>
                         <outlet property="periodLabel" destination="QI1-Rz-JHv" id="ue2-Ok-TRI"/>
                         <outlet property="periodSlider" destination="Wjy-J1-cUZ" id="1Wz-tJ-6T4"/>
                         <outlet property="resetButton" destination="yw5-dm-ssf" id="0r8-Xm-T6g"/>
