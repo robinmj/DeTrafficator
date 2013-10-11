@@ -17,6 +17,8 @@
 #define LABEL_HEIGHT 43
 #define LABEL_COLUMN_WIDTH 65
 #define VERTICAL_PADDING 20
+#define SPEED_INDICATOR_LEFT_MARGIN LABEL_COLUMN_WIDTH + 10
+#define AVG_SPEED_INDICATOR_LEFT_MARGIN SPEED_INDICATOR_LEFT_MARGIN + 20
 
 #define MPH_CONVERSION_FACTOR 2.2369363
 #define KPH_CONVERSION_FACTOR 3.6
@@ -26,6 +28,8 @@
     UIColor *avgColor;
     UIColor *indicatorWindowColor;
     UIColor *indicatorWindowHighlightColor;
+    CGMutablePathRef topAvgSpeedPlaceholderPath;
+    CGMutablePathRef bottomAvgSpeedPlaceholderPath;
     
     /*
      multiply by this to convert from m/s to the current speed unit
@@ -40,7 +44,11 @@
 @property (strong, nonatomic) CATextLayer *currentSpeedUnit;
 @property (strong, nonatomic) CAShapeLayer *avgSpeedIndicator;
 @property (strong, nonatomic) CATextLayer *avgSpeedIntervalText;
-@property (strong, nonatomic) CATextLayer *avgSpeedUnit;
+@property (strong, nonatomic) CAShapeLayer *placeholderAvgSpeed;
+@property (strong, nonatomic) CATextLayer *placeholderAvgSpeedIntervalText;
+@property (strong, nonatomic) CATextLayer *placeholderAvgSpeedText;
+@property (strong, nonatomic) CATextLayer *placeholderAvgSpeedUnit;
+
 
 @end
 
@@ -57,8 +65,7 @@
     self = [super init];
     if (self) {
         
-        // Initialization code
-        
+        //inset shadow around edge of view
         self.shadowLayer = [[CAShapeLayer alloc] init];
         self.shadowLayer.shadowColor = [[UIColor blackColor] CGColor];
         self.shadowLayer.shadowOffset = CGSizeMake(1.0, 2.0);
@@ -114,7 +121,9 @@
         self.avgSpeedIntervalText.contentsScale = [[UIScreen mainScreen] scale];
         self.avgSpeedIntervalText.fontSize = 17.0;
         
-        [self setAvgInterval:5 * 60];
+        [self initPlaceholderAvgSpeedIndicator];
+        
+        [self setAvgInterval:0];
         
         [self.avgSpeedIndicator addSublayer:self.avgSpeedIntervalText];
         
@@ -169,10 +178,8 @@
     
     self.shadowLayer.path = shadowPath;
     
-    NSInteger currentSpeedIndicatorLeftMargin = LABEL_COLUMN_WIDTH + 10;
-    
-    self.currentSpeedIndicator.bounds = CGRectMake(0, 0, self.bounds.size.width - currentSpeedIndicatorLeftMargin, 40);
-    self.currentSpeedIndicator.position = CGPointMake(currentSpeedIndicatorLeftMargin,
+    self.currentSpeedIndicator.bounds = CGRectMake(0, 0, 229, 40);
+    self.currentSpeedIndicator.position = CGPointMake(SPEED_INDICATOR_LEFT_MARGIN,
                                                       CGRectGetMidY(self.bounds));
     
     CGMutablePathRef p = CGPathCreateMutable();
@@ -293,6 +300,132 @@
     [self.speedometerLayer addSublayer:self.avgSpeedIndicator];
 }
 
+- (void)initPlaceholderAvgSpeedIndicator {
+    
+    self.placeholderAvgSpeed = [[CAShapeLayer alloc] init];
+    self.placeholderAvgSpeed.bounds = CGRectMake(0, 0, 199, 50);
+    self.placeholderAvgSpeed.anchorPoint = CGPointMake(0.0,0.0);
+    self.placeholderAvgSpeed.fillColor = [avgColor CGColor];
+    self.placeholderAvgSpeed.lineWidth = 2;
+    self.placeholderAvgSpeed.strokeColor = [avgColor CGColor];
+    self.placeholderAvgSpeed.lineJoin = kCALineJoinBevel;
+    
+    CAShapeLayer *placeholderAvgSpeedWindow = [[CAShapeLayer alloc] init];
+    placeholderAvgSpeedWindow.bounds = CGRectMake(0, 0, 125, 40);
+    placeholderAvgSpeedWindow.position = CGPointMake(self.placeholderAvgSpeed.bounds.size.width - 5, 5);
+    placeholderAvgSpeedWindow.anchorPoint = CGPointMake(1.0, 0.0);
+    placeholderAvgSpeedWindow.path = CGPathCreateWithRoundedRect(placeholderAvgSpeedWindow.bounds, 5, 5, NULL);
+    placeholderAvgSpeedWindow.fillColor = [[UIColor whiteColor] CGColor];
+    [self.placeholderAvgSpeed addSublayer:placeholderAvgSpeedWindow];
+    
+    self->topAvgSpeedPlaceholderPath = CGPathCreateMutable();
+    
+    CGFloat leftCornerRadius = 20;
+    CGFloat rightCornerRadius = 10;
+    
+    //bottom left
+    CGPathMoveToPoint(self->topAvgSpeedPlaceholderPath, NULL, leftCornerRadius, self.placeholderAvgSpeed.bounds.size.height - 10);
+    //left
+    CGPathAddArcToPoint(self->topAvgSpeedPlaceholderPath, NULL, 0, self.placeholderAvgSpeed.bounds.size.height - 10, 0, leftCornerRadius, leftCornerRadius);
+    //top left
+    CGPathAddLineToPoint(self->topAvgSpeedPlaceholderPath, NULL, 0, 0);
+    //top right
+    CGPathAddLineToPoint(self->topAvgSpeedPlaceholderPath, NULL, self.placeholderAvgSpeed.bounds.size.width, 0);
+    
+    //right
+    CGPathAddLineToPoint(self->topAvgSpeedPlaceholderPath, NULL, self.placeholderAvgSpeed.bounds.size.width, self.placeholderAvgSpeed.bounds.size.height - rightCornerRadius);
+    //bottom right
+    CGPathAddArcToPoint(self->topAvgSpeedPlaceholderPath, NULL, self.placeholderAvgSpeed.bounds.size.width, self.placeholderAvgSpeed.bounds.size.height, self.placeholderAvgSpeed.bounds.size.width - rightCornerRadius, self.placeholderAvgSpeed.bounds.size.height, rightCornerRadius);
+    //bottom
+    CGPathAddLineToPoint(self->topAvgSpeedPlaceholderPath, NULL, self.placeholderAvgSpeed.bounds.size.width - placeholderAvgSpeedWindow.bounds.size.width, self.placeholderAvgSpeed.bounds.size.height);
+    CGPathAddArcToPoint(self->topAvgSpeedPlaceholderPath, NULL, self.placeholderAvgSpeed.bounds.size.width - (placeholderAvgSpeedWindow.bounds.size.width + rightCornerRadius), self.placeholderAvgSpeed.bounds.size.height, self.placeholderAvgSpeed.bounds.size.width - (placeholderAvgSpeedWindow.bounds.size.width + rightCornerRadius), self.placeholderAvgSpeed.bounds.size.height - rightCornerRadius, rightCornerRadius);
+    //bottom left
+    CGPathCloseSubpath(self->topAvgSpeedPlaceholderPath);
+    
+    self->bottomAvgSpeedPlaceholderPath = CGPathCreateMutable();
+    
+    //top left
+    CGPathMoveToPoint(self->bottomAvgSpeedPlaceholderPath, NULL, leftCornerRadius, 10);
+    //left
+    CGPathAddArcToPoint(self->bottomAvgSpeedPlaceholderPath, NULL, 0, 10, 0, leftCornerRadius + 10, leftCornerRadius);
+    //bottom left
+    CGPathAddLineToPoint(self->bottomAvgSpeedPlaceholderPath, NULL, 0, self.placeholderAvgSpeed.bounds.size.height);
+    //bottom right
+    CGPathAddLineToPoint(self->bottomAvgSpeedPlaceholderPath, NULL, self.placeholderAvgSpeed.bounds.size.width, self.placeholderAvgSpeed.bounds.size.height);
+    
+    //right
+    CGPathAddLineToPoint(self->bottomAvgSpeedPlaceholderPath, NULL, self.placeholderAvgSpeed.bounds.size.width, rightCornerRadius);
+    //top right
+    CGPathAddArcToPoint(self->bottomAvgSpeedPlaceholderPath, NULL, self.placeholderAvgSpeed.bounds.size.width, 0, self.placeholderAvgSpeed.bounds.size.width - rightCornerRadius, 0, rightCornerRadius);
+    //top
+    CGPathAddLineToPoint(self->bottomAvgSpeedPlaceholderPath, NULL, self.placeholderAvgSpeed.bounds.size.width - placeholderAvgSpeedWindow.bounds.size.width, 0);
+    CGPathAddArcToPoint(self->bottomAvgSpeedPlaceholderPath, NULL, self.placeholderAvgSpeed.bounds.size.width - (placeholderAvgSpeedWindow.bounds.size.width + rightCornerRadius), 0, self.placeholderAvgSpeed.bounds.size.width - (placeholderAvgSpeedWindow.bounds.size.width + rightCornerRadius), rightCornerRadius, rightCornerRadius);
+    //bottom left
+    CGPathCloseSubpath(self->bottomAvgSpeedPlaceholderPath);
+    
+    self.placeholderAvgSpeedIntervalText = [[CATextLayer alloc] init];
+    self.placeholderAvgSpeedIntervalText.bounds = CGRectMake(0,0, 60, 44);
+    self.placeholderAvgSpeedIntervalText.anchorPoint = CGPointMake(0.0, 0.1);
+    self.placeholderAvgSpeedIntervalText.foregroundColor = [[UIColor whiteColor] CGColor];
+    self.placeholderAvgSpeedIntervalText.alignmentMode = kCAAlignmentCenter;
+    self.placeholderAvgSpeedIntervalText.wrapped = YES;
+    self.placeholderAvgSpeedIntervalText.contentsScale = [[UIScreen mainScreen] scale];
+    self.placeholderAvgSpeedIntervalText.fontSize = 17.0;
+    
+    self.placeholderAvgSpeedUnit = [[CATextLayer alloc] init];
+    self.placeholderAvgSpeedUnit.bounds = CGRectMake(0,0, 40, 23);
+    self.placeholderAvgSpeedUnit.position = CGPointMake(placeholderAvgSpeedWindow.bounds.size.width - (self.placeholderAvgSpeedUnit.bounds.size.width + 3), placeholderAvgSpeedWindow.bounds.size.height);
+    self.placeholderAvgSpeedUnit.anchorPoint = CGPointMake(0.0, 1.0);
+    self.placeholderAvgSpeedUnit.foregroundColor = [[UIColor darkGrayColor] CGColor];
+    self.placeholderAvgSpeedUnit.alignmentMode = kCAAlignmentLeft;
+    self.placeholderAvgSpeedUnit.fontSize = 18.0;
+    self.placeholderAvgSpeedUnit.contentsScale = [[UIScreen mainScreen] scale];
+    
+    [placeholderAvgSpeedWindow addSublayer:self.placeholderAvgSpeedUnit];
+    
+    NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
+    
+    //force refresh the speed unit
+    _unit = -1;
+    [self setUnit:[defaults integerForKey:@"speed_unit_preference"]];
+    
+    self.placeholderAvgSpeedText = [[CATextLayer alloc] init];
+    self.placeholderAvgSpeedText.bounds = CGRectMake(0,0, 80, placeholderAvgSpeedWindow.bounds.size.height);
+    self.placeholderAvgSpeedText.position = CGPointMake(self.placeholderAvgSpeedUnit.position.x - 5, placeholderAvgSpeedWindow.bounds.size.height);
+    self.placeholderAvgSpeedText.anchorPoint = CGPointMake(1.0, 1.0);
+    self.placeholderAvgSpeedText.foregroundColor = [[UIColor darkGrayColor] CGColor];
+    self.placeholderAvgSpeedText.alignmentMode = kCAAlignmentRight;
+    self.placeholderAvgSpeedText.contentsScale = [[UIScreen mainScreen] scale];
+    self.placeholderAvgSpeedText.string = @"0.0";
+    
+    [placeholderAvgSpeedWindow addSublayer:self.placeholderAvgSpeedText];
+    
+    [self setAvgInterval:5 * 60];
+    
+    [self.placeholderAvgSpeed addSublayer:self.placeholderAvgSpeedIntervalText];
+    
+    [self.placeholderAvgSpeed setHidden:TRUE];
+    
+    [self.layer addSublayer:self.placeholderAvgSpeed];
+}
+
+- (void)showBottomPlaceholderAvgSpeed
+{
+    self.placeholderAvgSpeed.position = CGPointMake(AVG_SPEED_INDICATOR_LEFT_MARGIN, self.bounds.size.height - self.placeholderAvgSpeed.bounds.size.height);
+    self.placeholderAvgSpeedIntervalText.position = CGPointMake(10, (self.placeholderAvgSpeed.bounds.size.height - self.placeholderAvgSpeedIntervalText.bounds.size.height) + 6);
+    [self.placeholderAvgSpeed setHidden:NO];
+    self.placeholderAvgSpeed.path = self->bottomAvgSpeedPlaceholderPath;
+    
+}
+
+- (void)showTopPlaceholderAvgSpeed
+{
+    self.placeholderAvgSpeed.position = CGPointMake(AVG_SPEED_INDICATOR_LEFT_MARGIN, 0);
+    self.placeholderAvgSpeedIntervalText.position = CGPointMake(10, 2);
+    [self.placeholderAvgSpeed setHidden:NO];
+    self.placeholderAvgSpeed.path = self->topAvgSpeedPlaceholderPath;
+}
+
 /*
  
  currentSpeed - in m/s
@@ -331,12 +464,28 @@
  */
 - (void)setAvgSpeed:(double)avgSpeed {
     _avgSpeed = avgSpeed;
-    [self.avgSpeedIndicator setHidden:FALSE];
-    self.avgSpeedIndicator.position = CGPointMake(LABEL_COLUMN_WIDTH + 30, [self getYCoordForSpeed:avgSpeed]);
+    self.avgSpeedIndicator.position = CGPointMake(AVG_SPEED_INDICATOR_LEFT_MARGIN, [self getYCoordForSpeed:avgSpeed]);
+    self.placeholderAvgSpeedText.string = [self abbreviate:avgSpeed * self->conversionFactor];
+    
+    CGFloat yPosInView = self.avgSpeedIndicator.position.y - ([self getYCoordForSpeed:_currentSpeed] - CGRectGetMidY(self.bounds));
+    
+    CGFloat avgSpeedIndicatorHalfHeight = self.avgSpeedIndicator.bounds.size.height / 2;
+    
+    if(yPosInView < avgSpeedIndicatorHalfHeight) {
+        [self.avgSpeedIndicator setHidden:YES];
+        [self showTopPlaceholderAvgSpeed];
+    } else if(yPosInView > self.bounds.size.height - avgSpeedIndicatorHalfHeight) {
+        [self.avgSpeedIndicator setHidden:YES];
+        [self showBottomPlaceholderAvgSpeed];
+    } else {
+        [self.avgSpeedIndicator setHidden:NO];
+        [self.placeholderAvgSpeed setHidden:YES];
+    }
 }
 
 - (void)disable {
     [self.avgSpeedIndicator setHidden:TRUE];
+    [self.placeholderAvgSpeed setHidden:TRUE];
     [self setCurrentSpeed:0];
     self.speedometerLayer.backgroundColor = [[UIColor colorWithRed:0.7 green:0.7 blue:0.7 alpha:1.0] CGColor];
 }
@@ -383,10 +532,12 @@
     switch(_unit) {
         case mph:
             self.currentSpeedUnit.string = @"mi/h";
+            self.placeholderAvgSpeedUnit.string = @"mi/h";
             self->conversionFactor = MPH_CONVERSION_FACTOR;
             break;
         case kph:
             self.currentSpeedUnit.string = @"km/h";
+            self.placeholderAvgSpeedUnit.string = @"km/h";
             self->conversionFactor = KPH_CONVERSION_FACTOR;
             break;
     }
@@ -398,20 +549,24 @@
 }
 
 - (void)setAvgInterval:(NSTimeInterval)avgInterval {
+    NSString *avgIntervalStr;
     if(avgInterval <= 59.0) {
-        self.avgSpeedIntervalText.string = [[NSString alloc] initWithFormat:@"%d sec avg", (NSInteger)round(avgInterval)];
-        return;
-    }
-    
-    NSInteger halfMinutes = round(avgInterval / 30);
-    
-    NSInteger minutes = halfMinutes / 2;
-    
-    if(halfMinutes % 2 == 0) {
-        self.avgSpeedIntervalText.string = [[NSString alloc] initWithFormat:@"%d min avg",minutes];
+        avgIntervalStr = [[NSString alloc] initWithFormat:@"%d sec avg", (NSInteger)round(avgInterval)];
     } else {
-        self.avgSpeedIntervalText.string = [[NSString alloc] initWithFormat:@"%d.5 min avg",minutes];
+        
+        NSInteger halfMinutes = round(avgInterval / 30);
+        
+        NSInteger minutes = halfMinutes / 2;
+        
+        if(halfMinutes % 2 == 0) {
+            avgIntervalStr = [[NSString alloc] initWithFormat:@"%d min avg",minutes];
+        } else {
+            avgIntervalStr = [[NSString alloc] initWithFormat:@"%d.5 min avg",minutes];
+        }
     }
+    
+    self.avgSpeedIntervalText.string = avgIntervalStr;
+    self.placeholderAvgSpeedIntervalText.string = avgIntervalStr;
 }
 
 @end
