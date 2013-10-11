@@ -97,6 +97,7 @@
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="tintColor" red="1" green="0.0" blue="0.89960652372262762" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="9" secondAttribute="bottom" constant="8" id="2lc-KD-NDc"/>
                             <constraint firstItem="9" firstAttribute="left" secondItem="6" secondAttribute="left" constant="8" id="FhT-H1-lMc"/>
