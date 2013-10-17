@@ -424,8 +424,6 @@
     
     [placeholderAvgSpeedWindow addSublayer:self.placeholderAvgSpeedText];
     
-    [self setAvgInterval:5 * 60];
-    
     [self.placeholderAvgSpeed addSublayer:self.placeholderAvgSpeedIntervalText];
     
     [self.placeholderAvgSpeed setHidden:TRUE];
@@ -523,6 +521,7 @@
     }
     
     [self setAvgSpeed:self.currentSpeed];
+    [self setAvgInterval:0];
 }
 
 /*
