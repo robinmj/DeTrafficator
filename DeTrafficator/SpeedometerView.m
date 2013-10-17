@@ -437,6 +437,7 @@
     self.placeholderAvgSpeedIntervalText.position = CGPointMake(10, (self.placeholderAvgSpeed.bounds.size.height - self.placeholderAvgSpeedIntervalText.bounds.size.height) + 6);
     [self.placeholderAvgSpeed setHidden:NO];
     self.placeholderAvgSpeed.path = self->bottomAvgSpeedPlaceholderPath;
+    [self.placeholderAvgSpeed removeAllAnimations];
     
 }
 
@@ -448,6 +449,7 @@
     self.placeholderAvgSpeedIntervalText.position = CGPointMake(10, 2);
     [self.placeholderAvgSpeed setHidden:NO];
     self.placeholderAvgSpeed.path = self->topAvgSpeedPlaceholderPath;
+    [self.placeholderAvgSpeed removeAllAnimations];
 }
 
 /*
