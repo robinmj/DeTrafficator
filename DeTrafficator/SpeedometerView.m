@@ -25,6 +25,7 @@
 
 @interface SpeedometerView () {
     
+    CGFloat statusBarOverlapMargin;
     UIColor *avgColor;
     UIColor *indicatorWindowColor;
     UIColor *indicatorWindowHighlightColor;
@@ -37,6 +38,7 @@
     double conversionFactor;
 }
 
+@property (strong, nonatomic) CAGradientLayer *topGradient;
 @property (strong, nonatomic) CAShapeLayer *shadowLayer;
 @property (strong, nonatomic) CAScrollLayer *speedometerLayer;
 @property (strong, nonatomic) CAShapeLayer *currentSpeedIndicator;
@@ -65,6 +67,23 @@
     self = [super init];
     if (self) {
         
+        if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7) {
+            
+            self->statusBarOverlapMargin = 20;
+            
+            //white gradient that appears under status bar to make it more visible
+            self.topGradient = [[CAGradientLayer alloc] init];
+            self.topGradient.bounds = CGRectMake(0,0, self.bounds.size.width, 40);
+            self.topGradient.position = CGPointMake(0, 0);
+            self.topGradient.anchorPoint = CGPointMake(0, 0);
+            
+            self.topGradient.colors = [[NSArray alloc] initWithObjects:(id)[[UIColor whiteColor] CGColor], (__bridge_transfer id)[[UIColor colorWithWhite:1.0 alpha:0.0] CGColor], NULL];
+            self.topGradient.backgroundColor = [[UIColor clearColor] CGColor];
+        } else {
+            //status bar doesn't overlap- no need to push down the placeholder indicator
+            self->statusBarOverlapMargin = 0;
+        }
+        
         //inset shadow around edge of view
         self.shadowLayer = [[CAShapeLayer alloc] init];
         self.shadowLayer.shadowColor = [[UIColor blackColor] CGColor];
@@ -81,6 +100,7 @@
         
         [self.layer addSublayer:self.speedometerLayer];
         [self.layer addSublayer:self.shadowLayer];
+        [self.layer addSublayer:self.topGradient];
         
         self.avgSpeedIndicator = [[CAShapeLayer alloc] init];
         self.avgSpeedIndicator.bounds = CGRectMake(0, 0, 80, 40);
@@ -181,6 +201,10 @@
     self.currentSpeedIndicator.bounds = CGRectMake(0, 0, 229, 40);
     self.currentSpeedIndicator.position = CGPointMake(SPEED_INDICATOR_LEFT_MARGIN,
                                                       CGRectGetMidY(self.bounds));
+    
+    if(self.topGradient) {
+        self.topGradient.bounds = CGRectMake(0,0, self.bounds.size.width, self.topGradient.bounds.size.height);
+    }
     
     CGMutablePathRef p = CGPathCreateMutable();
     CGPathMoveToPoint(p, NULL, self.currentSpeedIndicator.bounds.size.width - 10, 0);
@@ -420,7 +444,9 @@
 
 - (void)showTopPlaceholderAvgSpeed
 {
-    self.placeholderAvgSpeed.position = CGPointMake(AVG_SPEED_INDICATOR_LEFT_MARGIN, 0);
+    
+    //leave a 20px top margin for the status bar
+    self.placeholderAvgSpeed.position = CGPointMake(AVG_SPEED_INDICATOR_LEFT_MARGIN, self->statusBarOverlapMargin);
     self.placeholderAvgSpeedIntervalText.position = CGPointMake(10, 2);
     [self.placeholderAvgSpeed setHidden:NO];
     self.placeholderAvgSpeed.path = self->topAvgSpeedPlaceholderPath;
@@ -471,7 +497,8 @@
     
     CGFloat avgSpeedIndicatorHalfHeight = self.avgSpeedIndicator.bounds.size.height / 2;
     
-    if(yPosInView < avgSpeedIndicatorHalfHeight) {
+    //leave a 20px top margin for the status bar
+    if(yPosInView < avgSpeedIndicatorHalfHeight + 20) {
         [self.avgSpeedIndicator setHidden:YES];
         [self showTopPlaceholderAvgSpeed];
     } else if(yPosInView > self.bounds.size.height - avgSpeedIndicatorHalfHeight) {

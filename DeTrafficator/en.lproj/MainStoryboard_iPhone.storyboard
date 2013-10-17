@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4510" systemVersion="12F37" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="12">
     <dependencies>
-        <deployment defaultVersion="1552" identifier="iOS"/>
+        <deployment defaultVersion="1536" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3742"/>
     </dependencies>
     <scenes>
@@ -18,10 +18,10 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <view autoresizesSubviews="NO" clipsSubviews="YES" contentMode="scaleToFill" placeholderIntrinsicWidth="infinite" placeholderIntrinsicHeight="406" restorationIdentifier="speedometer" translatesAutoresizingMaskIntoConstraints="NO" id="dYk-5e-kWa" customClass="SpeedometerView">
-                                <rect key="frame" x="8" y="20" width="304" height="306"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="326"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="304" id="LCr-dL-w4b"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="304" id="LCr-dL-w4b"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" placeholderIntrinsicWidth="304" placeholderIntrinsicHeight="infinite" translatesAutoresizingMaskIntoConstraints="NO" id="9" userLabel="Control View">
@@ -79,6 +79,7 @@
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="160" id="2oQ-8m-Qou"/>
                                     <constraint firstAttribute="height" constant="138" id="581-Vx-fAm"/>
                                     <constraint firstItem="Wjy-J1-cUZ" firstAttribute="left" secondItem="9" secondAttribute="left" id="ALX-1t-U9g"/>
                                     <constraint firstItem="Wjy-J1-cUZ" firstAttribute="centerX" secondItem="yw5-dm-ssf" secondAttribute="centerX" id="ArY-Mo-l6B"/>
@@ -100,9 +101,10 @@
                         <color key="tintColor" red="1" green="0.0" blue="0.89960652372262762" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="9" secondAttribute="bottom" constant="8" id="2lc-KD-NDc"/>
+                            <constraint firstAttribute="right" secondItem="dYk-5e-kWa" secondAttribute="right" id="3aC-yN-ShV"/>
                             <constraint firstItem="9" firstAttribute="left" secondItem="6" secondAttribute="left" constant="8" id="FhT-H1-lMc"/>
-                            <constraint firstItem="dYk-5e-kWa" firstAttribute="top" secondItem="6" secondAttribute="top" constant="20" id="Jih-RB-mB8"/>
-                            <constraint firstItem="dYk-5e-kWa" firstAttribute="left" secondItem="6" secondAttribute="left" constant="8" id="JyH-BF-Lky"/>
+                            <constraint firstItem="dYk-5e-kWa" firstAttribute="top" secondItem="6" secondAttribute="top" id="Jih-RB-mB8"/>
+                            <constraint firstItem="dYk-5e-kWa" firstAttribute="left" secondItem="6" secondAttribute="left" id="JyH-BF-Lky"/>
                             <constraint firstAttribute="right" secondItem="9" secondAttribute="right" constant="8" id="bnO-Ui-KPl"/>
                             <constraint firstItem="9" firstAttribute="top" secondItem="dYk-5e-kWa" secondAttribute="bottom" constant="8" id="zp6-Bb-lfa"/>
                         </constraints>
@@ -118,6 +120,7 @@
                         <outlet property="resetButton" destination="yw5-dm-ssf" id="0r8-Xm-T6g"/>
                         <outlet property="soundSwitch" destination="FNq-wC-kpc" id="GHV-BS-AR3"/>
                         <outlet property="speedometer" destination="dYk-5e-kWa" id="jCd-cy-dht"/>
+                        <outlet property="speedometerRightSpacing" destination="3aC-yN-ShV" id="DAc-vi-Wii"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="14" sceneMemberID="firstResponder"/>
