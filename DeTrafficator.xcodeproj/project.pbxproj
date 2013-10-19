@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		002999061812B73400F13307 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 002999051812B73400F13307 /* Images.xcassets */; };
 		00579FD61794DC1200C56CB9 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00579FD51794DC1200C56CB9 /* CoreLocation.framework */; };
 		00641C96179061CB00E6406F /* CoreLocationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 00641C95179061CB00E6406F /* CoreLocationController.m */; };
 		007156C717E226E90056E0B6 /* speed_up.aif in Resources */ = {isa = PBXBuildFile; fileRef = 007156C617E226E90056E0B6 /* speed_up.aif */; };
@@ -47,6 +48,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		002999051812B73400F13307 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		00579FD41794D54D00C56CB9 /* DeTrafficator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DeTrafficator.h; sourceTree = "<group>"; };
 		00579FD51794DC1200C56CB9 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		00641C94179061CB00E6406F /* CoreLocationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreLocationController.h; sourceTree = "<group>"; };
@@ -157,6 +159,7 @@
 				00579FD41794D54D00C56CB9 /* DeTrafficator.h */,
 				00C3AD3C17D932B00018AE5D /* SpeedometerView.h */,
 				00C3AD3F17D933B10018AE5D /* SpeedometerView.m */,
+				002999051812B73400F13307 /* Images.xcassets */,
 			);
 			path = DeTrafficator;
 			sourceTree = "<group>";
@@ -270,6 +273,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0082DA5A1800AF1300012F0C /* Settings.bundle in Resources */,
+				002999061812B73400F13307 /* Images.xcassets in Resources */,
 				00AE1FC51785DFD200443620 /* InfoPlist.strings in Resources */,
 				00AE1FCD1785DFD200443620 /* Default.png in Resources */,
 				00AE1FCF1785DFD200443620 /* Default@2x.png in Resources */,
@@ -429,6 +433,8 @@
 		00AE1FF91785DFD300443620 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "DeTrafficator/DeTrafficator-Prefix.pch";
 				INFOPLIST_FILE = "DeTrafficator/DeTrafficator-Info.plist";
@@ -442,6 +448,8 @@
 		00AE1FFA1785DFD300443620 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Robin Johnson (TE3DFN29D2)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "DeTrafficator/DeTrafficator-Prefix.pch";
