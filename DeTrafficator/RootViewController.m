@@ -60,6 +60,13 @@
     [self displayConstraint:self->landControlViewSpeedometerSpacing withName:@"landControlViewSpeedometerSpacing"];*/
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    [self.periodControlLabel setPreferredMaxLayoutWidth:self.controlView.bounds.size.width];
+}
+
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)orientation duration:(NSTimeInterval)duration
 {
     /*for(NSLayoutConstraint* c in self.view.constraints) {
