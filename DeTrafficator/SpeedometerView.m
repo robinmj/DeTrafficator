@@ -198,7 +198,7 @@
     
     self.shadowLayer.path = shadowPath;
     
-    self.currentSpeedIndicator.bounds = CGRectMake(0, 0, 229, 40);
+    self.currentSpeedIndicator.bounds = CGRectMake(0, 0, 219, 40);
     self.currentSpeedIndicator.position = CGPointMake(SPEED_INDICATOR_LEFT_MARGIN,
                                                       CGRectGetMidY(self.bounds));
     
@@ -207,17 +207,17 @@
     }
     
     CGMutablePathRef p = CGPathCreateMutable();
-    CGPathMoveToPoint(p, NULL, self.currentSpeedIndicator.bounds.size.width - 10, 0);
+    CGPathMoveToPoint(p, NULL, self.currentSpeedIndicator.bounds.size.width, 0);
     CGPathAddLineToPoint(p, NULL, 30, 0);
     CGPathAddLineToPoint(p, NULL, 0, CGRectGetMidY(self.currentSpeedIndicator.bounds));
     CGPathAddLineToPoint(p, NULL, 30, self.currentSpeedIndicator.bounds.size.height);
-    CGPathAddLineToPoint(p, NULL, self.currentSpeedIndicator.bounds.size.width - 10, self.currentSpeedIndicator.bounds.size.height);
+    CGPathAddLineToPoint(p, NULL, self.currentSpeedIndicator.bounds.size.width, self.currentSpeedIndicator.bounds.size.height);
     CGPathCloseSubpath(p);
     
     self.currentSpeedIndicator.path = p;
     
     self.currentSpeedUnit.bounds = CGRectMake(0,0, 50, 23);
-    self.currentSpeedUnit.position = CGPointMake(self.currentSpeedIndicator.bounds.size.width - (self.currentSpeedUnit.bounds.size.width + 10), self.currentSpeedIndicator.bounds.size.height);
+    self.currentSpeedUnit.position = CGPointMake(self.currentSpeedIndicator.bounds.size.width - self.currentSpeedUnit.bounds.size.width, self.currentSpeedIndicator.bounds.size.height);
     
     self.currentSpeedText.bounds = CGRectMake(0,0, 80, self.currentSpeedIndicator.bounds.size.height);
     self.currentSpeedText.position = CGPointMake(self.currentSpeedUnit.position.x - 5, self.currentSpeedIndicator.bounds.size.height);
