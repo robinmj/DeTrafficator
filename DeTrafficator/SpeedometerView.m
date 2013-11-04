@@ -198,7 +198,7 @@
     
     self.shadowLayer.path = shadowPath;
     
-    self.currentSpeedIndicator.bounds = CGRectMake(0, 0, 219, 40);
+    self.currentSpeedIndicator.bounds = CGRectMake(0, 0, 220, 40);
     self.currentSpeedIndicator.position = CGPointMake(SPEED_INDICATOR_LEFT_MARGIN,
                                                       CGRectGetMidY(self.bounds));
     
@@ -216,11 +216,11 @@
     
     self.currentSpeedIndicator.path = p;
     
-    self.currentSpeedUnit.bounds = CGRectMake(0,0, 50, 23);
-    self.currentSpeedUnit.position = CGPointMake(self.currentSpeedIndicator.bounds.size.width - self.currentSpeedUnit.bounds.size.width, self.currentSpeedIndicator.bounds.size.height);
+    self.currentSpeedUnit.bounds = CGRectMake(0,0, 40, 23);
+    self.currentSpeedUnit.position = CGPointMake(self.currentSpeedIndicator.bounds.size.width - (self.currentSpeedUnit.bounds.size.width + 3), self.currentSpeedIndicator.bounds.size.height);
     
     self.currentSpeedText.bounds = CGRectMake(0,0, 80, self.currentSpeedIndicator.bounds.size.height);
-    self.currentSpeedText.position = CGPointMake(self.currentSpeedUnit.position.x - 5, self.currentSpeedIndicator.bounds.size.height);
+    self.currentSpeedText.position = CGPointMake(self.currentSpeedUnit.position.x - 4, self.currentSpeedIndicator.bounds.size.height);
     
     NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
     
@@ -327,7 +327,7 @@
 - (void)initPlaceholderAvgSpeedIndicator {
     
     self.placeholderAvgSpeed = [[CAShapeLayer alloc] init];
-    self.placeholderAvgSpeed.bounds = CGRectMake(0, 0, 199, 50);
+    self.placeholderAvgSpeed.bounds = CGRectMake(0, 0, 204, 50);
     self.placeholderAvgSpeed.anchorPoint = CGPointMake(0.0,0.0);
     self.placeholderAvgSpeed.fillColor = [avgColor CGColor];
     self.placeholderAvgSpeed.lineWidth = 2;
@@ -398,7 +398,7 @@
     
     self.placeholderAvgSpeedUnit = [[CATextLayer alloc] init];
     self.placeholderAvgSpeedUnit.bounds = CGRectMake(0,0, 40, 23);
-    self.placeholderAvgSpeedUnit.position = CGPointMake(placeholderAvgSpeedWindow.bounds.size.width - (self.placeholderAvgSpeedUnit.bounds.size.width + 3), placeholderAvgSpeedWindow.bounds.size.height);
+    self.placeholderAvgSpeedUnit.position = CGPointMake(placeholderAvgSpeedWindow.bounds.size.width - (self.placeholderAvgSpeedUnit.bounds.size.width + 2), placeholderAvgSpeedWindow.bounds.size.height);
     self.placeholderAvgSpeedUnit.anchorPoint = CGPointMake(0.0, 1.0);
     self.placeholderAvgSpeedUnit.foregroundColor = [[UIColor darkGrayColor] CGColor];
     self.placeholderAvgSpeedUnit.alignmentMode = kCAAlignmentLeft;
@@ -415,7 +415,7 @@
     
     self.placeholderAvgSpeedText = [[CATextLayer alloc] init];
     self.placeholderAvgSpeedText.bounds = CGRectMake(0,0, 80, placeholderAvgSpeedWindow.bounds.size.height);
-    self.placeholderAvgSpeedText.position = CGPointMake(self.placeholderAvgSpeedUnit.position.x - 5, placeholderAvgSpeedWindow.bounds.size.height);
+    self.placeholderAvgSpeedText.position = CGPointMake(self.placeholderAvgSpeedUnit.position.x - 4, placeholderAvgSpeedWindow.bounds.size.height);
     self.placeholderAvgSpeedText.anchorPoint = CGPointMake(1.0, 1.0);
     self.placeholderAvgSpeedText.foregroundColor = [[UIColor darkGrayColor] CGColor];
     self.placeholderAvgSpeedText.alignmentMode = kCAAlignmentRight;
