@@ -153,13 +153,27 @@
         self->indicatorWindowHighlightColor = [[UIColor alloc] initWithRed:0.0 green:0.6 blue:0.9 alpha:0.5];
         
         self.currentSpeedIndicator = [[CAShapeLayer alloc] init];
+        self.currentSpeedIndicator.bounds = CGRectMake(0, 0, 220, 40);
+        self.currentSpeedIndicator.position = CGPointMake(SPEED_INDICATOR_LEFT_MARGIN,0);
         self.currentSpeedIndicator.anchorPoint = CGPointMake(0,0.5);
         self.currentSpeedIndicator.fillColor = [self->indicatorWindowColor CGColor];
         self.currentSpeedIndicator.lineWidth = 2;
         self.currentSpeedIndicator.strokeColor = [[UIColor colorWithRed:0.2 green:0.2 blue:0.2 alpha:0.9] CGColor];
         self.currentSpeedIndicator.lineJoin = kCALineJoinBevel;
         
+        CGMutablePathRef p = CGPathCreateMutable();
+        CGPathMoveToPoint(p, NULL, self.currentSpeedIndicator.bounds.size.width, 0);
+        CGPathAddLineToPoint(p, NULL, 30, 0);
+        CGPathAddLineToPoint(p, NULL, 0, CGRectGetMidY(self.currentSpeedIndicator.bounds));
+        CGPathAddLineToPoint(p, NULL, 30, self.currentSpeedIndicator.bounds.size.height);
+        CGPathAddLineToPoint(p, NULL, self.currentSpeedIndicator.bounds.size.width, self.currentSpeedIndicator.bounds.size.height);
+        CGPathCloseSubpath(p);
+        
+        self.currentSpeedIndicator.path = p;
+        
         self.currentSpeedUnit = [[CATextLayer alloc] init];
+        self.currentSpeedUnit.bounds = CGRectMake(0,0, 40, 23);
+        self.currentSpeedUnit.position = CGPointMake(self.currentSpeedIndicator.bounds.size.width - (self.currentSpeedUnit.bounds.size.width + 3), self.currentSpeedIndicator.bounds.size.height);
         self.currentSpeedUnit.anchorPoint = CGPointMake(0.0, 1.0);
         self.currentSpeedUnit.foregroundColor = [[UIColor blackColor] CGColor];
         self.currentSpeedUnit.alignmentMode = kCAAlignmentLeft;
@@ -175,6 +189,8 @@
         [self setUnit:[defaults integerForKey:@"speed_unit_preference"]];
         
         self.currentSpeedText = [[CATextLayer alloc] init];
+        self.currentSpeedText.bounds = CGRectMake(0,0, 80, self.currentSpeedIndicator.bounds.size.height);
+        self.currentSpeedText.position = CGPointMake(self.currentSpeedUnit.position.x - 4, self.currentSpeedIndicator.bounds.size.height);
         self.currentSpeedText.anchorPoint = CGPointMake(1.0, 1.0);
         self.currentSpeedText.foregroundColor = [[UIColor blackColor] CGColor];
         self.currentSpeedText.alignmentMode = kCAAlignmentRight;
@@ -198,29 +214,12 @@
     
     self.shadowLayer.path = shadowPath;
     
-    self.currentSpeedIndicator.bounds = CGRectMake(0, 0, 220, 40);
-    self.currentSpeedIndicator.position = CGPointMake(SPEED_INDICATOR_LEFT_MARGIN,
+    self.currentSpeedIndicator.position = CGPointMake(self.currentSpeedIndicator.position.x,
                                                       CGRectGetMidY(self.bounds));
     
     if(self.topGradient) {
         self.topGradient.bounds = CGRectMake(0,0, self.bounds.size.width, self.topGradient.bounds.size.height);
     }
-    
-    CGMutablePathRef p = CGPathCreateMutable();
-    CGPathMoveToPoint(p, NULL, self.currentSpeedIndicator.bounds.size.width, 0);
-    CGPathAddLineToPoint(p, NULL, 30, 0);
-    CGPathAddLineToPoint(p, NULL, 0, CGRectGetMidY(self.currentSpeedIndicator.bounds));
-    CGPathAddLineToPoint(p, NULL, 30, self.currentSpeedIndicator.bounds.size.height);
-    CGPathAddLineToPoint(p, NULL, self.currentSpeedIndicator.bounds.size.width, self.currentSpeedIndicator.bounds.size.height);
-    CGPathCloseSubpath(p);
-    
-    self.currentSpeedIndicator.path = p;
-    
-    self.currentSpeedUnit.bounds = CGRectMake(0,0, 40, 23);
-    self.currentSpeedUnit.position = CGPointMake(self.currentSpeedIndicator.bounds.size.width - (self.currentSpeedUnit.bounds.size.width + 3), self.currentSpeedIndicator.bounds.size.height);
-    
-    self.currentSpeedText.bounds = CGRectMake(0,0, 80, self.currentSpeedIndicator.bounds.size.height);
-    self.currentSpeedText.position = CGPointMake(self.currentSpeedUnit.position.x - 4, self.currentSpeedIndicator.bounds.size.height);
     
     NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
     
