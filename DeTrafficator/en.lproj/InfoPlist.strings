@@ -1,2 +1,3 @@
 /* Localized versions of Info.plist keys */
 
+"About" = "DeTrafficator is based on the theory that driving your vehicle at the average speed of traffic will improve traffic flow as well as save gas. See http://trafficwaves.org/ for more info. The purple oval indicates your current average speed. When it is within 10% of your current speed, the current speed indicator will light up blue. If sounds are enabled, \"Speed Up\" and \"Slow Down\" sounds will be played if your average speed is not within 10% of your current speed. Tapping the Reset button resets the average speed indicator. See also http://blogs.kqed.org/lowdown/2013/11/12/traffic-waves";

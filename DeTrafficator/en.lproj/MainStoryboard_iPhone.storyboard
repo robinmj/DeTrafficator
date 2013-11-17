@@ -31,6 +31,7 @@
                                         <rect key="frame" x="111" y="54" width="82" height="51"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="32"/>
+                                        <color key="tintColor" red="0.36492142239999997" green="0.31588835209999999" blue="0.58152173910000005" alpha="1" colorSpace="calibratedRGB"/>
                                         <state key="normal" title="Reset">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
@@ -41,6 +42,7 @@
                                     <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="6" minValue="1" maxValue="10" translatesAutoresizingMaskIntoConstraints="NO" id="Wjy-J1-cUZ" userLabel="Period Control">
                                         <rect key="frame" x="-2" y="21" width="239" height="34"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="tintColor" red="0.36470588235294116" green="0.31764705882352939" blue="0.58039215686274503" alpha="1" colorSpace="calibratedRGB"/>
                                         <connections>
                                             <action selector="adjustSamplingPeriod:" destination="12" eventType="valueChanged" id="v32-aD-gUZ"/>
                                             <action selector="setSamplingPeriod:" destination="12" eventType="touchUpInside" id="8wq-b8-Rf4"/>
