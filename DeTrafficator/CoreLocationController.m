@@ -38,6 +38,11 @@
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation {
     
+    //reject location data with no speed
+    if(newLocation.speed < 0) {
+        return;
+    }
+    
     CLLocation *firstValidReading = nil;
     
     NSInteger firstValidReadingIdx = 0;
@@ -48,6 +53,7 @@
     debug_NSLog(@"sampling period=%f",samplingPeriod);
     debug_NSLog(@"speedData.count = %i", self.speedData.count);
     debug_NSLog(@"reading interval=%f",[newLocation.timestamp timeIntervalSinceDate:oldLocation.timestamp]);
+    debug_NSLog(@"newLocation.speed=%f", newLocation.speed);
     
     for (; firstValidReadingIdx < _speedData.count; firstValidReadingIdx++) {
         CLLocation *reading = [_speedData objectAtIndex:firstValidReadingIdx];
