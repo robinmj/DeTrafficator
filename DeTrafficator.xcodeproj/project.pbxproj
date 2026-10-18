@@ -33,6 +33,7 @@
 		00AE1FEA1785DFD300443620 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00AE1FBC1785DFD200443620 /* Foundation.framework */; };
 		00AE1FF21785DFD300443620 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 00AE1FF01785DFD300443620 /* InfoPlist.strings */; };
 		00AE1FF51785DFD300443620 /* DeTrafficatorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00AE1FF41785DFD300443620 /* DeTrafficatorTests.m */; };
+		00BAEDE43084ED48006CF117 /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 00BAEDE33084ED48006CF117 /* SceneDelegate.m */; };
 		00C3AD4717DA69460018AE5D /* SpeedometerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 00C3AD3F17D933B10018AE5D /* SpeedometerView.m */; };
 		00C56D0717985F29000B7D51 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C56D0617985F29000B7D51 /* QuartzCore.framework */; };
 /* End PBXBuildFile section */
@@ -80,6 +81,8 @@
 		00AE1FF11785DFD300443620 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		00AE1FF31785DFD300443620 /* DeTrafficatorTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DeTrafficatorTests.h; sourceTree = "<group>"; };
 		00AE1FF41785DFD300443620 /* DeTrafficatorTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DeTrafficatorTests.m; sourceTree = "<group>"; };
+		00BAEDE23084ED39006CF117 /* SceneDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SceneDelegate.h; sourceTree = "<group>"; };
+		00BAEDE33084ED48006CF117 /* SceneDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SceneDelegate.m; sourceTree = "<group>"; };
 		00C3AD3C17D932B00018AE5D /* SpeedometerView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SpeedometerView.h; sourceTree = "<group>"; };
 		00C3AD3F17D933B10018AE5D /* SpeedometerView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SpeedometerView.m; sourceTree = "<group>"; };
 		00C56D0617985F29000B7D51 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
@@ -160,6 +163,8 @@
 				00C3AD3C17D932B00018AE5D /* SpeedometerView.h */,
 				00C3AD3F17D933B10018AE5D /* SpeedometerView.m */,
 				002999051812B73400F13307 /* Images.xcassets */,
+				00BAEDE23084ED39006CF117 /* SceneDelegate.h */,
+				00BAEDE33084ED48006CF117 /* SceneDelegate.m */,
 			);
 			path = DeTrafficator;
 			sourceTree = "<group>";
@@ -254,6 +259,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 			);
 			mainGroup = 00AE1FAE1785DFD200443620;
@@ -319,6 +325,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				00AE1FC71785DFD200443620 /* main.m in Sources */,
+				00BAEDE43084ED48006CF117 /* SceneDelegate.m in Sources */,
 				00AE1FCB1785DFD200443620 /* AppDelegate.m in Sources */,
 				00AE1FD41785DFD200443620 /* RootViewController.m in Sources */,
 				00641C96179061CB00E6406F /* CoreLocationController.m in Sources */,
@@ -438,7 +445,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "DeTrafficator/DeTrafficator-Prefix.pch";
 				INFOPLIST_FILE = "DeTrafficator/DeTrafficator-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
@@ -454,7 +461,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "DeTrafficator/DeTrafficator-Prefix.pch";
 				INFOPLIST_FILE = "DeTrafficator/DeTrafficator-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
