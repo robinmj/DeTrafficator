@@ -257,10 +257,9 @@
 			};
 			buildConfigurationList = 00AE1FB21785DFD200443620 /* Build configuration list for PBXProject "DeTrafficator" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				English,
 				en,
 			);
 			mainGroup = 00AE1FAE1785DFD200443620;
