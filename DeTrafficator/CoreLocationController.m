@@ -28,6 +28,10 @@
 		self.locMgr = [[CLLocationManager alloc] init]; // Create new instance of locMgr
 		self.locMgr.delegate = self; // Set the delegate as self.
         
+        if ([self.locMgr respondsToSelector:@selector(requestWhenInUseAuthorization)]) {
+            [self.locMgr requestWhenInUseAuthorization];
+        }
+        
         //5 minutes
         self.samplingPeriod = 5 * 60;
         self.speedData = [NSMutableArray array];
@@ -36,68 +40,100 @@
 	return self;
 }
 
-- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation {
-    
-    //reject location data with no speed
-    if(newLocation.speed < 0) {
-        return;
+- (void)locationManagerDidChangeAuthorization:(CLLocationManager *)manager {
+    CLAuthorizationStatus status;
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    if (@available(iOS 14.0, *)) {
+        status = manager.authorizationStatus;
+    } else {
+        status = [CLLocationManager authorizationStatus];
     }
+#pragma clang diagnostic pop
     
-    CLLocation *firstValidReading = nil;
-    
-    NSInteger firstValidReadingIdx = 0;
-    
-    //_samplingPeriod is volatile, so take a snapshot
-    NSTimeInterval samplingPeriod = _samplingPeriod;
-    
-    debug_NSLog(@"sampling period=%f",samplingPeriod);
-    debug_NSLog(@"speedData.count = %i", self.speedData.count);
-    debug_NSLog(@"reading interval=%f",[newLocation.timestamp timeIntervalSinceDate:oldLocation.timestamp]);
-    debug_NSLog(@"newLocation.speed=%f", newLocation.speed);
-    
-    for (; firstValidReadingIdx < _speedData.count; firstValidReadingIdx++) {
-        CLLocation *reading = [_speedData objectAtIndex:firstValidReadingIdx];
-        
-        if([newLocation.timestamp timeIntervalSinceDate:reading.timestamp] <= samplingPeriod) {
-            firstValidReading = reading;
-            break;
+    if (status == kCLAuthorizationStatusAuthorizedWhenInUse || status == kCLAuthorizationStatusAuthorizedAlways) {
+        [manager startUpdatingLocation];
+    }
+}
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-implementations"
+- (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
+    if (status == kCLAuthorizationStatusAuthorizedWhenInUse || status == kCLAuthorizationStatusAuthorizedAlways) {
+        [manager startUpdatingLocation];
+    }
+}
+#pragma clang diagnostic pop
+
+- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray<CLLocation *> *)locations {
+    for (CLLocation *newLocation in locations) {
+        //reject location data with no speed
+        if(newLocation.speed < 0) {
+            continue;
         }
-    }
-    
-    if(firstValidReading == nil) {
-        //only one reading- no calculations to be done
-        [self.speedData removeAllObjects];
+        
+        CLLocation *firstValidReading = nil;
+        
+        NSInteger firstValidReadingIdx = 0;
+        
+        //_samplingPeriod is volatile, so take a snapshot
+        NSTimeInterval samplingPeriod = _samplingPeriod;
+        
+        debug_NSLog(@"sampling period=%f",samplingPeriod);
+        debug_NSLog(@"speedData.count = %lu", (unsigned long)self.speedData.count);
+        
+        CLLocation *oldLocation = [self.speedData lastObject];
+        if (oldLocation != nil) {
+            debug_NSLog(@"reading interval=%f",[newLocation.timestamp timeIntervalSinceDate:oldLocation.timestamp]);
+        } else {
+            debug_NSLog(@"reading interval=N/A (first reading)");
+        }
+        debug_NSLog(@"newLocation.speed=%f", newLocation.speed);
+        
+        for (; firstValidReadingIdx < _speedData.count; firstValidReadingIdx++) {
+            CLLocation *reading = [_speedData objectAtIndex:firstValidReadingIdx];
+            
+            if([newLocation.timestamp timeIntervalSinceDate:reading.timestamp] <= samplingPeriod) {
+                firstValidReading = reading;
+                break;
+            }
+        }
+        
+        if(firstValidReading == nil) {
+            //only one reading- no calculations to be done
+            [self.speedData removeAllObjects];
+            [self.speedData addObject:newLocation];
+            self.avgSpeed = [newLocation speed];
+            [self.delegate locationUpdate:newLocation withAvgSpeed:self.avgSpeed overPeriod:1];
+            continue;
+        }
+        
+        if(firstValidReadingIdx > 0) {
+            [_speedData removeObjectsInRange:NSMakeRange(0, firstValidReadingIdx - 1)];
+        }
+        
         [self.speedData addObject:newLocation];
-        self.avgSpeed = [newLocation speed];
-        [self.delegate locationUpdate:newLocation withAvgSpeed:self.avgSpeed overPeriod:1];
-        return;
-    }
-    
-    if(firstValidReadingIdx > 0) {
-        [_speedData removeObjectsInRange:NSMakeRange(0, firstValidReadingIdx - 1)];
-    }
-    
-    [self.speedData addObject:newLocation];
-    
-    NSDate *firstReadingTime = firstValidReading.timestamp;
-    
-    NSTimeInterval totalElapsed = [newLocation.timestamp timeIntervalSinceDate:firstReadingTime];
-    
-    double totalSpeedTime = 0;
-    
-    CLLocation *prevReading = firstValidReading;
-    
-    for (NSInteger a = 1; a < _speedData.count; a++) {
-        CLLocation *reading = [_speedData objectAtIndex:a];
         
-        totalSpeedTime += reading.speed * [reading.timestamp timeIntervalSinceDate:prevReading.timestamp];
+        NSDate *firstReadingTime = firstValidReading.timestamp;
         
-        prevReading = reading;
+        NSTimeInterval totalElapsed = [newLocation.timestamp timeIntervalSinceDate:firstReadingTime];
+        
+        double totalSpeedTime = 0;
+        
+        CLLocation *prevReading = firstValidReading;
+        
+        for (NSInteger a = 1; a < _speedData.count; a++) {
+            CLLocation *reading = [_speedData objectAtIndex:a];
+            
+            totalSpeedTime += reading.speed * [reading.timestamp timeIntervalSinceDate:prevReading.timestamp];
+            
+            prevReading = reading;
+        }
+        
+        self.avgSpeed = totalSpeedTime / totalElapsed;
+        
+        [self.delegate locationUpdate:newLocation withAvgSpeed:self.avgSpeed overPeriod:totalElapsed];
     }
-    
-    self.avgSpeed = totalSpeedTime / totalElapsed;
-    
-	[self.delegate locationUpdate:newLocation withAvgSpeed:self.avgSpeed overPeriod:totalElapsed];
 }
 
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {

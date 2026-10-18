@@ -49,6 +49,8 @@
 	</dict>
 	<key>UIMainStoryboardFile</key>
 	<string>MainStoryboard_iPhone</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>DeTrafficator requires access to your location to monitor your speed and alert you when you exceed the average speed.</string>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>gps</string>
