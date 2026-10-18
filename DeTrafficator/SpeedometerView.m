@@ -62,146 +62,159 @@
 @synthesize speedometerLayer = _speedometerLayer;
 @synthesize unit = _unit;
 
-- (id)init
+- (instancetype)initWithFrame:(CGRect)frame
 {
-    self = [super init];
+    self = [super initWithFrame:frame];
     if (self) {
-        
-        if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7) {
-            
-            self->statusBarOverlapMargin = 20;
-            
-            //white gradient that appears under status bar to make it more visible
-            self.topGradient = [[CAGradientLayer alloc] init];
-            self.topGradient.bounds = CGRectMake(0,0, self.bounds.size.width, 40);
-            self.topGradient.position = CGPointMake(0, 0);
-            self.topGradient.anchorPoint = CGPointMake(0, 0);
-            
-            self.topGradient.colors = [[NSArray alloc] initWithObjects:(id)[[UIColor whiteColor] CGColor], (__bridge_transfer id)[[UIColor colorWithWhite:1.0 alpha:0.0] CGColor], NULL];
-            self.topGradient.backgroundColor = [[UIColor clearColor] CGColor];
-        } else {
-            //status bar doesn't overlap- no need to push down the placeholder indicator
-            self->statusBarOverlapMargin = 0;
-        }
-        
-        //inset shadow around edge of view
-        self.shadowLayer = [[CAShapeLayer alloc] init];
-        self.shadowLayer.shadowColor = [[UIColor blackColor] CGColor];
-        self.shadowLayer.shadowOffset = CGSizeMake(1.0, 2.0);
-        self.shadowLayer.shadowOpacity = 0.5;
-        self.shadowLayer.backgroundColor = [[UIColor clearColor] CGColor];
-        self.shadowLayer.fillColor = [[UIColor clearColor] CGColor];
-        self.shadowLayer.strokeColor = [[UIColor blackColor] CGColor];
-        self.shadowLayer.lineWidth = 10;
-        
-        self.speedometerLayer = [[CAScrollLayer alloc] init];
-        
-        self->avgColor = [UIColor colorWithRed:0.365 green:0.318 blue:0.58 alpha:1.0];
-        
-        [self.layer addSublayer:self.speedometerLayer];
-        [self.layer addSublayer:self.shadowLayer];
-        [self.layer addSublayer:self.topGradient];
-        
-        self.avgSpeedIndicator = [[CAShapeLayer alloc] init];
-        self.avgSpeedIndicator.bounds = CGRectMake(0, 0, 80, 40);
-        self.avgSpeedIndicator.anchorPoint = CGPointMake(0.0,0.5);
-        self.avgSpeedIndicator.fillColor = [avgColor CGColor];
-        self.avgSpeedIndicator.lineWidth = 2;
-        self.avgSpeedIndicator.strokeColor = [avgColor CGColor];
-        self.avgSpeedIndicator.lineJoin = kCALineJoinBevel;
-        
-        CGMutablePathRef avgSpeedIndicatorPath = CGPathCreateMutable();
-        
-        CGFloat halfHeight = CGRectGetMidY(self.avgSpeedIndicator.bounds);
-        
-        //bottom left
-        CGPathMoveToPoint(avgSpeedIndicatorPath, NULL, halfHeight, self.avgSpeedIndicator.bounds.size.height);
-        //left
-        CGPathAddArcToPoint(avgSpeedIndicatorPath, NULL, 0, self.avgSpeedIndicator.bounds.size.height, 0, halfHeight, halfHeight);
-        //top left
-        CGPathAddArcToPoint(avgSpeedIndicatorPath, NULL, 0, 0, halfHeight, 0, halfHeight);
-        //top right
-        CGPathAddLineToPoint(avgSpeedIndicatorPath, NULL, self.avgSpeedIndicator.bounds.size.width - halfHeight, 0);
-        //right
-        CGPathAddArcToPoint(avgSpeedIndicatorPath, NULL, self.avgSpeedIndicator.bounds.size.width, 0, self.avgSpeedIndicator.bounds.size.width, self.avgSpeedIndicator.bounds.size.height - halfHeight, halfHeight);
-        //bottom right
-        CGPathAddArcToPoint(avgSpeedIndicatorPath, NULL, self.avgSpeedIndicator.bounds.size.width, self.avgSpeedIndicator.bounds.size.height, self.avgSpeedIndicator.bounds.size.width - halfHeight, self.avgSpeedIndicator.bounds.size.height, halfHeight);
-        //bottom left
-        CGPathCloseSubpath(avgSpeedIndicatorPath);
-        
-        self.avgSpeedIndicator.path = avgSpeedIndicatorPath;
-        
-        self.avgSpeedIntervalText = [[CATextLayer alloc] init];
-        self.avgSpeedIntervalText.bounds = CGRectMake(0,0, 60, 44);
-        self.avgSpeedIntervalText.position = CGPointMake(10, CGRectGetMidY(self.avgSpeedIndicator.bounds));
-        self.avgSpeedIntervalText.anchorPoint = CGPointMake(0.0, 0.5);
-        self.avgSpeedIntervalText.foregroundColor = [[UIColor whiteColor] CGColor];
-        self.avgSpeedIntervalText.alignmentMode = kCAAlignmentCenter;
-        self.avgSpeedIntervalText.wrapped = YES;
-        self.avgSpeedIntervalText.contentsScale = [[UIScreen mainScreen] scale];
-        self.avgSpeedIntervalText.fontSize = 17.0;
-        
-        [self initPlaceholderAvgSpeedIndicator];
-        
-        [self setAvgInterval:0];
-        
-        [self.avgSpeedIndicator addSublayer:self.avgSpeedIntervalText];
-        
-        [self.avgSpeedIndicator setHidden:TRUE];
-        
-        self->indicatorWindowColor = [[UIColor alloc] initWithRed:0.9 green:0.9 blue:0.9 alpha:0.5];
-        self->indicatorWindowHighlightColor = [[UIColor alloc] initWithRed:0.0 green:0.6 blue:0.9 alpha:0.5];
-        
-        self.currentSpeedIndicator = [[CAShapeLayer alloc] init];
-        self.currentSpeedIndicator.bounds = CGRectMake(0, 0, 220, 40);
-        self.currentSpeedIndicator.position = CGPointMake(SPEED_INDICATOR_LEFT_MARGIN,0);
-        self.currentSpeedIndicator.anchorPoint = CGPointMake(0,0.5);
-        self.currentSpeedIndicator.fillColor = [self->indicatorWindowColor CGColor];
-        self.currentSpeedIndicator.lineWidth = 2;
-        self.currentSpeedIndicator.strokeColor = [[UIColor colorWithRed:0.2 green:0.2 blue:0.2 alpha:0.9] CGColor];
-        self.currentSpeedIndicator.lineJoin = kCALineJoinBevel;
-        
-        CGMutablePathRef p = CGPathCreateMutable();
-        CGPathMoveToPoint(p, NULL, self.currentSpeedIndicator.bounds.size.width, 0);
-        CGPathAddLineToPoint(p, NULL, 30, 0);
-        CGPathAddLineToPoint(p, NULL, 0, CGRectGetMidY(self.currentSpeedIndicator.bounds));
-        CGPathAddLineToPoint(p, NULL, 30, self.currentSpeedIndicator.bounds.size.height);
-        CGPathAddLineToPoint(p, NULL, self.currentSpeedIndicator.bounds.size.width, self.currentSpeedIndicator.bounds.size.height);
-        CGPathCloseSubpath(p);
-        
-        self.currentSpeedIndicator.path = p;
-        
-        self.currentSpeedUnit = [[CATextLayer alloc] init];
-        self.currentSpeedUnit.bounds = CGRectMake(0,0, 40, 23);
-        self.currentSpeedUnit.position = CGPointMake(self.currentSpeedIndicator.bounds.size.width - (self.currentSpeedUnit.bounds.size.width + 3), self.currentSpeedIndicator.bounds.size.height);
-        self.currentSpeedUnit.anchorPoint = CGPointMake(0.0, 1.0);
-        self.currentSpeedUnit.foregroundColor = [[UIColor blackColor] CGColor];
-        self.currentSpeedUnit.alignmentMode = kCAAlignmentLeft;
-        self.currentSpeedUnit.fontSize = 18.0;
-        self.currentSpeedUnit.contentsScale = [[UIScreen mainScreen] scale];
-        
-        [self.currentSpeedIndicator addSublayer:self.currentSpeedUnit];
-        
-        NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
-        
-        //force refresh the speed unit
-        _unit = -1;
-        [self setUnit:[defaults integerForKey:@"speed_unit_preference"]];
-        
-        self.currentSpeedText = [[CATextLayer alloc] init];
-        self.currentSpeedText.bounds = CGRectMake(0,0, 80, self.currentSpeedIndicator.bounds.size.height);
-        self.currentSpeedText.position = CGPointMake(self.currentSpeedUnit.position.x - 4, self.currentSpeedIndicator.bounds.size.height);
-        self.currentSpeedText.anchorPoint = CGPointMake(1.0, 1.0);
-        self.currentSpeedText.foregroundColor = [[UIColor blackColor] CGColor];
-        self.currentSpeedText.alignmentMode = kCAAlignmentRight;
-        self.currentSpeedText.contentsScale = [[UIScreen mainScreen] scale];
-        self.currentSpeedText.string = @"0.0";
-        
-        [self.currentSpeedIndicator addSublayer:self.currentSpeedText];
-        
-        [self.layer addSublayer:self.currentSpeedIndicator];
+        [self commonInit];
     }
     return self;
+}
+
+- (instancetype)initWithCoder:(NSCoder *)coder
+{
+    self = [super initWithCoder:coder];
+    if (self) {
+        [self commonInit];
+    }
+    return self;
+}
+
+- (void)commonInit
+{
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7) {
+        
+        self->statusBarOverlapMargin = 20;
+        
+        //white gradient that appears under status bar to make it more visible
+        self.topGradient = [[CAGradientLayer alloc] init];
+        self.topGradient.bounds = CGRectMake(0,0, self.bounds.size.width, 40);
+        self.topGradient.position = CGPointMake(0, 0);
+        self.topGradient.anchorPoint = CGPointMake(0, 0);
+        
+        self.topGradient.colors = [[NSArray alloc] initWithObjects:(id)[[UIColor whiteColor] CGColor], (__bridge_transfer id)[[UIColor colorWithWhite:1.0 alpha:0.0] CGColor], NULL];
+        self.topGradient.backgroundColor = [[UIColor clearColor] CGColor];
+    } else {
+        //status bar doesn't overlap- no need to push down the placeholder indicator
+        self->statusBarOverlapMargin = 0;
+    }
+    
+    //inset shadow around edge of view
+    self.shadowLayer = [[CAShapeLayer alloc] init];
+    self.shadowLayer.shadowColor = [[UIColor blackColor] CGColor];
+    self.shadowLayer.shadowOffset = CGSizeMake(1.0, 2.0);
+    self.shadowLayer.shadowOpacity = 0.5;
+    self.shadowLayer.backgroundColor = [[UIColor clearColor] CGColor];
+    self.shadowLayer.fillColor = [[UIColor clearColor] CGColor];
+    self.shadowLayer.strokeColor = [[UIColor blackColor] CGColor];
+    self.shadowLayer.lineWidth = 10;
+    
+    self.speedometerLayer = [[CAScrollLayer alloc] init];
+    
+    self->avgColor = [UIColor colorWithRed:0.365 green:0.318 blue:0.58 alpha:1.0];
+    
+    [self.layer addSublayer:self.speedometerLayer];
+    [self.layer addSublayer:self.shadowLayer];
+    [self.layer addSublayer:self.topGradient];
+    
+    self.avgSpeedIndicator = [[CAShapeLayer alloc] init];
+    self.avgSpeedIndicator.bounds = CGRectMake(0, 0, 80, 40);
+    self.avgSpeedIndicator.anchorPoint = CGPointMake(0.0,0.5);
+    self.avgSpeedIndicator.fillColor = [avgColor CGColor];
+    self.avgSpeedIndicator.lineWidth = 2;
+    self.avgSpeedIndicator.strokeColor = [avgColor CGColor];
+    self.avgSpeedIndicator.lineJoin = kCALineJoinBevel;
+    
+    CGMutablePathRef avgSpeedIndicatorPath = CGPathCreateMutable();
+    
+    CGFloat halfHeight = CGRectGetMidY(self.avgSpeedIndicator.bounds);
+    
+    //bottom left
+    CGPathMoveToPoint(avgSpeedIndicatorPath, NULL, halfHeight, self.avgSpeedIndicator.bounds.size.height);
+    //left
+    CGPathAddArcToPoint(avgSpeedIndicatorPath, NULL, 0, self.avgSpeedIndicator.bounds.size.height, 0, halfHeight, halfHeight);
+    //top left
+    CGPathAddArcToPoint(avgSpeedIndicatorPath, NULL, 0, 0, halfHeight, 0, halfHeight);
+    //top right
+    CGPathAddLineToPoint(avgSpeedIndicatorPath, NULL, self.avgSpeedIndicator.bounds.size.width - halfHeight, 0);
+    //right
+    CGPathAddArcToPoint(avgSpeedIndicatorPath, NULL, self.avgSpeedIndicator.bounds.size.width, 0, self.avgSpeedIndicator.bounds.size.width, self.avgSpeedIndicator.bounds.size.height - halfHeight, halfHeight);
+    //bottom right
+    CGPathAddArcToPoint(avgSpeedIndicatorPath, NULL, self.avgSpeedIndicator.bounds.size.width, self.avgSpeedIndicator.bounds.size.height, self.avgSpeedIndicator.bounds.size.width - halfHeight, self.avgSpeedIndicator.bounds.size.height, halfHeight);
+    //bottom left
+    CGPathCloseSubpath(avgSpeedIndicatorPath);
+    
+    self.avgSpeedIndicator.path = avgSpeedIndicatorPath;
+    
+    self.avgSpeedIntervalText = [[CATextLayer alloc] init];
+    self.avgSpeedIntervalText.bounds = CGRectMake(0,0, 60, 44);
+    self.avgSpeedIntervalText.position = CGPointMake(10, CGRectGetMidY(self.avgSpeedIndicator.bounds));
+    self.avgSpeedIntervalText.anchorPoint = CGPointMake(0.0, 0.5);
+    self.avgSpeedIntervalText.foregroundColor = [[UIColor whiteColor] CGColor];
+    self.avgSpeedIntervalText.alignmentMode = kCAAlignmentCenter;
+    self.avgSpeedIntervalText.wrapped = YES;
+    self.avgSpeedIntervalText.contentsScale = [[UIScreen mainScreen] scale];
+    self.avgSpeedIntervalText.fontSize = 17.0;
+    
+    [self initPlaceholderAvgSpeedIndicator];
+    
+    [self setAvgInterval:0];
+    
+    [self.avgSpeedIndicator addSublayer:self.avgSpeedIntervalText];
+    
+    [self.avgSpeedIndicator setHidden:TRUE];
+    
+    self->indicatorWindowColor = [[UIColor alloc] initWithRed:0.9 green:0.9 blue:0.9 alpha:0.5];
+    self->indicatorWindowHighlightColor = [[UIColor alloc] initWithRed:0.0 green:0.6 blue:0.9 alpha:0.5];
+    
+    self.currentSpeedIndicator = [[CAShapeLayer alloc] init];
+    self.currentSpeedIndicator.bounds = CGRectMake(0, 0, 220, 40);
+    self.currentSpeedIndicator.position = CGPointMake(SPEED_INDICATOR_LEFT_MARGIN,0);
+    self.currentSpeedIndicator.anchorPoint = CGPointMake(0,0.5);
+    self.currentSpeedIndicator.fillColor = [self->indicatorWindowColor CGColor];
+    self.currentSpeedIndicator.lineWidth = 2;
+    self.currentSpeedIndicator.strokeColor = [[UIColor colorWithRed:0.2 green:0.2 blue:0.2 alpha:0.9] CGColor];
+    self.currentSpeedIndicator.lineJoin = kCALineJoinBevel;
+    
+    CGMutablePathRef p = CGPathCreateMutable();
+    CGPathMoveToPoint(p, NULL, self.currentSpeedIndicator.bounds.size.width, 0);
+    CGPathAddLineToPoint(p, NULL, 30, 0);
+    CGPathAddLineToPoint(p, NULL, 0, CGRectGetMidY(self.currentSpeedIndicator.bounds));
+    CGPathAddLineToPoint(p, NULL, 30, self.currentSpeedIndicator.bounds.size.height);
+    CGPathAddLineToPoint(p, NULL, self.currentSpeedIndicator.bounds.size.width, self.currentSpeedIndicator.bounds.size.height);
+    CGPathCloseSubpath(p);
+    
+    self.currentSpeedIndicator.path = p;
+    
+    self.currentSpeedUnit = [[CATextLayer alloc] init];
+    self.currentSpeedUnit.bounds = CGRectMake(0,0, 40, 23);
+    self.currentSpeedUnit.position = CGPointMake(self.currentSpeedIndicator.bounds.size.width - (self.currentSpeedUnit.bounds.size.width + 3), self.currentSpeedIndicator.bounds.size.height);
+    self.currentSpeedUnit.anchorPoint = CGPointMake(0.0, 1.0);
+    self.currentSpeedUnit.foregroundColor = [[UIColor blackColor] CGColor];
+    self.currentSpeedUnit.alignmentMode = kCAAlignmentLeft;
+    self.currentSpeedUnit.fontSize = 18.0;
+    self.currentSpeedUnit.contentsScale = [[UIScreen mainScreen] scale];
+    
+    [self.currentSpeedIndicator addSublayer:self.currentSpeedUnit];
+    
+    NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
+    
+    //force refresh the speed unit
+    _unit = -1;
+    [self setUnit:[defaults integerForKey:@"speed_unit_preference"]];
+    
+    self.currentSpeedText = [[CATextLayer alloc] init];
+    self.currentSpeedText.bounds = CGRectMake(0,0, 80, self.currentSpeedIndicator.bounds.size.height);
+    self.currentSpeedText.position = CGPointMake(self.currentSpeedUnit.position.x - 4, self.currentSpeedIndicator.bounds.size.height);
+    self.currentSpeedText.anchorPoint = CGPointMake(1.0, 1.0);
+    self.currentSpeedText.foregroundColor = [[UIColor blackColor] CGColor];
+    self.currentSpeedText.alignmentMode = kCAAlignmentRight;
+    self.currentSpeedText.contentsScale = [[UIScreen mainScreen] scale];
+    self.currentSpeedText.string = @"0.0";
+    
+    [self.currentSpeedIndicator addSublayer:self.currentSpeedText];
+    
+    [self.layer addSublayer:self.currentSpeedIndicator];
 }
 
 - (void)layoutSubviews

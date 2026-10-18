@@ -41,8 +41,6 @@
     [self setSamplingPeriod:self.periodSlider];
 	[CLController.locMgr startUpdatingLocation];
     
-    self.speedometer = [self.speedometer init];
-    
     //assemble constraints needed to be added in order to adjust layout for landscape orientation
     
     self->landSpeedometerBottomSpacing = [NSLayoutConstraint constraintWithItem:self.view attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.speedometer attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0.0];
